@@ -8,6 +8,48 @@ export interface BerkasRepo {
 }
 
 export const BERKAS_REPOSITORI: BerkasRepo[] = [
+  // --- FASE 9: SISTEM TIPE DATA & TYPE CHECKER ---
+  {
+    jalur: 'src/tipe/pemeriksaTipe.ts',
+    nama: 'pemeriksaTipe.ts',
+    kategori: 'Type Checker & Semantic Analyzer',
+    bahasa: 'javascript',
+    ukuran: 12400,
+    konten: `// Type Checker Resmi Bahasa NUSANTARA (Phase 9)`
+  },
+  {
+    jalur: 'src/tipe/kompatibilitas.ts',
+    nama: 'kompatibilitas.ts',
+    kategori: 'Aturan Kompatibilitas Tipe',
+    bahasa: 'javascript',
+    ukuran: 3200,
+    konten: `// Aturan Kompatibilitas & Kesetaraan Tipe`
+  },
+  {
+    jalur: 'src/tipe/jenisTipe.ts',
+    nama: 'jenisTipe.ts',
+    kategori: 'Definisi Tipe Resmi',
+    bahasa: 'javascript',
+    ukuran: 2500,
+    konten: `// Definisi Tipe Data Resmi NUSANTARA`
+  },
+  {
+    jalur: 'docs/pengembang/type-system.md',
+    nama: 'type-system.md',
+    kategori: 'Dokumentasi Sistem Tipe',
+    bahasa: 'markdown',
+    ukuran: 3800,
+    konten: `# Arsitektur & Dokumentasi Sistem Tipe Data NUSANTARA`
+  },
+  {
+    jalur: 'pengujian/tipe/uji_tipe.ts',
+    nama: 'uji_tipe.ts',
+    kategori: 'Rangkaian 12 Uji Sistem Tipe',
+    bahasa: 'javascript',
+    ukuran: 7200,
+    konten: `// Pengujian Sistem Tipe Data Bahasa NUSANTARA`
+  },
+
   // --- FASE 8: IMPLEMENTASI INTERPRETER INTI ---
   {
     jalur: 'src/interpreter/interpreter.ts',
@@ -33,22 +75,6 @@ export const BERKAS_REPOSITORI: BerkasRepo[] = [
     ukuran: 2300,
     konten: `// Manajemen Lingkup & Perlindungan Nilai Tetap`
   },
-  {
-    jalur: 'docs/pengembang/interpreter.md',
-    nama: 'interpreter.md',
-    kategori: 'Dokumentasi Teknis Interpreter',
-    bahasa: 'markdown',
-    ukuran: 3900,
-    konten: `# Arsitektur & Dokumentasi Teknis Interpreter NUSANTARA`
-  },
-  {
-    jalur: 'pengujian/interpreter/uji_interpreter.ts',
-    nama: 'uji_interpreter.ts',
-    kategori: 'Rangkaian 15 Uji Interpreter',
-    bahasa: 'javascript',
-    ukuran: 8400,
-    konten: `// Pengujian Komprehensif Interpreter Bahasa NUSANTARA`
-  },
 
   // --- FASE 7: IMPLEMENTASI PARSER & AST INTI ---
   {
@@ -67,14 +93,6 @@ export const BERKAS_REPOSITORI: BerkasRepo[] = [
     ukuran: 5120,
     konten: `// Definisi Simpul AST Bahasa NUSANTARA`
   },
-  {
-    jalur: 'docs/pengembang/parser.md',
-    nama: 'parser.md',
-    kategori: 'Dokumentasi Teknis Parser',
-    bahasa: 'markdown',
-    ukuran: 3600,
-    konten: `# Arsitektur & Dokumentasi Teknis Parser NUSANTARA`
-  },
 
   // --- FASE 6: IMPLEMENTASI LEXER INTI ---
   {
@@ -84,14 +102,6 @@ export const BERKAS_REPOSITORI: BerkasRepo[] = [
     bahasa: 'javascript',
     ukuran: 7520,
     konten: `// Lexer Resmi Bahasa NUSANTARA (Phase 6)`
-  },
-  {
-    jalur: 'src/lexer/tokenStream.ts',
-    nama: 'tokenStream.ts',
-    kategori: 'Abstraksi Aliran Token',
-    bahasa: 'javascript',
-    ukuran: 1850,
-    konten: `// TokenStream untuk Parser Phase 7`
   },
 
   // --- FASE 5: BUKU PANDUAN & DOKUMENTASI AWAL (docs/) ---
@@ -104,20 +114,12 @@ export const BERKAS_REPOSITORI: BerkasRepo[] = [
     konten: `# Dokumentasi Resmi Bahasa Pemrograman NUSANTARA`
   },
   {
-    jalur: 'docs/panduan/program-pertama.md',
-    nama: 'program-pertama.md',
-    kategori: 'Tutorial: Halo Dunia',
+    jalur: 'docs/referensi/tipe-data.md',
+    nama: 'tipe-data.md',
+    kategori: 'Referensi Tipe Data',
     bahasa: 'markdown',
-    ukuran: 1540,
-    konten: `# Menulis Program Pertama: "Halo Dunia!"`
-  },
-  {
-    jalur: 'docs/glosarium.md',
-    nama: 'glosarium.md',
-    kategori: 'Glosarium 26 Istilah',
-    bahasa: 'markdown',
-    ukuran: 3453,
-    konten: `# Glosarium Istilah Pemrograman NUSANTARA`
+    ukuran: 2600,
+    konten: `# Referensi Tipe Data Resmi Bahasa NUSANTARA (Phase 9)`
   },
 
   // --- FASE 4: SPESIFIKASI SINTAKS EBNF ---
@@ -139,14 +141,6 @@ export const BERKAS_REPOSITORI: BerkasRepo[] = [
     ukuran: 11354,
     konten: `Apache License Version 2.0, January 2004`
   },
-  {
-    jalur: 'TATA-KELOLA.md',
-    nama: 'TATA-KELOLA.md',
-    kategori: 'Tata Kelola Komunitas',
-    bahasa: 'markdown',
-    ukuran: 3593,
-    konten: `# Tata Kelola Proyek & Komunitas NUSANTARA (5 Peran)`
-  },
 
   // --- BERKAS ROOT & CONTOH ---
   {
@@ -155,15 +149,15 @@ export const BERKAS_REPOSITORI: BerkasRepo[] = [
     kategori: 'Dokumentasi Utama',
     bahasa: 'markdown',
     ukuran: 5610,
-    konten: `# NUSANTARA (Phase 8: Interpreter Selesai - v0.8.0)`
+    konten: `# NUSANTARA (Phase 9: Variabel & Tipe Data Selesai - v0.9.0)`
   },
   {
     jalur: 'PERUBAHAN.md',
     nama: 'PERUBAHAN.md',
     kategori: 'Catatan Rilis (Changelog)',
     bahasa: 'markdown',
-    ukuran: 8900,
-    konten: `# Catatan Perubahan NUSANTARA (v0.8.0, v0.7.0, v0.6.0, v0.5.0, v0.4.0, v0.3.0, v0.2.0, v0.1.0)`
+    ukuran: 9800,
+    konten: `# Catatan Perubahan NUSANTARA (v0.9.0, v0.8.0, v0.7.0, v0.6.0, v0.5.0, v0.4.0, v0.3.0, v0.2.0, v0.1.0)`
   },
   {
     jalur: 'ROADMAP.md',
@@ -183,6 +177,20 @@ export const BERKAS_REPOSITORI: BerkasRepo[] = [
   }
 ];
 
+export const DAFTAR_TIPE_MATRIKS_PHASE9 = [
+  { tipe: 'teks', kategori: 'Primitif', contoh: '"Indonesia"', status: 'Lengkap' },
+  { tipe: 'bilangan', kategori: 'Primitif', contoh: '42, -10', status: 'Lengkap' },
+  { tipe: 'desimal', kategori: 'Primitif', contoh: '3.14, 175.5', status: 'Lengkap' },
+  { tipe: 'logika', kategori: 'Primitif', contoh: 'benar, salah', status: 'Lengkap' },
+  { tipe: 'karakter', kategori: 'Primitif', contoh: "'A', 'Z'", status: 'Lengkap' },
+  { tipe: 'kosong', kategori: 'Khusus', contoh: 'kosong', status: 'Lengkap' },
+  { tipe: 'daftar', kategori: 'Majemuk', contoh: 'Menunggu Phase 14', status: 'Fondasi' },
+  { tipe: 'peta', kategori: 'Majemuk', contoh: 'Menunggu Phase 14', status: 'Fondasi' },
+  { tipe: 'tanggal', kategori: 'Domain', contoh: 'Menunggu Phase 29', status: 'Fondasi' },
+  { tipe: 'waktu', kategori: 'Domain', contoh: 'Menunggu Phase 29', status: 'Fondasi' },
+  { tipe: 'fungsi', kategori: 'Orde Tinggi', contoh: 'fungsi nama(...) : tipe', status: 'Lengkap' },
+];
+
 export const DAFTAR_PRESEDENSI_OPERATOR = [
   { tingkat: 1, nama: 'Pengelompokan Kurung', simbol: '( )', asosiasi: 'Dalam ke Luar' },
   { tingkat: 2, nama: 'Negasi & Unari Minus', simbol: 'tidak, -', asosiasi: 'Kanan ke Kiri' },
@@ -198,13 +206,11 @@ export const DAFTAR_GLOSARIUM = [
   { asing: 'Abstract Syntax Tree (AST)', lokal: 'Pohon Sintaksis Abstrak', ket: 'Representasi struktur logika kode sumber dalam bentuk pohon hierarki.' },
   { asing: 'Assignment', lokal: 'Penugasan', ket: 'Pemberian atau penggantian nilai ke variabel menggunakan operator =.' },
   { asing: 'Compiler', lokal: 'Kompilator', ket: 'Program penerjemah kode sumber menjadi kode mesin biner mandiri.' },
-  { asing: 'Escape Sequence', lokal: 'Karakter Lolos', ket: 'Karakter khusus yang diawali simbol \\ (seperti \\n untuk baris baru).' },
   { asing: 'Immutable', lokal: 'Tak Terubahkan / Kekal', ket: 'Sifat nilai tetap (konstanta) yang dilarang diubah setelah didefinisikan.' },
   { asing: 'Interpreter', lokal: 'Penerjemah Eksekusi', ket: 'Komponen yang menjalankan instruksi AST langsung di memori komputer.' },
   { asing: 'Lexer / Tokenizer', lokal: 'Penganalisis Leksikal', ket: 'Komponen yang memecah aliran teks sumber menjadi token-token bermakna.' },
   { asing: 'Parser', lokal: 'Penganalisis Sintaksis', ket: 'Komponen yang memvalidasi tata bahasa token dan membentuk pohon AST.' },
-  { asing: 'Precedence Climbing', lokal: 'Pemanjatan Presedensi', ket: 'Metode evaluasi hierarki operator berdasarkan tingkat prioritas matematis.' },
-  { asing: 'Short-circuit Evaluation', lokal: 'Evaluasi Hubung Singkat', ket: 'Penghentian evaluasi ekspresi logika jika hasil akhir sudah pasti.' },
+  { asing: 'Type Checker', lokal: 'Pemeriksa Tipe Data', ket: 'Komponen pemeriksa kepatuhan semantik dan kompatibilitas tipe data.' },
 ];
 
 export const DAFTAR_FASE_ROADMAP = [
@@ -216,8 +222,8 @@ export const DAFTAR_FASE_ROADMAP = [
   { fase: 6, nama: 'Lexer (Penganalisis Leksikal)', versi: 'v0.6.0', kategori: 'Mesin Inti', status: 'Selesai' },
   { fase: 7, nama: 'Parser (Penganalisis Sintaksis & AST)', versi: 'v0.7.0', kategori: 'Mesin Inti', status: 'Selesai' },
   { fase: 8, nama: 'Interpreter (Penerjemah Eksekusi AST)', versi: 'v0.8.0', kategori: 'Mesin Inti', status: 'Selesai' },
-  { fase: 9, nama: 'Variabel & Tipe Data Lanjutan', versi: 'v0.9.0', kategori: 'Mesin Inti', status: 'Berikutnya' },
-  { fase: 10, nama: 'Operator Lanjutan', versi: 'v0.10.0', kategori: 'Mesin Inti', status: 'Rencana' },
+  { fase: 9, nama: 'Variabel & Tipe Data Lanjutan', versi: 'v0.9.0', kategori: 'Mesin Inti', status: 'Selesai' },
+  { fase: 10, nama: 'Operator & Ekspresi Lanjutan', versi: 'v0.10.0', kategori: 'Mesin Inti', status: 'Berikutnya' },
   { fase: 11, nama: 'Percabangan Lanjutan', versi: 'v0.11.0', kategori: 'Mesin Inti', status: 'Rencana' },
   { fase: 12, nama: 'Perulangan Lanjutan', versi: 'v0.12.0', kategori: 'Mesin Inti', status: 'Rencana' },
   { fase: 13, nama: 'Fungsi Lanjutan', versi: 'v0.13.0', kategori: 'Mesin Inti', status: 'Rencana' },

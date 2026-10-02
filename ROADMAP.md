@@ -17,9 +17,9 @@ Setiap fase merupakan pencapaian rekayasa piranti lunak (*engineering milestone*
 | **Phase 5** | Dokumentasi Awal & Buku Panduan | `v0.5.0` | **Selesai** |
 | **Phase 6** | Lexer (Penganalisis Leksikal) | `v0.6.0` | **Selesai** |
 | **Phase 7** | Parser (Penganalisis Sintaksis & AST) | `v0.7.0` | **Selesai** |
-| **Phase 8** | **Interpreter (Penerjemah Eksekusi AST)** | `v0.8.0` | **Selesai (Fase Saat Ini)** |
-| **Phase 9** | Variabel & Tipe Data Lanjutan | `v0.9.0` | Direncanakan Berikutnya |
-| **Phase 10** | Operator & Ekspresi Tingkat Lanjut | `v0.10.0` | Direncanakan |
+| **Phase 8** | Interpreter (Penerjemah Eksekusi AST) | `v0.8.0` | **Selesai** |
+| **Phase 9** | **Variabel & Tipe Data Lanjutan** | `v0.9.0` | **Selesai (Fase Saat Ini)** |
+| **Phase 10** | Operator & Ekspresi Lanjutan | `v0.10.0` | Direncanakan Berikutnya |
 | **Phase 11** | Percabangan Kondisional Lanjutan | `v0.11.0` | Direncanakan |
 | **Phase 12** | Perulangan Iteratif Lanjutan | `v0.12.0` | Direncanakan |
 | **Phase 13** | Fungsi & Prosedur Lanjutan | `v0.13.0` | Direncanakan |
@@ -54,7 +54,8 @@ Setiap fase merupakan pencapaian rekayasa piranti lunak (*engineering milestone*
 ```
 Lexer       ✓ (Phase 6 - Selesai)
 Parser      ✓ (Phase 7 - Selesai)
-Interpreter ✓ (Phase 8 - Selesai: Eksekusi Nyata AST)
+Interpreter ✓ (Phase 8 - Selesai)
+Type System ✓ (Phase 9 - Selesai: Sistem Tipe & Type Checker)
 Compiler    — (Direncanakan di Phase 22)
 Native EXE  — (Direncanakan di Phase 23)
 ```

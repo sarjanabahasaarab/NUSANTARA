@@ -6,6 +6,7 @@
 import { PosisiSumber } from '../lexer/posisi';
 import { NilaiRuntime } from './nilai';
 import { GalatRuntime, JenisGalatRuntime } from './galat';
+import { apakahKompatibel } from '../tipe/kompatibilitas';
 
 interface EntriSimbol {
   nilai: NilaiRuntime;
@@ -31,9 +32,19 @@ export class Lingkungan {
     nama: string,
     nilai: NilaiRuntime,
     tetap: boolean = false,
-    tipeData?: string
+    tipeData?: string,
+    posisi?: PosisiSumber
   ): void {
-    this.simbol.set(nama, { nilai, tetap, tipeData });
+    // Validasi kompatibilitas tipe saat inisialisasi awal
+    if (tipeData && !apakahKompatibel(tipeData, nilai.jenis)) {
+      throw new GalatRuntime(
+        JenisGalatRuntime.OPERASI_TIPE_TIDAK_VALID,
+        `Variabel '${nama}' dideklarasikan bertipe '${tipeData}', tetapi diinisialisasi dengan nilai bertipe '${nilai.jenis}'.`,
+        posisi
+      );
+    }
+
+    this.simbol.set(nama, { nilai, tetap, tipeData: tipeData || nilai.jenis });
   }
 
   /**
@@ -56,6 +67,19 @@ export class Lingkungan {
   }
 
   /**
+   * Mengambil tipe data variabel yang terdaftar.
+   */
+  public ambilTipe(nama: string): string | undefined {
+    if (this.simbol.has(nama)) {
+      return this.simbol.get(nama)!.tipeData;
+    }
+    if (this.induk) {
+      return this.induk.ambilTipe(nama);
+    }
+    return undefined;
+  }
+
+  /**
    * Memperbarui nilai variabel yang sudah ada. Mencegah modifikasi pada konstanta 'tetap'.
    */
   public tetapkan(nama: string, nilaiBaru: NilaiRuntime, posisi?: PosisiSumber): void {
@@ -68,6 +92,16 @@ export class Lingkungan {
           posisi
         );
       }
+
+      // Validasi kompatibilitas tipe saat penugasan (assignment)
+      if (entri.tipeData && !apakahKompatibel(entri.tipeData, nilaiBaru.jenis)) {
+        throw new GalatRuntime(
+          JenisGalatRuntime.OPERASI_TIPE_TIDAK_VALID,
+          `Variabel '${nama}' bertipe ${entri.tipeData} tidak dapat menerima nilai bertipe ${nilaiBaru.jenis}.`,
+          posisi
+        );
+      }
+
       entri.nilai = nilaiBaru;
       return;
     }

@@ -112,7 +112,7 @@ export class Parser {
       do {
         const paramNama = this.harapkan(JenisToken.IDENTIFIER, 'nama parameter fungsi');
         this.harapkan(JenisToken.TITIK_DUA, "':' setelah nama parameter");
-        const paramTipe = this.harapkan(JenisToken.IDENTIFIER, 'tipe data parameter');
+        const paramTipe = this.harapkanNamaTipe();
 
         parameter.push({
           jenis: JenisNodeAST.PARAMETER_FUNGSI,
@@ -126,7 +126,7 @@ export class Parser {
 
     let tipeKembalian: string | undefined;
     if (this.cocok(JenisToken.TITIK_DUA)) {
-      const retTok = this.harapkan(JenisToken.IDENTIFIER, 'tipe data kembalian fungsi');
+      const retTok = this.harapkanNamaTipe();
       tipeKembalian = retTok.nilai;
     }
 
@@ -238,7 +238,7 @@ export class Parser {
   private parseDeklarasiVariabelSetelahKataKunci(tokenAwal: Token): NodeDeklarasiVariabel {
     const idTok = this.harapkan(JenisToken.IDENTIFIER, 'nama variabel');
     this.harapkan(JenisToken.TITIK_DUA, "':' setelah nama variabel");
-    const tipeTok = this.harapkan(JenisToken.IDENTIFIER, 'nama tipe data');
+    const tipeTok = this.harapkanNamaTipe();
     this.harapkan(JenisToken.OP_SAMA_DENGAN, "'=' untuk inisialisasi variabel");
     const nilaiAwal = this.parseEkspresi();
 
@@ -253,7 +253,7 @@ export class Parser {
 
   private parseDeklarasiVariabelGayaRingkas(idTok: Token): NodeDeklarasiVariabel {
     this.harapkan(JenisToken.TITIK_DUA, "':' setelah nama variabel");
-    const tipeTok = this.harapkan(JenisToken.IDENTIFIER, 'nama tipe data');
+    const tipeTok = this.harapkanNamaTipe();
     this.harapkan(JenisToken.OP_SAMA_DENGAN, "'=' untuk inisialisasi variabel");
     const nilaiAwal = this.parseEkspresi();
 
@@ -269,7 +269,7 @@ export class Parser {
   private parseDeklarasiTetap(tokenAwal: Token): NodeDeklarasiTetap {
     const idTok = this.harapkan(JenisToken.IDENTIFIER, 'nama konstanta tetap');
     this.harapkan(JenisToken.TITIK_DUA, "':' setelah nama konstanta");
-    const tipeTok = this.harapkan(JenisToken.IDENTIFIER, 'nama tipe data');
+    const tipeTok = this.harapkanNamaTipe();
     this.harapkan(JenisToken.OP_SAMA_DENGAN, "'=' untuk inisialisasi konstanta");
     const nilaiAwal = this.parseEkspresi();
 
@@ -624,6 +624,15 @@ export class Parser {
       return this.stream.next();
     }
     const galat = buatGalatTokenTakTerduga(pesanHarapan, this.stream.current());
+    this.catatGalat(galat);
+    throw galat;
+  }
+
+  private harapkanNamaTipe(): Token {
+    if (this.periksa(JenisToken.IDENTIFIER) || this.periksa(JenisToken.KW_KOSONG)) {
+      return this.stream.next();
+    }
+    const galat = buatGalatTokenTakTerduga('nama tipe data', this.stream.current());
     this.catatGalat(galat);
     throw galat;
   }

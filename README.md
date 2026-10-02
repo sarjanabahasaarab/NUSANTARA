@@ -2,13 +2,14 @@
 
 > **Bahasa Pemrograman 100% Bahasa Indonesia untuk Komputasi Modern, Terbuka, dan Berkelanjutan.**
 
-[![Status](https://img.shields.io/badge/status-fase_8:_interpreter_selesai-blue.svg)](ROADMAP.md)
-[![Versi](https://img.shields.io/badge/versi-v0.8.0-emerald.svg)](PERUBAHAN.md)
+[![Status](https://img.shields.io/badge/status-fase_9:_sistem_tipe_selesai-blue.svg)](ROADMAP.md)
+[![Versi](https://img.shields.io/badge/versi-v0.9.0-emerald.svg)](PERUBAHAN.md)
 [![Lisensi](https://img.shields.io/badge/lisensi-Apache_2.0-blue.svg)](LISENSI)
 [![Tata Bahasa](https://img.shields.io/badge/grammar-EBNF_ISO--14977-purple.svg)](dokumentasi/GRAMMAR-EBNF.md)
 [![Lexer](https://img.shields.io/badge/lexer-lulus_100%25-teal.svg)](docs/pengembang/lexer.md)
 [![Parser](https://img.shields.io/badge/parser-lulus_100%25-cyan.svg)](docs/pengembang/parser.md)
 [![Interpreter](https://img.shields.io/badge/interpreter-eksekusi_nyata-green.svg)](docs/pengembang/interpreter.md)
+[![Type System](https://img.shields.io/badge/type_system-strict_&_safe-purple.svg)](docs/pengembang/type-system.md)
 
 ---
 
@@ -20,7 +21,8 @@ NUSANTARA bukan sekadar penerjemah sintaksis bahasa asing, melainkan ikhtiar man
 
 - **Ekstensi Berkas Resmi:** `.nusantara`
 - **Lisensi:** [Apache License 2.0](LISENSI)
-- **Status Saat Ini:** **Phase 8: Interpreter Selesai (Milestone v0.8.0) — Program NUSANTARA dapat dieksekusi secara nyata!**
+- **Status Saat Ini:** **Phase 9: Variabel & Tipe Data Lanjutan Selesai (Milestone v0.9.0).**
+- **Dokumentasi Sistem Tipe:** [docs/pengembang/type-system.md](docs/pengembang/type-system.md)
 - **Dokumentasi Interpreter:** [docs/pengembang/interpreter.md](docs/pengembang/interpreter.md)
 - **Dokumentasi Parser:** [docs/pengembang/parser.md](docs/pengembang/parser.md)
 - **Dokumentasi Lexer:** [docs/pengembang/lexer.md](docs/pengembang/lexer.md)
@@ -54,14 +56,17 @@ Source Code (.nusantara)
          │
          ▼
  ┌───────────────┐
+ │ Type Checker  │  <-- [SELESAI DI PHASE 9 (v0.9.0)]
+ └───────────────┘
+         │
+         ▼
+ ┌───────────────┐
  │  Interpreter  │  <-- [SELESAI DI PHASE 8 (v0.8.0)]
  └───────────────┘
          │
          ▼
  Keluaran Eksekusi Program (Output)
 ```
-
-> ⚠️ **Catatan Batas Implementasi:** Pada Phase 8, program dieksekusi melalui **Tree-Walk Interpreter AST**. Komponen Backend Compiler (biner mesin native) direncanakan pada Phase 22.
 
 ---
 
@@ -71,6 +76,7 @@ Source Code (.nusantara)
 npm run test:lexer        # 21 Uji modul leksikal
 npm run test:parser       # 11 Uji modul sintaksis dan pohon AST
 npm run test:interpreter  # 15 Uji eksekusi runtime program nyata
+npm run test:tipe         # 12 Uji sistem tipe dan type checker statis
 npm test                  # Audit menyeluruh repositori dan seluruh unit test
 ```
 
@@ -86,8 +92,9 @@ npm test                  # Audit menyeluruh repositori dan seluruh unit test
 [✓] Phase 5: Dokumentasi Awal & Buku Panduan (v0.5.0)
 [✓] Phase 6: Lexer (Penganalisis Leksikal) (v0.6.0)
 [✓] Phase 7: Parser (Penganalisis Sintaksis & AST) (v0.7.0)
-[✓] Phase 8: Interpreter (Penerjemah Eksekusi AST) (v0.8.0) <-- Fase Selesai
-[ ] Phase 9: Variabel & Tipe Data Lanjutan                  <-- Target Berikutnya
+[✓] Phase 8: Interpreter (Penerjemah Eksekusi AST) (v0.8.0)
+[✓] Phase 9: Variabel & Tipe Data Lanjutan (v0.9.0)    <-- Fase Selesai
+[ ] Phase 10: Operator & Ekspresi Lanjutan             <-- Target Berikutnya
 ...
 [ ] Phase 36: NUSANTARA System & NusantaraOS
 ```

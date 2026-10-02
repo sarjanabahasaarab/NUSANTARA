@@ -1,29 +1,65 @@
-# Referensi Spesifikasi Tipe Data Bahasa NUSANTARA
+# Referensi Tipe Data Resmi Bahasa NUSANTARA
 
-Dokumen ini mendefinisikan taksonomi tipe data primitif dan terstruktur dalam bahasa **NUSANTARA**.
-
----
-
-## 1. Tipe Data Primitif Pokok [DITETAPKAN]
-
-| Tipe Data | Representasi Semantik | Contoh Nilai |
-|---|---|---|
-| `teks` | Rangkaian karakter teks UTF-8 | `"Halo Nusantara"`, `"Baris\nBaru"` |
-| `bilangan` | Angka bulat berbobot bilangan bulat | `0`, `1`, `42`, `-100` |
-| `desimal` | Angka pecahan titik mengambang (*floating point*) | `3.14`, `0.5`, `120.75` |
-| `logika` | Nilai kebenaran biner | `benar`, `salah` |
-| `kosong` | Representasi kekosongan nilai (*null/void*) | `kosong` |
+Dokumen ini merupakan panduan referensi resmi seluruh sistem tipe data bahasa **NUSANTARA** yang telah diperkuat pada **Phase 9 (v0.9.0)**.
 
 ---
 
-## 2. Tipe Data Lanjutan [RANCANGAN]
+## 1. Tabel Tipe Data & Status Kesiapan
 
-Tipe data berikut dicadangkan dalam tata bahasa formal EBNF Phase 4 dan akan difinalisasi arsitektur memorinya pada fase yang relevan:
+| Tipe Data | Kategori | Contoh Penggunaan | Status Phase 9 |
+|---|---|---|---|
+| `teks` | Primitif | `nama : teks = "Indonesia"` | **Lengkap** |
+| `bilangan` | Primitif | `umur : bilangan = 25` | **Lengkap** |
+| `desimal` | Primitif | `suhu : desimal = 36.5` | **Lengkap** |
+| `logika` | Primitif | `aktif : logika = benar` | **Lengkap** |
+| `karakter` | Primitif | `huruf : karakter = 'A'` | **Lengkap** |
+| `kosong` | Khusus | `data : kosong = kosong` | **Lengkap** |
+| `daftar` | Majemuk | Terdaftar dalam sistem tipe | **Fondasi** (Phase 14) |
+| `peta` | Majemuk | Terdaftar dalam sistem tipe | **Fondasi** (Phase 14) |
+| `tanggal` | Domain | Terdaftar dalam sistem tipe | **Fondasi** (Phase 29) |
+| `waktu` | Domain | Terdaftar dalam sistem tipe | **Fondasi** (Phase 29) |
+| `fungsi` | Orde Tinggi | Definisi subrutin modular | **Lengkap** |
 
-| Tipe Data | Peran Rencana | Target Fase |
-|---|---|---|
-| `karakter` | Karakter tunggal diapit tanda kutip tunggal (`'A'`) | Phase 9 |
-| `daftar` | Urutan dinamis elemen homogen/heterogen (`[1, 2, 3]`) | Phase 14 |
-| `peta` | Pasangan kunci-nilai asosiatif (`{"kunci": "nilai"}`) | Phase 14 |
-| `tanggal` | Representasi kalender waktu | Pustaka Standar |
-| `waktu` | Representasi jam dan durasi | Pustaka Standar |
+---
+
+## 2. Aturan Deklarasi Variabel & Konstanta
+
+1. **Variabel Dinamis (*Mutable*):**
+   ```nusantara
+   // Gaya ringkas:
+   nama : teks = "Budi"
+   nama = "Santoso"
+
+   // Gaya eksplisit kata kunci:
+   variabel skor : bilangan = 100
+   skor = skor + 10
+   ```
+2. **Konstanta Kekal (*Immutable*):**
+   ```nusantara
+   tetap PHI : desimal = 3.14
+   // PHI = 3.1415  <-- Dilarang! Menghasilkan galat modifikasi tetap
+   ```
+
+---
+
+## 3. Kompatibilitas Penugasan (*Type Compatibility*)
+
+NUSANTARA tidak melakukan konversi implisit silang yang berpotensi menimbulkan bug logis. Penugasan harus memiliki tipe data yang kompatibel secara langsung:
+
+```nusantara
+skor : bilangan = 100
+skor = "seratus"   // GALAT TIPE: variabel 'skor' bertipe bilangan tidak dapat menerima teks
+```
+
+---
+
+## 4. Validasi Tipe pada Fungsi
+
+Setiap fungsi mendefinisikan tipe parameter dan tipe nilai kembali:
+```nusantara
+fungsi hitungDiskon(harga : bilangan, persen : bilangan) : bilangan
+mulai
+    kembalikan (harga * persen) / 100
+selesai
+```
+Jika dipanggil dengan argumen yang salah jenisnya, mesin eksekusi akan menolak instruksi tersebut sebelum kerusakan runtime terjadi.

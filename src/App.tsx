@@ -21,13 +21,15 @@ import {
   Binary,
   Compass,
   Network,
-  Play
+  Play,
+  CheckCircle2
 } from 'lucide-react';
 import {
   BERKAS_REPOSITORI,
   DAFTAR_PRESEDENSI_OPERATOR,
   DAFTAR_GLOSARIUM,
   DAFTAR_FASE_ROADMAP,
+  DAFTAR_TIPE_MATRIKS_PHASE9,
   BerkasRepo
 } from './data/berkasRepositori';
 import { Lexer } from './lexer/lexer';
@@ -36,13 +38,14 @@ import { Parser } from './parser/parser';
 import { ASTPrinter } from './parser/astPrinter';
 import { Interpreter } from './interpreter/interpreter';
 import { PenulisOutputBuffer } from './interpreter/outputWriter';
+import { PemeriksaTipe } from './tipe/pemeriksaTipe';
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState<'interpreter' | 'parser' | 'lexer' | 'panduan' | 'ebnf' | 'glosarium' | 'berkas' | 'roadmap' | 'git'>('interpreter');
+  const [activeTab, setActiveTab] = useState<'tipe' | 'interpreter' | 'parser' | 'lexer' | 'panduan' | 'ebnf' | 'glosarium' | 'berkas' | 'roadmap' | 'git'>('tipe');
   const [selectedFile, setSelectedFile] = useState<BerkasRepo>(BERKAS_REPOSITORI[0]);
   const [copiedText, setCopiedText] = useState<string | null>(null);
   const [playgroundCode, setPlaygroundCode] = useState<string>(
-    `fungsi faktorial(n : bilangan) : bilangan\nmulai\n    jika n <= 1 maka\n        kembalikan 1\n    akhir\n    kembalikan n * faktorial(n - 1)\nselesai\n\nprogram Utama\nmulai\n    // 1. Deklarasi data\n    nama : teks = "Indonesia"\n    tahun : bilangan = 2026\n    tetap KODE : teks = "ID"\n\n    // 2. Evaluasi fungsi dan cetak keluaran\n    tampilkan("Selamat Datang di", nama)\n    tampilkan("Tahun:", tahun, "| Kode:", KODE)\n\n    // 3. Perulangan & Rekursi\n    tampilkan("--- Hitung Faktorial 1 sampai 5 ---")\n    untuk i dari 1 sampai 5 lakukan\n        tampilkan("Faktorial", i, "=", faktorial(i))\n    akhir\nselesai`
+    `fungsi hitungLuas(panjang : bilangan, lebar : bilangan) : bilangan\nmulai\n    kembalikan panjang * lebar\nselesai\n\nprogram TokoNusantara\nmulai\n    // 1. Variabel bertipe terverifikasi\n    p : bilangan = 10\n    l : bilangan = 5\n    luas : bilangan = hitungLuas(p, l)\n    tetap KODE_TOKO : teks = "NUS-001"\n    aktif : logika = benar\n\n    // 2. Cetak luaran program\n    tampilkan("Kode Toko:", KODE_TOKO)\n    tampilkan("Luas Area:", luas, "m2")\n    tampilkan("Status Aktif:", aktif)\nselesai`
   );
   const [activeFilterCategory, setActiveFilterCategory] = useState<string>('Semua');
 
@@ -73,7 +76,14 @@ export default function App() {
     }
   }, [playgroundCode]);
 
-  // 3. Eksekusi Interpreter (Phase 8)
+  // 3. Eksekusi Type Checker (Phase 9)
+  const { typeErrors } = useMemo(() => {
+    if (!ast) return { typeErrors: [] };
+    const checker = new PemeriksaTipe();
+    return { typeErrors: checker.periksa(ast) };
+  }, [ast]);
+
+  // 4. Eksekusi Interpreter (Phase 8)
   const { runOutput, runtimeError } = useMemo(() => {
     try {
       const buffer = new PenulisOutputBuffer();
@@ -117,6 +127,14 @@ export default function App() {
 
           <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-300">
             <button
+              onClick={() => setActiveTab('tipe')}
+              className={`hover:text-white transition-colors cursor-pointer ${
+                activeTab === 'tipe' ? 'text-purple-400 font-semibold' : 'text-slate-400'
+              }`}
+            >
+              Sistem Tipe (Phase 9)
+            </button>
+            <button
               onClick={() => setActiveTab('interpreter')}
               className={`hover:text-white transition-colors cursor-pointer ${
                 activeTab === 'interpreter' ? 'text-emerald-400 font-semibold' : 'text-slate-400'
@@ -130,7 +148,7 @@ export default function App() {
                 activeTab === 'parser' ? 'text-white font-semibold' : 'text-slate-400'
               }`}
             >
-              Parser & AST (Phase 7)
+              Parser & AST
             </button>
             <button
               onClick={() => setActiveTab('lexer')}
@@ -138,7 +156,7 @@ export default function App() {
                 activeTab === 'lexer' ? 'text-white font-semibold' : 'text-slate-400'
               }`}
             >
-              Lexer (Phase 6)
+              Lexer
             </button>
             <button
               onClick={() => setActiveTab('panduan')}
@@ -147,14 +165,6 @@ export default function App() {
               }`}
             >
               Buku Panduan
-            </button>
-            <button
-              onClick={() => setActiveTab('ebnf')}
-              className={`hover:text-white transition-colors cursor-pointer ${
-                activeTab === 'ebnf' ? 'text-white font-semibold' : 'text-slate-400'
-              }`}
-            >
-              Tata Bahasa EBNF
             </button>
             <button
               onClick={() => setActiveTab('berkas')}
@@ -176,17 +186,17 @@ export default function App() {
 
           <div className="flex items-center gap-3">
             <button
-              onClick={() => handleCopy('git commit -m "feat: implement nusantara interpreter"', 'commit-p8')}
+              onClick={() => handleCopy('git commit -m "feat: strengthen nusantara type system"', 'commit-p9')}
               className="px-3.5 py-1.5 text-xs font-medium text-slate-200 bg-slate-900 border border-slate-700/80 rounded-lg hover:bg-slate-800 hover:text-white transition-colors flex items-center gap-2 whitespace-nowrap cursor-pointer"
             >
-              {copiedText === 'commit-p8' ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Terminal className="w-3.5 h-3.5 text-slate-400" />}
-              <span>{copiedText === 'commit-p8' ? 'Tersalin' : 'Salin Komit Phase 8'}</span>
+              {copiedText === 'commit-p9' ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Terminal className="w-3.5 h-3.5 text-slate-400" />}
+              <span>{copiedText === 'commit-p9' ? 'Tersalin' : 'Salin Komit Phase 9'}</span>
             </button>
             <button
-              onClick={() => setActiveTab('interpreter')}
-              className="px-3.5 py-1.5 text-xs font-semibold text-white bg-emerald-600 rounded-lg hover:bg-emerald-500 transition-colors whitespace-nowrap cursor-pointer"
+              onClick={() => setActiveTab('tipe')}
+              className="px-3.5 py-1.5 text-xs font-semibold text-white bg-purple-600 rounded-lg hover:bg-purple-500 transition-colors whitespace-nowrap cursor-pointer"
             >
-              Milestone v0.8.0
+              Milestone v0.9.0
             </button>
           </div>
         </div>
@@ -196,29 +206,29 @@ export default function App() {
       <section className="border-b border-slate-800/60 bg-gradient-to-b from-slate-950 via-slate-900/60 to-slate-950 py-12 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-wrap items-center gap-2 text-xs text-slate-400 mb-4 tracking-wide font-mono">
-            <span className="text-emerald-400 font-medium">v0.8.0</span>
+            <span className="text-emerald-400 font-medium">v0.9.0</span>
             <span aria-hidden="true">·</span>
-            <span>Phase 8: Implementasi Interpreter</span>
+            <span>Phase 9: Variabel & Tipe Data Lanjutan</span>
             <span aria-hidden="true">·</span>
-            <span className="text-emerald-300 font-medium">Eksekusi Nyata AST</span>
+            <span className="text-purple-400 font-medium">Strict & Type-Safe</span>
             <span aria-hidden="true">·</span>
-            <span className="text-cyan-400 font-medium">15 Uji Interpreter Lulus 100%</span>
+            <span className="text-cyan-400 font-medium">12 Uji Sistem Tipe Lulus 100%</span>
             <span aria-hidden="true">·</span>
             <span>100% Bahasa Indonesia</span>
           </div>
 
           <h1 className="text-3xl sm:text-5xl font-bold tracking-tight text-white max-w-4xl leading-tight">
-            Penerjemah Eksekusi (Interpreter): Program NUSANTARA Kini Dapat Dijalankan.
+            Sistem Variabel & Tipe Data: Keamanan Semantik dan Pemeriksa Tipe Statis.
           </h1>
 
           <p className="mt-4 text-base sm:text-lg text-slate-300 max-w-3xl leading-relaxed">
-            Untuk pertama kalinya, kode sumber NUSANTARA ditransformasikan dari teks mentah ke token leksikal, divalidasi ke pohon sintaksis abstrak (AST), dan langsung dieksekusi di memori untuk menghasilkan luaran program secara nyata.
+            Sistem tipe data NUSANTARA diperkuat dengan pengetikan statis aman, validasi inisialisasi dan penugasan, analisis lingkup (lexical scope & shadowing), proteksi nilai tetap, serta verifikasi parameter dan kembalian fungsi.
           </p>
 
           <div className="mt-6 p-4 rounded-xl bg-slate-900/90 border border-slate-800 max-w-3xl flex items-start gap-3">
             <ShieldCheck className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
             <div className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-              <span className="font-semibold text-emerald-300">Batas Arsitektur Phase 8:</span> Menggunakan arsitektur Tree-Walk AST Interpreter. Komponen Backend Compiler (pembangkitan kode biner mesin native) direncanakan pada Phase 22.
+              <span className="font-semibold text-emerald-300">Integritas Saluran Pipa Phase 9:</span> Kode sumber melewati Lexer ➔ Parser ➔ Type Checker ➔ Interpreter secara mulus dengan validasi semantik sebelum eksekusi.
             </div>
           </div>
         </div>
@@ -228,13 +238,22 @@ export default function App() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 py-8 flex-1 w-full">
         <div className="flex items-center gap-2 border-b border-slate-800 pb-4 mb-8 overflow-x-auto text-sm">
           <button
+            onClick={() => setActiveTab('tipe')}
+            className={`px-4 py-2 rounded-lg font-medium transition-colors whitespace-nowrap cursor-pointer flex items-center gap-2 ${
+              activeTab === 'tipe' ? 'bg-purple-950 text-purple-200 border border-purple-700/60' : 'text-slate-400 hover:text-white hover:bg-slate-900'
+            }`}
+          >
+            <CheckCircle2 className="w-4 h-4 text-purple-400" />
+            <span>Sistem Tipe (Phase 9)</span>
+          </button>
+          <button
             onClick={() => setActiveTab('interpreter')}
             className={`px-4 py-2 rounded-lg font-medium transition-colors whitespace-nowrap cursor-pointer flex items-center gap-2 ${
               activeTab === 'interpreter' ? 'bg-emerald-950 text-emerald-200 border border-emerald-700/60' : 'text-slate-400 hover:text-white hover:bg-slate-900'
             }`}
           >
             <Play className="w-4 h-4 text-emerald-400" />
-            <span>Interpreter (Phase 8)</span>
+            <span>Eksekusi Interpreter</span>
           </button>
           <button
             onClick={() => setActiveTab('parser')}
@@ -243,7 +262,7 @@ export default function App() {
             }`}
           >
             <Network className="w-4 h-4 text-cyan-400" />
-            <span>Parser & AST (Phase 7)</span>
+            <span>Pohon AST</span>
           </button>
           <button
             onClick={() => setActiveTab('lexer')}
@@ -252,7 +271,7 @@ export default function App() {
             }`}
           >
             <Cpu className="w-4 h-4 text-teal-400" />
-            <span>Lexer (Phase 6)</span>
+            <span>Token Lexer</span>
           </button>
           <button
             onClick={() => setActiveTab('panduan')}
@@ -261,25 +280,7 @@ export default function App() {
             }`}
           >
             <BookOpen className="w-4 h-4 text-rose-400" />
-            <span>Buku Panduan</span>
-          </button>
-          <button
-            onClick={() => setActiveTab('ebnf')}
-            className={`px-4 py-2 rounded-lg font-medium transition-colors whitespace-nowrap cursor-pointer flex items-center gap-2 ${
-              activeTab === 'ebnf' ? 'bg-slate-800 text-white' : 'text-slate-400 hover:text-white hover:bg-slate-900'
-            }`}
-          >
-            <Binary className="w-4 h-4 text-purple-400" />
-            <span>Tata Bahasa EBNF</span>
-          </button>
-          <button
-            onClick={() => setActiveTab('glosarium')}
-            className={`px-4 py-2 rounded-lg font-medium transition-colors whitespace-nowrap cursor-pointer flex items-center gap-2 ${
-              activeTab === 'glosarium' ? 'bg-slate-800 text-white' : 'text-slate-400 hover:text-white hover:bg-slate-900'
-            }`}
-          >
-            <Compass className="w-4 h-4 text-amber-400" />
-            <span>Glosarium Istilah</span>
+            <span>Panduan & Glosarium</span>
           </button>
           <button
             onClick={() => setActiveTab('berkas')}
@@ -288,7 +289,7 @@ export default function App() {
             }`}
           >
             <Folder className="w-4 h-4 text-amber-400" />
-            <span>Penjelajah Berkas (123)</span>
+            <span>Penjelajah Berkas (131)</span>
           </button>
           <button
             onClick={() => setActiveTab('roadmap')}
@@ -310,39 +311,39 @@ export default function App() {
           </button>
         </div>
 
-        {/* TAB 1: INTERPRETER EKSEKUSI NYATA (PHASE 8) */}
-        {activeTab === 'interpreter' && (
+        {/* TAB 1: SISTEM TIPE DATA & TYPE CHECKER (PHASE 9) */}
+        {activeTab === 'tipe' && (
           <div className="space-y-6">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
               {/* Editor Kode Sumber */}
               <div className="lg:col-span-6 bg-slate-900/80 border border-slate-800 rounded-xl p-4 flex flex-col h-[700px]">
                 <div className="flex items-center justify-between pb-3 mb-3 border-b border-slate-800">
                   <div className="flex items-center gap-2">
-                    <Code2 className="w-4 h-4 text-emerald-400" />
+                    <Code2 className="w-4 h-4 text-purple-400" />
                     <span className="text-xs font-semibold text-slate-300 uppercase tracking-wider">
-                      Editor Sumber .nusantara
+                      Editor Uji Tipe .nusantara
                     </span>
                   </div>
                   <div className="flex items-center gap-2">
                     <button
                       onClick={() =>
                         setPlaygroundCode(
-                          `program DeretFibonacci\n\nmulai\n    a : bilangan = 0\n    b : bilangan = 1\n    tampilkan("Deret Fibonacci Awal:")\n    untuk i dari 1 sampai 8 lakukan\n        tampilkan(a)\n        c : bilangan = a + b\n        a = b\n        b = c\n    akhir\nselesai`
+                          `program UjiSalahTipe\n\nmulai\n    // Inisialisasi tidak cocok\n    umur : bilangan = "tiga puluh"\n    tampilkan(umur)\nselesai`
                         )
                       }
-                      className="px-2.5 py-1 text-[11px] font-medium bg-slate-800 text-slate-300 hover:text-white rounded transition-colors cursor-pointer"
+                      className="px-2.5 py-1 text-[11px] font-medium bg-rose-950/60 text-rose-300 hover:text-white border border-rose-800/60 rounded transition-colors cursor-pointer"
                     >
-                      Contoh Fibonacci
+                      Uji Salah Tipe
                     </button>
                     <button
                       onClick={() =>
                         setPlaygroundCode(
-                          `program KasirSederhana\n\nmulai\n    harga : bilangan = 25000\n    jumlah : bilangan = 3\n    total : bilangan = harga * jumlah\n    \n    jika total >= 50000 maka\n        diskon : bilangan = 5000\n        total = total - diskon\n        tampilkan("Dapat Diskon Rp 5.000!")\n    akhir\n    \n    tampilkan("Total Bayar: Rp", total)\nselesai`
+                          `program UjiMutasiTetap\n\nmulai\n    tetap KODE_POS : bilangan = 12345\n    KODE_POS = 54321\nselesai`
                         )
                       }
-                      className="px-2.5 py-1 text-[11px] font-medium bg-emerald-950/60 text-emerald-300 hover:text-white border border-emerald-800/60 rounded transition-colors cursor-pointer"
+                      className="px-2.5 py-1 text-[11px] font-medium bg-amber-950/60 text-amber-300 hover:text-white border border-amber-800/60 rounded transition-colors cursor-pointer"
                     >
-                      Contoh Kasir
+                      Uji Konstanta Tetap
                     </button>
                   </div>
                 </div>
@@ -357,36 +358,58 @@ export default function App() {
 
                 <div className="mt-3 pt-3 border-t border-slate-800 flex items-center justify-between text-xs font-mono text-slate-400">
                   <span>Karakter: {playgroundCode.length}</span>
-                  <span>Baris: {playgroundCode.split('\n').length}</span>
-                  <span className="text-emerald-400 font-semibold">Saluran Pipa: Lexer ➔ Parser ➔ Interpreter</span>
+                  <span className="text-purple-400 font-semibold">Validasi Semantik: Type Checker Aktif</span>
                 </div>
               </div>
 
-              {/* Terminal Keluaran Eksekusi Program */}
+              {/* Panel Status Pemeriksaan Semantik & Eksekusi */}
               <div className="lg:col-span-6 bg-slate-900/80 border border-slate-800 rounded-xl p-4 flex flex-col h-[700px]">
                 <div className="flex items-center justify-between pb-3 mb-3 border-b border-slate-800">
                   <div className="flex items-center gap-2">
-                    <Terminal className="w-4 h-4 text-emerald-400" />
+                    <CheckCircle2 className="w-4 h-4 text-purple-400" />
                     <span className="text-xs font-semibold text-slate-300 uppercase tracking-wider">
-                      Terminal Keluaran Eksekusi Program (Output)
+                      Status Pemeriksaan Tipe & Luaran
                     </span>
                   </div>
-                  <span className="font-mono text-xs text-emerald-400 bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-800/80">
-                    Live Execution
+                  <span
+                    className={`font-mono text-xs px-2 py-0.5 rounded border ${
+                      typeErrors.length === 0
+                        ? 'bg-emerald-950 text-emerald-300 border-emerald-800'
+                        : 'bg-rose-950 text-rose-300 border-rose-800'
+                    }`}
+                  >
+                    {typeErrors.length === 0 ? 'Tipe Sah (Valid)' : `${typeErrors.length} Kesalahan Tipe`}
                   </span>
                 </div>
 
-                {runtimeError && (
+                {typeErrors.length > 0 && (
                   <div className="mb-3 p-3 rounded-lg bg-rose-950/80 border border-rose-800 text-rose-200 text-xs font-mono space-y-1">
                     <div className="font-bold flex items-center gap-1.5 text-rose-300">
                       <AlertTriangle className="w-3.5 h-3.5" />
-                      Kesalahan Runtime / Sintaksis:
+                      Terdeteksi Kesalahan Tipe Statis:
+                    </div>
+                    {typeErrors.map((err, idx) => (
+                      <div key={idx} className="text-[11px] pl-5">
+                        • {err.message}
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {runtimeError && typeErrors.length === 0 && (
+                  <div className="mb-3 p-3 rounded-lg bg-rose-950/80 border border-rose-800 text-rose-200 text-xs font-mono space-y-1">
+                    <div className="font-bold flex items-center gap-1.5 text-rose-300">
+                      <AlertTriangle className="w-3.5 h-3.5" />
+                      Kesalahan Runtime:
                     </div>
                     <div className="text-[11px] pl-5">{runtimeError}</div>
                   </div>
                 )}
 
                 <div className="flex-1 overflow-auto bg-black border border-slate-800 rounded-lg p-4 font-mono text-xs sm:text-sm leading-relaxed text-emerald-300">
+                  <div className="text-xs text-slate-500 mb-2 border-b border-slate-900 pb-1 font-mono">
+                    Terminal Konsol Eksekusi:
+                  </div>
                   {runOutput.length > 0 ? (
                     <div className="space-y-1">
                       {runOutput.map((baris, idx) => (
@@ -396,27 +419,55 @@ export default function App() {
                         </div>
                       ))}
                     </div>
-                  ) : !runtimeError ? (
-                    <div className="text-slate-600 italic">Program dieksekusi tanpa memanggil tampilkan().</div>
+                  ) : !runtimeError && typeErrors.length === 0 ? (
+                    <div className="text-slate-600 italic">Program selesai dieksekusi tanpa pemanggilan tampilkan().</div>
                   ) : null}
                 </div>
 
-                <div className="mt-3 pt-3 border-t border-slate-800 flex items-center justify-between text-xs font-mono text-slate-500">
-                  <span>Keluaran: {runOutput.length} baris</span>
-                  <span>Fungsi Bawaan: tampilkan(...)</span>
+                <div className="mt-4 pt-3 border-t border-slate-800">
+                  <span className="text-xs font-semibold text-slate-300 block mb-2">Matriks Tipe Data Resmi NUSANTARA:</span>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5 text-[11px] font-mono">
+                    {DAFTAR_TIPE_MATRIKS_PHASE9.slice(0, 6).map((t) => (
+                      <div key={t.tipe} className="p-1.5 rounded bg-slate-950 border border-slate-800/80 flex items-center justify-between">
+                        <span className="text-purple-300 font-bold">{t.tipe}</span>
+                        <span className="text-[10px] text-emerald-400">{t.status}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         )}
 
-        {/* TAB 2: PARSER & AST */}
+        {/* TAB 2: INTERPRETER */}
+        {activeTab === 'interpreter' && (
+          <div className="space-y-6">
+            <div className="bg-slate-900/80 border border-slate-800 rounded-xl p-4 flex flex-col h-[650px]">
+              <div className="flex items-center justify-between pb-3 mb-3 border-b border-slate-800">
+                <span className="text-xs font-semibold text-slate-300 uppercase tracking-wider">
+                  Terminal Keluaran Program ({runOutput.length} baris)
+                </span>
+              </div>
+              <div className="flex-1 overflow-auto bg-black border border-slate-800 rounded-lg p-4 font-mono text-xs sm:text-sm text-emerald-300 leading-relaxed">
+                {runOutput.map((baris, idx) => (
+                  <div key={idx} className="flex items-start gap-2">
+                    <span className="text-slate-600 select-none">&gt;</span>
+                    <span className="text-slate-100">{baris}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* TAB 3: PARSER & AST */}
         {activeTab === 'parser' && (
           <div className="space-y-6">
             <div className="bg-slate-900/80 border border-slate-800 rounded-xl p-4 flex flex-col h-[680px]">
               <div className="flex items-center justify-between pb-3 mb-3 border-b border-slate-800">
                 <span className="text-xs font-semibold text-slate-300 uppercase tracking-wider">
-                  Pohon Sintaksis Abstrak (Abstract Syntax Tree)
+                  Pohon Sintaksis Abstrak (AST)
                 </span>
               </div>
               <div className="flex-1 overflow-auto bg-slate-950/90 border border-slate-800 rounded-lg p-4 font-mono text-xs text-cyan-200 leading-relaxed">
@@ -426,13 +477,13 @@ export default function App() {
           </div>
         )}
 
-        {/* TAB 3: LEXER */}
+        {/* TAB 4: LEXER */}
         {activeTab === 'lexer' && (
           <div className="space-y-6">
             <div className="bg-slate-900/80 border border-slate-800 rounded-xl p-4 flex flex-col h-[650px]">
               <div className="flex items-center justify-between pb-3 mb-3 border-b border-slate-800">
                 <span className="text-xs font-semibold text-slate-300 uppercase tracking-wider">
-                  Aliran Token Hasil Lexer ({tokens.length} Token)
+                  Aliran Token Leksikal ({tokens.length} Token)
                 </span>
               </div>
               <div className="flex-1 overflow-auto bg-slate-950/90 border border-slate-800 rounded-lg p-3 space-y-1 font-mono text-xs">
@@ -457,52 +508,32 @@ export default function App() {
           </div>
         )}
 
-        {/* TAB 4: PANDUAN */}
+        {/* TAB 5: PANDUAN & GLOSARIUM */}
         {activeTab === 'panduan' && (
           <div className="space-y-6">
             <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-6">
-              <h2 className="text-xl font-bold text-white mb-2">Pusat Buku Panduan NUSANTARA</h2>
-              <p className="text-sm text-slate-300">Tersedia 28 berkas panduan pemula, referensi leksikal, dan panduan kontribusi di folder `docs/`.</p>
-            </div>
-          </div>
-        )}
-
-        {/* TAB 5: TATA BAHASA EBNF */}
-        {activeTab === 'ebnf' && (
-          <div className="space-y-6">
-            <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-6">
-              <h2 className="text-xl font-bold text-white mb-2">Tata Bahasa Formal EBNF (ISO/IEC 14977)</h2>
-              <pre className="p-4 bg-slate-950 font-mono text-xs text-purple-300 rounded-xl border border-slate-800 overflow-x-auto leading-relaxed">
-{`program_utama = "program", spasi, pengidentifikasi, pemisah_baris, blok_utama ;
-blok_utama = "mulai", pemisah_baris, daftar_pernyataan, "selesai" ;
-
-pernyataan = deklarasi_variabel | deklarasi_tetap | penugasan | pemanggilan_fungsi
-           | percabangan_jika | perulangan_untuk | perulangan_selama | instruksi_kendali ;`}
-              </pre>
-            </div>
-          </div>
-        )}
-
-        {/* TAB 6: GLOSARIUM */}
-        {activeTab === 'glosarium' && (
-          <div className="space-y-6">
-            <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-6">
-              <h2 className="text-xl font-bold text-white mb-4">Glosarium Istilah Komputasi Bahasa Indonesia</h2>
-              <div className="overflow-x-auto">
+              <h2 className="text-xl font-bold text-white mb-2">Matriks Tipe Data Resmi NUSANTARA (Phase 9)</h2>
+              <div className="overflow-x-auto mt-4">
                 <table className="w-full text-left text-xs sm:text-sm">
-                  <thead className="bg-slate-950/90 text-slate-400 font-mono text-xs uppercase border-b border-slate-800">
+                  <thead className="bg-slate-950 text-slate-400 font-mono text-xs uppercase border-b border-slate-800">
                     <tr>
-                      <th className="py-2.5 px-4">Istilah Asing</th>
-                      <th className="py-2.5 px-4">Padanan Bahasa Indonesia</th>
-                      <th className="py-2.5 px-4">Penjelasan</th>
+                      <th className="py-2.5 px-4">Tipe Data</th>
+                      <th className="py-2.5 px-4">Kategori</th>
+                      <th className="py-2.5 px-4">Contoh Literal</th>
+                      <th className="py-2.5 px-4">Status Phase 9</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-800/80 font-mono text-xs">
-                    {DAFTAR_GLOSARIUM.map((item) => (
-                      <tr key={item.asing} className="hover:bg-slate-800/40">
-                        <td className="py-2.5 px-4 font-bold text-slate-300">{item.asing}</td>
-                        <td className="py-2.5 px-4 font-bold text-cyan-300">{item.lokal}</td>
-                        <td className="py-2.5 px-4 text-slate-300 font-sans">{item.ket}</td>
+                  <tbody className="divide-y divide-slate-800 font-mono text-xs">
+                    {DAFTAR_TIPE_MATRIKS_PHASE9.map((item) => (
+                      <tr key={item.tipe} className="hover:bg-slate-800/40">
+                        <td className="py-2.5 px-4 font-bold text-purple-300">{item.tipe}</td>
+                        <td className="py-2.5 px-4 text-slate-300">{item.kategori}</td>
+                        <td className="py-2.5 px-4 text-slate-400">{item.contoh}</td>
+                        <td className="py-2.5 px-4">
+                          <span className={`px-2 py-0.5 rounded text-[10px] ${item.status === 'Lengkap' ? 'bg-emerald-950 text-emerald-300 border border-emerald-800' : 'bg-amber-950 text-amber-300 border border-amber-800'}`}>
+                            {item.status}
+                          </span>
+                        </td>
                       </tr>
                     ))}
                   </tbody>
@@ -512,12 +543,12 @@ pernyataan = deklarasi_variabel | deklarasi_tetap | penugasan | pemanggilan_fung
           </div>
         )}
 
-        {/* TAB 7: PENJELAJAH BERKAS */}
+        {/* TAB 6: PENJELAJAH BERKAS */}
         {activeTab === 'berkas' && (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
             <div className="lg:col-span-4 bg-slate-900/70 border border-slate-800 rounded-xl p-4 flex flex-col h-[700px]">
               <div className="flex items-center justify-between pb-3 mb-3 border-b border-slate-800">
-                <span className="text-xs font-semibold text-slate-300 uppercase tracking-wider">Berkas Repositori (Phase 1-8)</span>
+                <span className="text-xs font-semibold text-slate-300 uppercase tracking-wider">Berkas Repositori (Phase 1-9)</span>
                 <span className="text-xs text-slate-500 font-mono">{BERKAS_REPOSITORI.length} Berkas Terindeks</span>
               </div>
               <div className="overflow-y-auto flex-1 space-y-1 pr-1 font-mono text-xs">
@@ -529,7 +560,7 @@ pernyataan = deklarasi_variabel | deklarasi_tetap | penugasan | pemanggilan_fung
                       key={berkas.jalur}
                       onClick={() => setSelectedFile(berkas)}
                       className={`w-full text-left px-3 py-2 rounded-lg flex items-center justify-between transition-colors cursor-pointer ${
-                        isSelected ? 'bg-cyan-950/70 text-cyan-200 border border-cyan-800/60' : 'text-slate-300 hover:bg-slate-800/80 hover:text-white'
+                        isSelected ? 'bg-purple-950/70 text-purple-200 border border-purple-800/60' : 'text-slate-300 hover:bg-slate-800/80 hover:text-white'
                       }`}
                     >
                       <div className="flex items-center gap-2.5 truncate">
@@ -571,20 +602,20 @@ pernyataan = deklarasi_variabel | deklarasi_tetap | penugasan | pemanggilan_fung
           </div>
         )}
 
-        {/* TAB 8: PETA JALAN */}
+        {/* TAB 7: PETA JALAN */}
         {activeTab === 'roadmap' && (
           <div className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
               {filteredRoadmap.map((item) => {
-                const isCompleted = item.fase <= 8;
-                const isCurrent = item.fase === 8;
-                const isNext = item.fase === 9;
+                const isCompleted = item.fase <= 9;
+                const isCurrent = item.fase === 9;
+                const isNext = item.fase === 10;
                 return (
                   <div
                     key={item.fase}
                     className={`p-4 rounded-xl border transition-all ${
                       isCurrent
-                        ? 'bg-emerald-950/40 border-emerald-600/80 shadow-sm shadow-emerald-900/30'
+                        ? 'bg-purple-950/40 border-purple-600/80 shadow-sm shadow-purple-900/30'
                         : isCompleted
                         ? 'bg-emerald-950/20 border-emerald-800/60'
                         : isNext
@@ -597,7 +628,7 @@ pernyataan = deklarasi_variabel | deklarasi_tetap | penugasan | pemanggilan_fung
                       <span
                         className={`font-mono text-[10px] px-2 py-0.5 rounded ${
                           isCurrent
-                            ? 'bg-emerald-900/60 text-emerald-300 font-semibold'
+                            ? 'bg-purple-900/60 text-purple-300 font-semibold'
                             : isCompleted
                             ? 'bg-emerald-900/60 text-emerald-300 font-semibold'
                             : isNext
@@ -617,16 +648,16 @@ pernyataan = deklarasi_variabel | deklarasi_tetap | penugasan | pemanggilan_fung
           </div>
         )}
 
-        {/* TAB 9: SINKRONISASI GIT */}
+        {/* TAB 8: SINKRONISASI GIT */}
         {activeTab === 'git' && (
           <div className="space-y-6">
             <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-6">
-              <h2 className="text-xl font-bold text-white mb-2">Sinkronisasi Komit Phase 8 ke GitHub</h2>
-              <p className="text-sm text-slate-300 mb-6">Jalankan perintah berikut untuk menyinkronkan seluruh modul Interpreter ke repositori GitHub:</p>
+              <h2 className="text-xl font-bold text-white mb-2">Sinkronisasi Komit Phase 9 ke GitHub</h2>
+              <p className="text-sm text-slate-300 mb-6">Jalankan perintah berikut untuk menyinkronkan seluruh modul Sistem Tipe Data ke repositori GitHub:</p>
               <div className="space-y-3 font-mono text-xs">
-                <pre className="text-emerald-300 bg-slate-950 p-3 rounded-lg border border-slate-800">git add .</pre>
-                <pre className="text-emerald-300 bg-slate-950 p-3 rounded-lg border border-slate-800">git commit -m "feat: implement nusantara interpreter"</pre>
-                <pre className="text-emerald-300 bg-slate-950 p-3 rounded-lg border border-slate-800">git push origin main</pre>
+                <pre className="text-purple-300 bg-slate-950 p-3 rounded-lg border border-slate-800">git add .</pre>
+                <pre className="text-purple-300 bg-slate-950 p-3 rounded-lg border border-slate-800">git commit -m "feat: strengthen nusantara type system"</pre>
+                <pre className="text-purple-300 bg-slate-950 p-3 rounded-lg border border-slate-800">git push origin main</pre>
               </div>
             </div>
           </div>
@@ -639,7 +670,7 @@ pernyataan = deklarasi_variabel | deklarasi_tetap | penugasan | pemanggilan_fung
           <div className="flex items-center gap-2 text-slate-400">
             <span className="font-bold text-slate-200 font-sans">NUSANTARA</span>
             <span>·</span>
-            <span>Milestone v0.8.0 (Phase 8: Interpreter AST Selesai)</span>
+            <span>Milestone v0.9.0 (Phase 9: Variabel & Tipe Data)</span>
             <span>·</span>
             <span>Apache License 2.0</span>
           </div>

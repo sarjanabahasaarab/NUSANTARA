@@ -11,6 +11,7 @@ export enum JenisNilaiRuntime {
   BILANGAN = 'bilangan',
   DESIMAL = 'desimal',
   LOGIKA = 'logika',
+  KARAKTER = 'karakter',
   KOSONG = 'kosong',
   FUNGSI = 'fungsi',
   FUNGSI_BAWAAN = 'fungsi_bawaan',
@@ -34,6 +35,11 @@ export interface NilaiDesimal {
 export interface NilaiLogika {
   jenis: JenisNilaiRuntime.LOGIKA;
   nilai: boolean;
+}
+
+export interface NilaiKarakter {
+  jenis: JenisNilaiRuntime.KARAKTER;
+  nilai: string;
 }
 
 export interface NilaiKosong {
@@ -60,6 +66,7 @@ export type NilaiRuntime =
   | NilaiBilangan
   | NilaiDesimal
   | NilaiLogika
+  | NilaiKarakter
   | NilaiKosong
   | NilaiFungsiPengguna
   | NilaiFungsiBawaan;
@@ -70,6 +77,10 @@ export type NilaiRuntime =
 
 export function buatTeks(nilai: string): NilaiTeks {
   return { jenis: JenisNilaiRuntime.TEKS, nilai };
+}
+
+export function buatKarakter(nilai: string): NilaiKarakter {
+  return { jenis: JenisNilaiRuntime.KARAKTER, nilai };
 }
 
 export function buatBilangan(nilai: number): NilaiBilangan {
@@ -98,6 +109,8 @@ export function formatNilaiTeks(nilai: NilaiRuntime): string {
       return nilai.nilai.toString();
     case JenisNilaiRuntime.LOGIKA:
       return nilai.nilai ? 'benar' : 'salah';
+    case JenisNilaiRuntime.KARAKTER:
+      return nilai.nilai;
     case JenisNilaiRuntime.KOSONG:
       return 'kosong';
     case JenisNilaiRuntime.FUNGSI:

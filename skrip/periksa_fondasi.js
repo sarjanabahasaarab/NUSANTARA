@@ -1,6 +1,6 @@
 /**
  * Skrip Pemeriksaan Kepatuhan Repositori Bahasa NUSANTARA
- * Memvalidasi integritas seluruh berkas Phase 1, 2, 3, 4, 5, 6, 7, dan Phase 8 (v0.8.0).
+ * Memvalidasi integritas seluruh berkas Phase 1, 2, 3, 4, 5, 6, 7, 8, dan Phase 9 (v0.9.0).
  */
 
 import fs from 'node:fs';
@@ -13,14 +13,14 @@ const rootDir = path.resolve(__dirname, '..');
 
 const berkasWajib = [
   // --- TATA KELOLA & LISENSI UTAMA (Phase 3 & Root) ---
-  { berkas: 'README.md', kategori: 'Dokumentasi Utama', fase: 'Phase 1-8' },
+  { berkas: 'README.md', kategori: 'Dokumentasi Utama', fase: 'Phase 1-9' },
   { berkas: 'LISENSI', kategori: 'Teks Apache License 2.0', fase: 'Phase 3' },
   { berkas: 'TATA-KELOLA.md', kategori: 'Struktur 5 Peran Komunitas', fase: 'Phase 3' },
   { berkas: 'KEAMANAN.md', kategori: 'Kebijakan Keamanan', fase: 'Phase 3' },
   { berkas: 'KONTRIBUSI.md', kategori: 'Panduan Kontribusi 10 Langkah', fase: 'Phase 1-3' },
   { berkas: 'KODE-ETIK.md', kategori: 'Kode Etik Komunitas', fase: 'Phase 1-3' },
-  { berkas: 'PERUBAHAN.md', kategori: 'Catatan Rilis (Changelog)', fase: 'Phase 1-8' },
-  { berkas: 'ROADMAP.md', kategori: 'Peta Jalan 36 Fase', fase: 'Phase 1-8' },
+  { berkas: 'PERUBAHAN.md', kategori: 'Catatan Rilis (Changelog)', fase: 'Phase 1-9' },
+  { berkas: 'ROADMAP.md', kategori: 'Peta Jalan 36 Fase', fase: 'Phase 1-9' },
   { berkas: '.gitignore', kategori: 'Konfigurasi Git', fase: 'Phase 1' },
 
   // --- TEMPLAT GITHUB (Phase 3) ---
@@ -30,7 +30,17 @@ const berkasWajib = [
   { berkas: '.github/ISSUE_TEMPLATE/pertanyaan.md', kategori: 'Templat Diskusi & Tanya', fase: 'Phase 3' },
   { berkas: '.github/PULL_REQUEST_TEMPLATE.md', kategori: 'Templat Pull Request', fase: 'Phase 3' },
 
-  // --- IMPLEMENTASI MODUL INTERPRETER RUNTIME (Phase 8 Baru) ---
+  // --- IMPLEMENTASI MODUL SISTEM TIPE DATA & TYPE CHECKER (Phase 9 Baru) ---
+  { berkas: 'src/tipe/jenisTipe.ts', kategori: 'Definisi Tipe & Taksonomi Resmi', fase: 'Phase 9' },
+  { berkas: 'src/tipe/galatTipe.ts', kategori: 'Sistem Pelaporan Kesalahan Tipe', fase: 'Phase 9' },
+  { berkas: 'src/tipe/kompatibilitas.ts', kategori: 'Aturan Kompatibilitas Tipe', fase: 'Phase 9' },
+  { berkas: 'src/tipe/pemeriksaTipe.ts', kategori: 'Mesin Analisis Semantik & Type Checker', fase: 'Phase 9' },
+  { berkas: 'src/tipe/index.ts', kategori: 'Ekspor Terpadu Sistem Tipe', fase: 'Phase 9' },
+  { berkas: 'docs/pengembang/type-system.md', kategori: 'Dokumentasi Teknis Sistem Tipe', fase: 'Phase 9' },
+  { berkas: 'pengujian/tipe/uji_tipe.ts', kategori: 'Rangkaian 12 Uji Sistem Tipe', fase: 'Phase 9' },
+  { berkas: 'pengujian/tipe/README.md', kategori: 'Panduan Eksekusi Uji Sistem Tipe', fase: 'Phase 9' },
+
+  // --- IMPLEMENTASI MODUL INTERPRETER RUNTIME (Phase 8) ---
   { berkas: 'src/interpreter/nilai.ts', kategori: 'Sistem Nilai Runtime', fase: 'Phase 8' },
   { berkas: 'src/interpreter/environment.ts', kategori: 'Manajemen Lingkup & Tabel Simbol', fase: 'Phase 8' },
   { berkas: 'src/interpreter/sinyal.ts', kategori: 'Sinyal Kontrol Alur Eksekusi', fase: 'Phase 8' },
@@ -83,7 +93,7 @@ const berkasWajib = [
   { berkas: 'docs/panduan/fungsi.md', kategori: 'Panduan Fungsi Modular', fase: 'Phase 5' },
   { berkas: 'docs/referensi/sintaks.md', kategori: 'Ringkasan Sintaks', fase: 'Phase 5' },
   { berkas: 'docs/referensi/keyword.md', kategori: 'Tabel 32 Kata Kunci', fase: 'Phase 5' },
-  { berkas: 'docs/referensi/tipe-data.md', kategori: 'Referensi Tipe Data', fase: 'Phase 5' },
+  { berkas: 'docs/referensi/tipe-data.md', kategori: 'Referensi Tipe Data', fase: 'Phase 5-9' },
   { berkas: 'docs/referensi/operator.md', kategori: 'Presedensi 8 Tingkat', fase: 'Phase 5' },
   { berkas: 'docs/referensi/tata-bahasa-ebnf.md', kategori: 'Referensi EBNF', fase: 'Phase 5' },
   { berkas: 'docs/referensi/contoh-kode.md', kategori: 'Katalog Contoh Kode', fase: 'Phase 5' },
@@ -166,7 +176,7 @@ const berkasWajib = [
 
 console.log('=============================================================================');
 console.log('PEMERIKSAAN KEPATUHAN SPESIFIKASI & IMPLEMENTASI BAHASA NUSANTARA');
-console.log('Target Milestone: Phase 8 — Interpreter (Penerjemah Eksekusi AST) (v0.8.0)');
+console.log('Target Milestone: Phase 9 — Variabel & Tipe Data Lanjutan (v0.9.0)');
 console.log('=============================================================================\n');
 
 let jumlahLulus = 0;
@@ -189,8 +199,8 @@ console.log(`Hasil Evaluasi: ${jumlahLulus} berkas LULUS, ${jumlahGagal} berkas 
 console.log('-----------------------------------------------------------------------------');
 
 if (jumlahGagal === 0) {
-  console.log('STATUS: SELURUH DOKUMENTASI, SPESIFIKASI, LEXER, PARSER, DAN INTERPRETER LENGKAP & TERUJI.');
-  console.log('Repositori siap untuk milestone v0.8.0 (feat: implement nusantara interpreter).');
+  console.log('STATUS: SELURUH DOKUMENTASI, SPESIFIKASI, LEXER, PARSER, INTERPRETER, DAN SISTEM TIPE LENGKAP & TERUJI.');
+  console.log('Repositori siap untuk milestone v0.9.0 (feat: strengthen nusantara type system).');
   process.exit(0);
 } else {
   console.error('STATUS: TERDAPAT BERKAS RESMI YANG HILANG. PERIKSA KEMBALI SEBELUM COMMIT.');

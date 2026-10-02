@@ -33,6 +33,7 @@ import {
   buatBilangan,
   buatDesimal,
   buatLogika,
+  buatKarakter,
   buatKosong,
   formatNilaiTeks,
   NilaiFungsiPengguna,
@@ -41,6 +42,8 @@ import {
 import { GalatRuntime, JenisGalatRuntime, BingkaiTumpukan } from './galat';
 import { OutputWriter, PenulisOutputBuffer, PenulisOutputKonsol } from './outputWriter';
 import { SinyalHentikan, SinyalLanjutkan, SinyalKembalikan } from './sinyal';
+import { PemeriksaTipe } from '../tipe/pemeriksaTipe';
+import { apakahKompatibel } from '../tipe/kompatibilitas';
 
 /**
  * Mesin Interpreter Resmi Bahasa NUSANTARA (Phase 8).
@@ -87,6 +90,22 @@ export class Interpreter {
       throw new GalatRuntime(
         JenisGalatRuntime.OPERASI_TIPE_TIDAK_VALID,
         `Tidak dapat mengeksekusi program karena terdapat ${galatParser.length} kesalahan sintaksis: ${galatParser[0].message}`
+      );
+    }
+
+    // Analisis Semantik & Pemeriksaan Tipe Statis (Phase 9)
+    const pemeriksa = new PemeriksaTipe();
+    const galatTipe = pemeriksa.periksa(ast);
+    if (galatTipe.length > 0) {
+      const g = galatTipe[0];
+      const jenisRuntime =
+        g.jenis === 'MODIFIKASI_TETAP'
+          ? JenisGalatRuntime.KONSTANTA_DIUBAH
+          : JenisGalatRuntime.OPERASI_TIPE_TIDAK_VALID;
+      throw new GalatRuntime(
+        jenisRuntime,
+        g.message,
+        g.posisi
       );
     }
 
@@ -316,7 +335,7 @@ export class Interpreter {
           case 'teks':
             return buatTeks(l.nilaiTerurai as string);
           case 'karakter':
-            return buatTeks(l.nilaiTerurai as string);
+            return buatKarakter(l.nilaiTerurai as string);
           case 'logika':
             return buatLogika(l.nilaiTerurai as boolean);
           case 'kosong':
@@ -643,6 +662,14 @@ export class Interpreter {
       return buatKosong();
     } catch (e: any) {
       if (e instanceof SinyalKembalikan) {
+        if (fnDeklarasi.tipeKembalian && !apakahKompatibel(fnDeklarasi.tipeKembalian, e.nilai.jenis)) {
+          throw new GalatRuntime(
+            JenisGalatRuntime.OPERASI_TIPE_TIDAK_VALID,
+            `Fungsi '${fnDeklarasi.nama}' harus mengembalikan nilai bertipe '${fnDeklarasi.tipeKembalian}', tetapi mengembalikan '${e.nilai.jenis}'.`,
+            nodePanggil.posisi.awal,
+            [...this.tumpukanPanggilan]
+          );
+        }
         return e.nilai;
       }
       throw e;
