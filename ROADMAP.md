@@ -13,9 +13,9 @@ Setiap fase merupakan pencapaian rekayasa piranti lunak (*engineering milestone*
 | **Phase 1** | Identitas & Fondasi | `v0.1.0` | **Selesai** |
 | **Phase 2** | Konstitusi Bahasa | `v0.2.0` | **Selesai** |
 | **Phase 3** | Lisensi & Tata Kelola | `v0.3.0` | **Selesai** |
-| **Phase 4** | **Spesifikasi Sintaks (EBNF Formal)** | `v0.4.0` | **Selesai (Fase Saat Ini)** |
-| **Phase 5** | Dokumentasi Awal & Buku Panduan | `v0.5.0` | Direncanakan Berikutnya |
-| **Phase 6** | Lexer (Penganalisis Leksikal) | `v0.6.0` | Direncanakan |
+| **Phase 4** | Spesifikasi Sintaks (EBNF Formal) | `v0.4.0` | **Selesai** |
+| **Phase 5** | **Dokumentasi Awal & Buku Panduan** | `v0.5.0` | **Selesai (Fase Saat Ini)** |
+| **Phase 6** | Lexer (Penganalisis Leksikal) | `v0.6.0` | Direncanakan Berikutnya |
 | **Phase 7** | Parser (Penganalisis Sintaksis) | `v0.7.0` | Direncanakan |
 | **Phase 8** | Interpreter (Penerjemah Eksekusi AST) | `v0.8.0` | Direncanakan |
 | **Phase 9** | Variabel & Tipe Data | `v0.9.0` | Direncanakan |
@@ -56,10 +56,10 @@ Setiap fase merupakan pencapaian rekayasa piranti lunak (*engineering milestone*
 - **Phase 2 — Konstitusi Bahasa:** Piagam 10 prinsip konstitusi, struktur program awal, 32 kata kunci, tipe data dasar, operator, aturan penamaan, standar pesan galat, NIP-0002, dan kasus uji spesifikasi. *(Selesai)*
 - **Phase 3 — Lisensi & Tata Kelola:** Lisensi Apache 2.0 resmi, piagam tata kelola 5 peran komunitas, alur NIP 7 tahap, templat NIP, templat GitHub Issues & PR, kebijakan keamanan (responsible disclosure), dan panduan pengaturan GitHub. *(Selesai)*
 - **Phase 4 — Spesifikasi Sintaks (EBNF Formal):** Tata bahasa formal EBNF lengkap, spesifikasi token leksikal, taksonomi literal, hirarki ekspresi tanpa ambiguitas, pengesahan presedensi operator 8 tingkat, katalog keputusan terbuka, dan 15 kasus uji negatif. *(Selesai)*
-- **Phase 5 — Dokumentasi Awal:** Buku panduan pemula, glosarium teknis resmi Bahasa Indonesia, dan panduan gaya penulisan kode (*style guide*).
+- **Phase 5 — Dokumentasi Awal & Buku Panduan:** Pusat dokumentasi terstruktur `docs/`, panduan pemula bertahap, referensi leksikal, panduan pengembang, alur NIP, dan glosarium teknis Bahasa Indonesia. *(Selesai)*
 
 ### Blok B: Mesin Inti Kompilator (Phase 6 – 13)
-- **Phase 6 — Lexer:** Tokenisasi kode sumber `.nusantara`, pelacak nomor baris/kolom, penanganan literal Unicode.
+- **Phase 6 — Lexer:** Tokenisasi kode sumber `.nusantara`, pelacak nomor baris/kolom, penanganan literal Unicode. *(Fase Berikutnya)*
 - **Phase 7 — Parser:** Pembangun pohon sintaksis abstrak (AST) dengan pelaporan galat presisi (*syntax error recovery*).
 - **Phase 8 — Interpreter:** Mesin evaluasi AST langsung untuk keperluan pengujian logika awal tanpa harus kompilasi native.
 - **Phase 9 — Variabel & Tipe Data:** Tabel simbol (*symbol table*), inferensi tipe awal, penanganan konstanta `tetap`.

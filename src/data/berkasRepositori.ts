@@ -8,6 +8,125 @@ export interface BerkasRepo {
 }
 
 export const BERKAS_REPOSITORI: BerkasRepo[] = [
+  // --- FASE 5: BUKU PANDUAN & DOKUMENTASI AWAL (docs/) ---
+  {
+    jalur: 'docs/README.md',
+    nama: 'README.md (docs)',
+    kategori: 'Pusat Buku Panduan',
+    bahasa: 'markdown',
+    ukuran: 2450,
+    konten: `# Dokumentasi Resmi Bahasa Pemrograman NUSANTARA
+
+Pusat dokumentasi dan buku panduan resmi:
+1. Pengenalan Bahasa
+2. Panduan Pemula (Tutorial)
+3. Referensi Bahasa Formal
+4. Panduan Pengembang
+5. Panduan Kontribusi
+6. Glosarium Istilah Komputasi`
+  },
+  {
+    jalur: 'docs/panduan/program-pertama.md',
+    nama: 'program-pertama.md',
+    kategori: 'Tutorial: Halo Dunia',
+    bahasa: 'markdown',
+    ukuran: 1540,
+    konten: `# Menulis Program Pertama: "Halo Dunia!"
+
+program Halo
+
+mulai
+    tampilkan("Halo Dunia!")
+selesai
+
+(Catatan: Contoh ini menunjukkan rancangan sintaks resmi dan belum dapat dijalankan sebelum alat eksekusi NUSANTARA tersedia).`
+  },
+  {
+    jalur: 'docs/panduan/struktur-program.md',
+    nama: 'struktur-program.md',
+    kategori: 'Tutorial: Struktur Dasar',
+    bahasa: 'markdown',
+    ukuran: 1480,
+    konten: `# Struktur Program Dasar NUSANTARA
+
+Aturan Pokok:
+- Satu berkas memuat satu program utama.
+- Blok eksekusi diawali kata kunci 'mulai' dan diakhiri 'selesai'.
+- Pemisah pernyataan menggunakan ganti baris (newline).`
+  },
+  {
+    jalur: 'docs/panduan/variabel-dan-tipe-data.md',
+    nama: 'variabel-dan-tipe-data.md',
+    kategori: 'Tutorial: Variabel & Tipe',
+    bahasa: 'markdown',
+    ukuran: 1930,
+    konten: `# Variabel & Tipe Data Dasar
+
+Dua gaya deklarasi sah:
+1. Ringkas: nama : teks = "Ahmad"
+2. Eksplisit: variabel nama : teks = "Ahmad"
+Konstanta: tetap PHI : desimal = 3.14159`
+  },
+  {
+    jalur: 'docs/panduan/percabangan.md',
+    nama: 'percabangan.md',
+    kategori: 'Tutorial: Percabangan',
+    bahasa: 'markdown',
+    ukuran: 1443,
+    konten: `# Percabangan Kondisional (jika)
+
+jika nilai >= 75 maka
+    tampilkan("Lulus")
+selain
+    tampilkan("Remedial")
+akhir`
+  },
+  {
+    jalur: 'docs/panduan/perulangan.md',
+    nama: 'perulangan.md',
+    kategori: 'Tutorial: Perulangan',
+    bahasa: 'markdown',
+    ukuran: 1632,
+    konten: `# Perulangan Iteratif (untuk & selama)
+
+untuk angka dari 1 sampai 5 lakukan
+    tampilkan(angka)
+akhir
+
+(Batas akhir 'sampai' bersifat inklusif).`
+  },
+  {
+    jalur: 'docs/panduan/fungsi.md',
+    nama: 'fungsi.md',
+    kategori: 'Tutorial: Fungsi Modular',
+    bahasa: 'markdown',
+    ukuran: 1268,
+    konten: `# Fungsi & Subrutin Modular
+
+fungsi tambah(a : bilangan, b : bilangan) : bilangan
+
+mulai
+    kembalikan a + b
+selesai`
+  },
+  {
+    jalur: 'docs/glosarium.md',
+    nama: 'glosarium.md',
+    kategori: 'Glosarium 26 Istilah',
+    bahasa: 'markdown',
+    ukuran: 3453,
+    konten: `# Glosarium Istilah Pemrograman NUSANTARA
+
+26 Istilah Komputasi Inggris - Indonesia:
+- Abstract Syntax Tree -> Pohon Sintaksis Abstrak
+- Assignment -> Penugasan
+- Compiler -> Kompilator
+- Lexer -> Penganalisis Leksikal
+- Parser -> Penganalisis Sintaksis
+- Immutable -> Tak Terubahkan / Kekal
+- Short-circuit -> Evaluasi Hubung Singkat`
+  },
+
   // --- FASE 4: SPESIFIKASI SINTAKS EBNF ---
   {
     jalur: 'dokumentasi/GRAMMAR-EBNF.md',
@@ -15,25 +134,7 @@ export const BERKAS_REPOSITORI: BerkasRepo[] = [
     kategori: 'Tata Bahasa Formal EBNF (Phase 4)',
     bahasa: 'markdown',
     ukuran: 5522,
-    konten: `# Tata Bahasa Formal EBNF Bahasa NUSANTARA (ISO/IEC 14977)
-
-program_utama = "program", spasi, pengidentifikasi, pemisah_baris, blok_utama ;
-blok_utama = "mulai", pemisah_baris, daftar_pernyataan, "selesai" ;
-pernyataan = deklarasi_variabel | deklarasi_tetap | penugasan | pemanggilan_fungsi
-           | percabangan_jika | perulangan_untuk | perulangan_selama | instruksi_kendali ;`
-  },
-  {
-    jalur: 'dokumentasi/SPESIFIKASI-SINTAKS.md',
-    nama: 'SPESIFIKASI-SINTAKS.md',
-    kategori: 'Spesifikasi Sintaks Induk',
-    bahasa: 'markdown',
-    ukuran: 4130,
-    konten: `# Spesifikasi Sintaks Formal Bahasa NUSANTARA
-
-Harmonisasi Audit:
-- Baris Baru (Newline) sebagai pemisah alami instruksi.
-- Bentuk ringkas 'nama : tipe = nilai' dan eksplisit 'variabel nama : tipe = nilai' sama-sama sah.
-- Batas akhir perulangan 'sampai' bersifat inklusif.`
+    konten: `# Tata Bahasa Formal EBNF Bahasa NUSANTARA (ISO/IEC 14977)`
   },
   {
     jalur: 'dokumentasi/TOKEN.md',
@@ -41,55 +142,7 @@ Harmonisasi Audit:
     kategori: 'Spesifikasi Token Leksikal',
     bahasa: 'markdown',
     ukuran: 3507,
-    konten: `# Spesifikasi Token Leksikal Bahasa NUSANTARA
-
-Taksonomi Token:
-1. KATA_KUNCI (32 kata leksikal)
-2. PENGIDENTIFIKASI ([a-zA-Z_][a-zA-Z0-9_]*)
-3. LITERAL_BILANGAN, LITERAL_DESIMAL, LITERAL_TEKS, LITERAL_LOGIKA, LITERAL_KOSONG
-4. OPERATOR (+, -, *, /, %, ==, !=, <, >, <=, >=, =)
-5. OPERATOR_LOGIKA (dan, atau, tidak)`
-  },
-  {
-    jalur: 'dokumentasi/IDENTIFIER.md',
-    nama: 'IDENTIFIER.md',
-    kategori: 'Kaidah Pengidentifikasi',
-    bahasa: 'markdown',
-    ukuran: 2795,
-    konten: `# Kaidah Pengidentifikasi (Identifier) Bahasa NUSANTARA
-
-Kaidah Wajib:
-- Karakter: [a-zA-Z0-9_].
-- Karakter pertama WAJIB huruf atau garis bawah, TIDAK BOLEH diawali angka.
-- Dilarang bentrok dengan 32 kata kunci resmi.
-- Peka huruf besar dan kecil (case-sensitive).`
-  },
-  {
-    jalur: 'dokumentasi/LITERAL.md',
-    nama: 'LITERAL.md',
-    kategori: 'Bentuk Literal',
-    bahasa: 'markdown',
-    ukuran: 2474,
-    konten: `# Spesifikasi Bentuk Literal Bahasa NUSANTARA
-
-Bentuk Literal:
-- teks: "Halo Dunia"
-- bilangan: 123
-- desimal: 12.5
-- logika: benar, salah
-- kosong: kosong
-- Tanda minus (-) diperlakukan sebagai operator unari negasi.`
-  },
-  {
-    jalur: 'dokumentasi/EKSPRESI.md',
-    nama: 'EKSPRESI.md',
-    kategori: 'Tata Ekspresi',
-    bahasa: 'markdown',
-    ukuran: 2520,
-    konten: `# Spesifikasi Evaluasi Ekspresi Bahasa NUSANTARA
-
-Struktur evaluasi bertingkat bebas ambiguitas parsing leksikal.
-Mendukung evaluasi hubung singkat (short-circuit evaluation) pada operator 'dan' serta 'atau'.`
+    konten: `# Spesifikasi Token Leksikal Bahasa NUSANTARA`
   },
   {
     jalur: 'dokumentasi/PRIORITAS-OPERATOR.md',
@@ -97,73 +150,7 @@ Mendukung evaluasi hubung singkat (short-circuit evaluation) pada operator 'dan'
     kategori: 'Tabel Presedensi 8 Tingkat',
     bahasa: 'markdown',
     ukuran: 2097,
-    konten: `# Tabel Prioritas & Presedensi Operator Resmi Bahasa NUSANTARA
-
-Tingkat 1 (Tertinggi): ( ) Pengelompokan
-Tingkat 2: tidak, - (unari)
-Tingkat 3: *, /, %
-Tingkat 4: +, -
-Tingkat 5: <, <=, >, >=
-Tingkat 6: ==, !=
-Tingkat 7: dan
-Tingkat 8 (Terendah): atau`
-  },
-  {
-    jalur: 'dokumentasi/ATURAN-BLOK.md',
-    nama: 'ATURAN-BLOK.md',
-    kategori: 'Aturan Blok & Kontrol Aliran',
-    bahasa: 'markdown',
-    ukuran: 3903,
-    konten: `# Spesifikasi Aturan Blok & Struktur Kontrol Bahasa NUSANTARA
-
-Struktur Kendali:
-- jika kondisi maka ... selain ... akhir
-- untuk angka dari 1 sampai 10 lakukan ... akhir (inklusif)
-- selama kondisi lakukan ... akhir
-- fungsi nama(parameter) : tipe mulai ... kembalikan ... selesai`
-  },
-  {
-    jalur: 'dokumentasi/KEPUTUSAN-TERBUKA.md',
-    nama: 'KEPUTUSAN-TERBUKA.md',
-    kategori: 'Katalog Keputusan Terbuka',
-    bahasa: 'markdown',
-    ukuran: 2535,
-    konten: `# Katalog Keputusan Terbuka (Open Decisions) Bahasa NUSANTARA
-
-Topik Terbuka:
-1. Aksara Nusantara & Karakter Unicode pada pengidentifikasi.
-2. Format komentar banyak baris.
-3. Usulan kata kunci 'selain_jika'.
-4. Sintaksis formal koleksi daftar dan peta.
-5. Null-safety waktu kompilasi.`
-  },
-  {
-    jalur: 'dokumentasi/CONTOH-SINTAKS.md',
-    nama: 'CONTOH-SINTAKS.md',
-    kategori: 'Katalog 10 Contoh Sintaks',
-    bahasa: 'markdown',
-    ukuran: 4693,
-    konten: `# Katalog Contoh Sintaksis Resmi Bahasa NUSANTARA
-
-10 Contoh Acuan:
-1. Halo Dunia
-2. Deklarasi Variabel & Tipe Data
-3. Penugasan Ulang & Konstanta tetap
-4. Operasi Matematika & Presedensi
-5. Percabangan Kondisional
-6. Perulangan Iteratif (untuk & selama)
-7. Definisi & Pemanggilan Fungsi
-8. Struktur Data Koleksi daftar [RANCANGAN]
-9. Struktur Data Asosiatif peta [RANCANGAN]
-10. Program Kasir Gabungan Lengkap`
-  },
-  {
-    jalur: 'pengujian/spesifikasi/kasus-valid.md',
-    nama: 'kasus-valid.md',
-    kategori: 'Koleksi Kasus Valid EBNF',
-    bahasa: 'markdown',
-    ukuran: 1707,
-    konten: `# Kasus Uji Sintaksis Valid (Phase 4)`
+    konten: `# Tabel Prioritas & Presedensi Operator Resmi Bahasa NUSANTARA`
   },
   {
     jalur: 'pengujian/spesifikasi/kasus-tidak-valid.md',
@@ -172,14 +159,6 @@ Topik Terbuka:
     bahasa: 'markdown',
     ukuran: 7781,
     konten: `# Kasus Uji Sintaksis Tidak Valid (Minimal 15 Kasus)`
-  },
-  {
-    jalur: 'pengujian/spesifikasi/grammar-checklist.md',
-    nama: 'grammar-checklist.md',
-    kategori: 'Daftar Periksa EBNF',
-    bahasa: 'markdown',
-    ukuran: 2050,
-    konten: `# Daftar Periksa Keutuhan Tata Bahasa EBNF (Grammar Checklist)`
   },
 
   // --- FASE 3: LISENSI & TATA KELOLA ---
@@ -207,45 +186,31 @@ Topik Terbuka:
     ukuran: 2825,
     konten: `# Kebijakan Keamanan Proyek NUSANTARA`
   },
+
+  // --- BERKAS ROOT & CONTOH ---
   {
-    jalur: 'KONTRIBUSI.md',
-    nama: 'KONTRIBUSI.md',
-    kategori: 'Panduan Kontribusi 10 Langkah',
+    jalur: 'README.md',
+    nama: 'README.md',
+    kategori: 'Dokumentasi Utama',
     bahasa: 'markdown',
-    ukuran: 4318,
-    konten: `# Panduan Kontribusi Bahasa Pemrograman NUSANTARA`
-  },
-  {
-    jalur: 'KODE-ETIK.md',
-    nama: 'KODE-ETIK.md',
-    kategori: 'Kode Etik Komunitas',
-    bahasa: 'markdown',
-    ukuran: 3117,
-    konten: `# Kode Etik Komunitas Pengembang NUSANTARA`
+    ukuran: 5410,
+    konten: `# NUSANTARA (Phase 5: Dokumentasi Awal & Buku Panduan - v0.5.0)`
   },
   {
     jalur: 'PERUBAHAN.md',
     nama: 'PERUBAHAN.md',
     kategori: 'Catatan Rilis (Changelog)',
     bahasa: 'markdown',
-    ukuran: 4063,
-    konten: `# Catatan Perubahan NUSANTARA (v0.4.0, v0.3.0, v0.2.0, v0.1.0)`
+    ukuran: 5210,
+    konten: `# Catatan Perubahan NUSANTARA (v0.5.0, v0.4.0, v0.3.0, v0.2.0, v0.1.0)`
   },
   {
     jalur: 'ROADMAP.md',
     nama: 'ROADMAP.md',
     kategori: 'Peta Jalan 36 Fase',
     bahasa: 'markdown',
-    ukuran: 8354,
+    ukuran: 8410,
     konten: `# Peta Jalan Pengembangan (ROADMAP) Bahasa Pemrograman NUSANTARA`
-  },
-  {
-    jalur: 'README.md',
-    nama: 'README.md',
-    kategori: 'Dokumentasi Utama',
-    bahasa: 'markdown',
-    ukuran: 3957,
-    konten: `# NUSANTARA (Phase 4: Spesifikasi Sintaks EBNF Selesai - v0.4.0)`
   },
   {
     jalur: 'contoh/01_halo.nusantara',
@@ -266,6 +231,17 @@ export const DAFTAR_PRESEDENSI_OPERATOR = [
   { tingkat: 6, nama: 'Perbandingan Kesetaraan', simbol: '==, !=', asosiasi: 'Kiri ke Kanan' },
   { tingkat: 7, nama: 'Konjungsi Logika (AND)', simbol: 'dan', asosiasi: 'Kiri ke Kanan' },
   { tingkat: 8, nama: 'Disjungsi Logika (OR)', simbol: 'atau', asosiasi: 'Kiri ke Kanan' },
+];
+
+export const DAFTAR_GLOSARIUM = [
+  { asing: 'Abstract Syntax Tree (AST)', lokal: 'Pohon Sintaksis Abstrak', ket: 'Representasi struktur logika kode sumber dalam bentuk pohon hierarki.' },
+  { asing: 'Assignment', lokal: 'Penugasan', ket: 'Pemberian atau penggantian nilai ke variabel menggunakan operator =.' },
+  { asing: 'Compiler', lokal: 'Kompilator', ket: 'Program penerjemah kode sumber menjadi kode mesin biner mandiri.' },
+  { asing: 'Escape Sequence', lokal: 'Karakter Lolos', ket: 'Karakter khusus yang diawali simbol \\ (seperti \\n untuk baris baru).' },
+  { asing: 'Immutable', lokal: 'Tak Terubahkan / Kekal', ket: 'Sifat nilai tetap (konstanta) yang dilarang diubah setelah didefinisikan.' },
+  { asing: 'Lexer / Tokenizer', lokal: 'Penganalisis Leksikal', ket: 'Komponen yang memecah aliran teks sumber menjadi token-token bermakna.' },
+  { asing: 'Parser', lokal: 'Penganalisis Sintaksis', ket: 'Komponen yang memvalidasi tata bahasa token dan membentuk pohon AST.' },
+  { asing: 'Short-circuit Evaluation', lokal: 'Evaluasi Hubung Singkat', ket: 'Penghentian evaluasi ekspresi logika jika hasil akhir sudah pasti.' },
 ];
 
 export const DAFTAR_KATA_KUNCI_PHASE2 = [
@@ -316,8 +292,8 @@ export const DAFTAR_FASE_ROADMAP = [
   { fase: 2, nama: 'Konstitusi Bahasa', versi: 'v0.2.0', kategori: 'Fondasi', status: 'Selesai' },
   { fase: 3, nama: 'Lisensi & Tata Kelola', versi: 'v0.3.0', kategori: 'Fondasi', status: 'Selesai' },
   { fase: 4, nama: 'Spesifikasi Sintaks (EBNF)', versi: 'v0.4.0', kategori: 'Fondasi', status: 'Selesai' },
-  { fase: 5, nama: 'Dokumentasi Awal', versi: 'v0.5.0', kategori: 'Fondasi', status: 'Berikutnya' },
-  { fase: 6, nama: 'Lexer', versi: 'v0.6.0', kategori: 'Mesin Inti', status: 'Rencana' },
+  { fase: 5, nama: 'Dokumentasi Awal & Panduan', versi: 'v0.5.0', kategori: 'Fondasi', status: 'Selesai' },
+  { fase: 6, nama: 'Lexer (Penganalisis Leksikal)', versi: 'v0.6.0', kategori: 'Mesin Inti', status: 'Berikutnya' },
   { fase: 7, nama: 'Parser', versi: 'v0.7.0', kategori: 'Mesin Inti', status: 'Rencana' },
   { fase: 8, nama: 'Interpreter', versi: 'v0.8.0', kategori: 'Mesin Inti', status: 'Rencana' },
   { fase: 9, nama: 'Variabel & Tipe Data', versi: 'v0.9.0', kategori: 'Mesin Inti', status: 'Rencana' },

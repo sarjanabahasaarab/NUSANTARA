@@ -2,11 +2,11 @@
 
 > **Bahasa Pemrograman 100% Bahasa Indonesia untuk Komputasi Modern, Terbuka, dan Berkelanjutan.**
 
-[![Status](https://img.shields.io/badge/status-fase_4:_spesifikasi_sintaks_ebnf-blue.svg)](ROADMAP.md)
-[![Versi](https://img.shields.io/badge/versi-v0.4.0-emerald.svg)](PERUBAHAN.md)
+[![Status](https://img.shields.io/badge/status-fase_5:_dokumentasi_awal_&_panduan-blue.svg)](ROADMAP.md)
+[![Versi](https://img.shields.io/badge/versi-v0.5.0-emerald.svg)](PERUBAHAN.md)
 [![Lisensi](https://img.shields.io/badge/lisensi-Apache_2.0-blue.svg)](LISENSI)
 [![Tata Bahasa](https://img.shields.io/badge/grammar-EBNF_ISO--14977-purple.svg)](dokumentasi/GRAMMAR-EBNF.md)
-[![Presedensi](https://img.shields.io/badge/operator-8_tingkat_resmi-teal.svg)](dokumentasi/PRIORITAS-OPERATOR.md)
+[![Dokumentasi](https://img.shields.io/badge/docs-buku_panduan_pemula-teal.svg)](docs/README.md)
 
 ---
 
@@ -18,10 +18,10 @@ NUSANTARA bukan sekadar terjemahan sintaksis bahasa asing, melainkan ikhtiar man
 
 - **Ekstensi Berkas Resmi:** `.nusantara`
 - **Lisensi:** [Apache License 2.0](LISENSI)
-- **Status Saat Ini:** **Masih dalam tahap pengembangan awal (Phase 4: Spesifikasi Sintaks EBNF Selesai).**
+- **Status Saat Ini:** **Masih dalam tahap spesifikasi & dokumentasi awal (Phase 5 Selesai - Target v0.5.0).**
+- **Pusat Buku Panduan:** [docs/README.md](docs/README.md) & [Indeks Lengkap](docs/indeks.md)
 - **Tata Bahasa Formal:** [GRAMMAR-EBNF.md](dokumentasi/GRAMMAR-EBNF.md)
 - **Dokumen Konstitusi Resmi:** [KONSTITUSI-BAHASA.md](dokumentasi/KONSTITUSI-BAHASA.md)
-- **Tata Kelola Proyek:** [TATA-KELOLA.md](TATA-KELOLA.md)
 
 ---
 
@@ -37,20 +37,39 @@ mulai
 selesai
 ```
 
+*(Catatan: Contoh ini menunjukkan rancangan sintaks resmi bahasa NUSANTARA dan belum dapat dijalankan sebelum alat eksekusi NUSANTARA tersedia pada fase kompilator berikutnya).*
+
 ---
 
-## 3. Dokumen Spesifikasi Sintaks Formal (Phase 4)
+## 3. Pusat Dokumentasi Resmi (`docs/`)
 
-- 📐 **[Tata Bahasa Formal EBNF](dokumentasi/GRAMMAR-EBNF.md):** Aturan produksi formal lengkap ISO/IEC 14977.
-- 🔤 **[Spesifikasi Token Leksikal](dokumentasi/TOKEN.md):** 10 kategori token, pemisah baris baru, dan urutan karakter lolos string.
-- 🏷️ **[Kaidah Pengidentifikasi](dokumentasi/IDENTIFIER.md):** Standar nama variabel, konstanta, fungsi, dan program.
-- 💎 **[Bentuk Literal](dokumentasi/LITERAL.md):** Sintaksis nilai teks, bilangan bulat, desimal, logika, dan kosong.
-- ⚡ **[Tata Bahasa Ekspresi](dokumentasi/EKSPRESI.md):** Struktur ekspresi bertingkat bebas ambiguitas parsing.
-- 📊 **[Tabel Prioritas Operator](dokumentasi/PRIORITAS-OPERATOR.md):** Pengesahan 8 tingkat presedensi dan asosiasi operator.
-- 🧱 **[Aturan Blok & Kontrol Aliran](dokumentasi/ATURAN-BLOK.md):** Batas blok percabangan, perulangan, dan subrutin fungsi.
-- 📂 **[Katalog Contoh Sintaks](dokumentasi/CONTOH-SINTAKS.md):** 10 contoh program acuan dengan label status kepatuhan.
-- ❓ **[Katalog Keputusan Terbuka](dokumentasi/KEPUTUSAN-TERBUKA.md):** Catatan fitur yang ditangguhkan pembahasannya ke fase berikutnya.
-- 🧪 **[Uji Kasus Spesifikasi](pengujian/spesifikasi/kasus-valid.md):** Kumpulan kasus valid, [15 Kasus Negatif](pengujian/spesifikasi/kasus-tidak-valid.md), dan [Daftar Periksa EBNF](pengujian/spesifikasi/grammar-checklist.md).
+Pelajari bahasa NUSANTARA melalui panduan terstruktur:
+
+- 📖 **[Pusat Dokumentasi](docs/README.md):** Pengantar lengkap dan panduan navigasi.
+- 🚀 **[Panduan Pemula](docs/panduan/program-pertama.md):**
+  - [Persiapan Lingkungan](docs/panduan/persiapan.md)
+  - [Menulis Program Pertama](docs/panduan/program-pertama.md)
+  - [Struktur Program Dasar](docs/panduan/struktur-program.md)
+  - [Variabel dan Tipe Data](docs/panduan/variabel-dan-tipe-data.md)
+  - [Operator](docs/panduan/operator.md)
+  - [Percabangan](docs/panduan/percabangan.md)
+  - [Perulangan](docs/panduan/perulangan.md)
+  - [Fungsi](docs/panduan/fungsi.md)
+- 📚 **[Referensi Bahasa](docs/referensi/sintaks.md):**
+  - [Ringkasan Sintaks](docs/referensi/sintaks.md)
+  - [Tabel 32 Kata Kunci](docs/referensi/keyword.md)
+  - [Tipe Data](docs/referensi/tipe-data.md)
+  - [Prioritas Operator 8 Tingkat](docs/referensi/operator.md)
+  - [Tata Bahasa EBNF](docs/referensi/tata-bahasa-ebnf.md)
+- 🛠️ **[Panduan Pengembang](docs/pengembang/struktur-proyek.md):**
+  - [Struktur Proyek](docs/pengembang/struktur-proyek.md)
+  - [Alur Pengembangan](docs/pengembang/alur-pengembangan.md)
+  - [Standar Dokumentasi](docs/pengembang/standar-dokumentasi.md)
+- 🤝 **[Panduan Kontribusi](docs/kontribusi/mulai-berkontribusi.md):**
+  - [Mulai Berkontribusi](docs/kontribusi/mulai-berkontribusi.md)
+  - [Alur Proposal NIP](docs/kontribusi/proses-nip.md)
+  - [Pedoman Gaya Kode (Style Guide)](docs/kontribusi/pedoman-kode.md)
+- 📖 **[Glosarium Istilah](docs/glosarium.md):** Kamus istilah pemrograman Bahasa Indonesia.
 
 ---
 
@@ -60,13 +79,14 @@ selesai
 [✓] Phase 1: Identitas & Fondasi NUSANTARA (v0.1.0)
 [✓] Phase 2: Konstitusi Bahasa NUSANTARA (v0.2.0)
 [✓] Phase 3: Lisensi & Tata Kelola NUSANTARA (v0.3.0)
-[✓] Phase 4: Spesifikasi Sintaks NUSANTARA (v0.4.0)  <-- Fase Selesai
-[ ] Phase 5: Dokumentasi Awal & Buku Panduan
+[✓] Phase 4: Spesifikasi Sintaks NUSANTARA (v0.4.0)
+[✓] Phase 5: Dokumentasi Awal & Buku Panduan (v0.5.0)  <-- Fase Selesai
+[ ] Phase 6: Lexer (Penganalisis Leksikal)
 ...
 [ ] Phase 36: NUSANTARA System & NusantaraOS
 ```
 
-> Status resmi: **Masih dalam tahap spesifikasi awal (Phase 4 Selesai).** Belum ada berkas biner kompilator yang dibuat pada fase ini. Implementasi Lexer akan dimulai secara resmi pada Phase 6.
+> Status resmi: **Masih dalam tahap spesifikasi awal (Phase 5 Selesai).** Belum ada berkas biner kompilator yang dibuat pada fase ini. Implementasi mesin kompilasi akan dimulai secara resmi pada **Phase 6 (Lexer)**.
 
 ---
 
