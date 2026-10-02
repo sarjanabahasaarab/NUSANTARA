@@ -1,103 +1,85 @@
 # Panduan Kontribusi Bahasa Pemrograman NUSANTARA
 
-Terima kasih atas minat Anda untuk berkontribusi dalam membangun dan mengembangkan **NUSANTARA**, bahasa pemrograman 100% Bahasa Indonesia untuk masa depan komputasi terbuka.
-
-Kami percaya bahwa kemandirian teknologi hanya dapat dicapai melalui keterbukaan, kolaborasi yang sehat, dan ketelitian rekayasa piranti lunak.
+Terima kasih atas minat Anda untuk berkontribusi dalam membangun dan mengembangkan **NUSANTARA**, bahasa pemrograman 100% Bahasa Indonesia untuk masa depan komputasi terbuka di bawah perlindungan [Apache License 2.0](LISENSI).
 
 ---
 
-## 1. Alur Kontribusi Komunitas
+## 1. Alur Kontribusi Bertahap
 
-Seluruh kontribusi pengembangan bahasa NUSANTARA dijalankan secara terbuka melalui GitHub dengan alur berikut:
+Untuk menjaga kualitas dan ketertiban rekayasa piranti lunak, setiap kontributor diharapkan mengikuti 10 langkah kontribusi berikut:
 
-```
-Masalah / Ide Baru (Issue)
-          │
-          ▼
-Diskusi Komunitas & Penyelarasan Konsep
-          │
-          ▼
-Proposal Resmi (NIP jika perubahan besar / Issue jika perbaikan kecil)
-          │
-          ▼
-Implementasi Teknis pada Branch Cabang
-          │
-          ▼
-Pengujian Mandiri & Otomatis
-          │
-          ▼
-Tinjauan Kode (Pull Request Review)
-          │
-          ▼
-Penggabungan ke Cabang Utama (Merge)
-          │
-          ▼
-Rilis Resmi Bertahap (Release Tagged)
-```
+1. **Membaca Dokumentasi Dasar:**
+   Pahami filosofi bahasa di [prinsip-desain.md](dokumentasi/prinsip-desain.md) dan ketentuan dasar di [KONSTITUSI-BAHASA.md](dokumentasi/KONSTITUSI-BAHASA.md).
+2. **Memeriksa Issue yang Ada:**
+   Sebelum memulai pekerjaan, periksa daftar issue di GitHub untuk memastikan topik atau galat tersebut belum pernah dilaporkan atau sedang dikerjakan orang lain.
+3. **Membuat Issue Diskusi:**
+   Jika menemukan kutu (*bug*) atau ingin mengusulkan perbaikan, buat Issue baru menggunakan template yang tersedia di `.github/ISSUE_TEMPLATE/`.
+4. **Membuat Fork atau Branch Kerja:**
+   Buat salinan repositori (*fork*) dan buat cabang kerja baru dari `develop`. **Dilarang keras melakukan push langsung ke cabang `main`**.
+5. **Membuat Perubahan Kecil & Terfokus:**
+   Hindari PR raksasa yang menggabungkan banyak hal tak terkait sekaligus. Buat perubahan atomik yang mudah ditinjau.
+6. **Menambahkan Pengujian:**
+   Sertakan skenario uji coba di folder `pengujian/` untuk membuktikan bahwa perubahan Anda berfungsi dan tidak memicu regresi.
+7. **Memperbarui Dokumentasi:**
+   Jika perubahan menyangkut perilaku, sintaksis, atau panduan baru, perbarui berkas dokumentasi terkait di folder `dokumentasi/`.
+8. **Mengirim Pull Request:**
+   Buka Pull Request menuju cabang `develop` dengan mengisi formulir lengkap di [.github/PULL_REQUEST_TEMPLATE.md](.github/PULL_REQUEST_TEMPLATE.md).
+9. **Menunggu Peninjauan (*Review*):**
+   Reviewer dan maintainer akan memeriksa kode Anda. Diskusikan masukan dengan pikiran terbuka dan profesional.
+10. **Menyempurnakan Masukan Reviewer:**
+    Lakukan perbaikan sesuai hasil tinjauan hingga PR disetujui (*Approved*) dan digabungkan (*Merged*).
 
 ---
 
-## 2. Struktur Cabang (*Branching Model*)
+## 2. Standar Penamaan Cabang Kerja (*Branching Model*)
 
-Untuk menjaga stabilitas repositori, tidak seorang pun diizinkan mendorong kode langsung (*direct push*) ke cabang `main`.
+Gunakan pola penamaan cabang kerja berikut:
 
-| Cabang | Peran & Tujuan |
-|---|---|
-| `main` | Cabang produksi yang selalu stabil. Hanya menerima penggabungan dari `develop` saat rilis versi baru telah siap dan ditandai tag rilis. |
-| `develop` | Cabang integrasi pengembangan aktif. Seluruh fitur yang telah diuji digabungkan ke cabang ini. |
-| `fitur/*` | Cabang pembuatan fitur atau spesifikasi baru (contoh: `fitur/tata-bahasa-fungsi`). |
-| `perbaikan/*` | Cabang perbaikan galat atau revisi dokumentasi (contoh: `perbaikan/ejaan-kata-kunci`). |
-| `eksperimen/*` | Cabang pengujian gagasan baru yang belum tentu dimasukkan ke inti bahasa (contoh: `eksperimen/pola-pencocokan`). |
+| Pola Cabang | Kegunaan | Contoh |
+|---|---|---|
+| `fitur/nama-fitur` | Menambahkan fitur atau spesifikasi bahasa baru | `fitur/sintaks-perulangan-untuk` |
+| `perbaikan/nama-perbaikan` | Memperbaiki galat spesifikasi atau kesalahan teknis | `perbaikan/koreksi-operator-modulo` |
+| `dokumentasi/nama-dokumen` | Menambah atau memperbaiki dokumen panduan | `dokumentasi/panduan-tipe-data` |
+| `eksperimen/nama-eksperimen` | Menguji coba gagasan baru yang bersifat eksploratif | `eksperimen/pola-pencocokan-ragam` |
+
+> ⚠️ **Aturan Ketat:** Seluruh kontributor tidak diizinkan melakukan komit langsung ke cabang `main`. Seluruh penggabungan kode wajib melalui mekanisme Pull Request dan persetujuan minimal satu Reviewer/Maintainer.
 
 ---
 
 ## 3. Nusantara Improvement Proposal (NIP)
 
-Apabila Anda hendak mengusulkan:
+Untuk usulan perubahan besar yang mencakup:
 - Penambahan atau penghapusan kata kunci bahasa.
 - Perubahan tata bahasa (*grammar*) atau semantik bahasa.
-- Desain arsitektur baru kompilator, runtime, atau pustaka standar.
-- Perubahan mekanisme sistem paket atau modul.
+- Desain arsitektur baru kompilator, runtime, atau format berkas mandiri.
 
-Maka Anda diwajibkan menulis dokumen **NIP (Nusantara Improvement Proposal)**.
-
-1. Buka folder `dokumentasi/nip/`.
-2. Salin format dari `NIP-0001.md`.
-3. Gunakan nomor urut berikutnya (misal: `NIP-0002.md`).
-4. Sertakan motivasi, spesifikasi sintaksis, dampak kompatibilitas balik, dan rencana pengujian.
-5. Ajukan *Pull Request* bertanda status `Draf` untuk didiskusikan bersama komunitas.
+Wajib diajukan melalui dokumen **NIP (Nusantara Improvement Proposal)** dengan menyalin format dari [dokumentasi/NIP/TEMPLATE-NIP.md](dokumentasi/NIP/TEMPLATE-NIP.md) dan mengikuti tahapan pada [dokumentasi/NIP/PROSES-NIP.md](dokumentasi/NIP/PROSES-NIP.md).
 
 ---
 
 ## 4. Standar Pesan Komit Git
 
-Pesan komit harus jelas, ringkas, dan menggunakan Bahasa Indonesia atau format konvensional yang tertib:
+Pesan komit harus jelas, tertib, dan mencerminkan perubahan yang dilakukan:
 
-Format: `<tipe>: <keterangan singkat>`
+Format: `<tipe>: <penjelasan singkat>`
 
 Contoh tipe:
-- `feat:` atau `fitur:` Penambahan fitur spesifikasi baru (contoh: `feat: fondasi awal bahasa NUSANTARA`)
-- `fix:` atau `perbaikan:` Perbaikan galat dokumentasi atau tata bahasa
-- `docs:` atau `dok:` Pembaruan dokumentasi, panduan, atau spesifikasi NIP
-- `refactor:` Restrukturisasi tata letak berkas tanpa mengubah perilaku
-- `test:` atau `uji:` Penambahan skenario pengujian atau uji leksikal
-- `chore:` Pemeliharaan berkas non-kode (skrip, konfig `.gitignore`, dsb.)
+- `feat:` Penambahan fitur atau spesifikasi baru
+- `fix:` Perbaikan galat dokumentasi atau tata bahasa
+- `docs:` Pembaruan dokumentasi atau proposal NIP
+- `test:` Penambahan kasus uji spesifikasi
+- `refactor:` Restrukturisasi tata letak tanpa mengubah perilaku
+- `chore:` Pemeliharaan perkakas, skrip verifikasi, atau konfigurasi Git
 
 ---
 
-## 5. Menjalankan Uji Pra-Pengajuan (Phase 1)
+## 5. Menjalankan Uji Kepatuhan Pra-Pengajuan
 
-Sebelum mengajukan *Pull Request* pada Phase 1, pastikan seluruh berkas fondasi lengkap dan tidak ada tautan yang rusak:
+Sebelum mengirim Pull Request, jalankan skrip verifikasi repositori:
 
 ```bash
-# Jalankan skrip verifikasi fondasi Phase 1
+# Uji kelengkapan seluruh dokumen resmi
 node skrip/periksa_fondasi.js
 ```
 
-Hasil verifikasi harus menyatakan seluruh komponen fondasi berstatus **LULUS**.
-
----
-
-## 6. Kode Etik
-
-Dengan berpartisipasi dalam proyek ini, Anda setuju untuk mematuhi ketentuan [KODE-ETIK.md](KODE-ETIK.md). Kami menjunjung tinggi rasa saling menghargai, komunikasi yang membangun, dan profesionalisme.
+Seluruh pengujian harus berstatus **LULUS** sebelum penggabungan kode disetujui.

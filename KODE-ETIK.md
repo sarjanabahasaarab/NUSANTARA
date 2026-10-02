@@ -1,38 +1,48 @@
 # Kode Etik Komunitas Pengembang NUSANTARA
 
-## Komitmen Kami
+## 1. Komitmen Komunitas
 
-Sebagai kontributor dan pemelihara proyek bahasa pemrograman **NUSANTARA**, kami bertekad menciptakan lingkungan kolaboratif yang inklusif, terbuka, ramah, dan bebas dari diskriminasi bagi setiap orang, tanpa memandang latar belakang, suku, agama, gender, tingkat keahlian, atau pengalaman teknis.
-
----
-
-## Standar Perilaku Positif
-
-Contoh perilaku yang mendukung iklim positif bagi komunitas:
-- Menggunakan bahasa yang santun, inklusif, dan profesional.
-- Terbuka terhadap perbedaan sudut pandang dan kritik konstruktif.
-- Menghargai waktu, usaha, dan kontribusi sesama anggota komunitas.
-- Berfokus pada apa yang terbaik bagi masa depan ekosistem bahasa NUSANTARA.
-- Bersedia membimbing rekan-rekan pengembang baru yang ingin belajar.
+Sebagai kontributor, peninjau, dan pemelihara ekosistem bahasa pemrograman **NUSANTARA**, kami bertekad menciptakan lingkungan kolaboratif yang inklusif, terbuka, saling menghargai, dan bebas dari diskriminasi bagi setiap orang, tanpa memandang latar belakang, suku, agama, ras, gender, tingkat kemahiran teknologi, atau pengalaman rekayasa perangkat lunak.
 
 ---
 
-## Perilaku yang Tidak Ditoleransi
+## 2. Prinsip Etika & Standar Perilaku Positif
 
-Perilaku yang dilarang keras di seluruh kanal proyek (GitHub Issues, PR, forum diskusi, dsb.):
-- Penggunaan bahasa kasar, bernada melecehkan, atau merendahkan pihak lain.
-- Pelecehan secara terbuka maupun pribadi (*trolling*, *flaming*, penghinaan personal).
-- Mempublikasikan informasi pribadi pihak lain (*doxxing*) tanpa persetujuan eksplisit.
-- Tindakan lain yang secara wajar dianggap tidak etis atau merusak keutuhan komunitas.
-
----
-
-## Tanggung Jawab & Penegakan
-
-Pemelihara proyek (*maintainers*) bertanggung jawab untuk memperjelas dan menegakkan standar perilaku ini. Pemelihara berhak menghapus, mengedit, atau menolak komentar, komit, kode, isu, atau kontribusi lain yang tidak selaras dengan Kode Etik ini, serta dapat mengambil tindakan penangguhan atau pemblokiran terhadap pelanggar berulang.
+Setiap anggota komunitas diharapkan menjunjung tinggi prinsip:
+1. **Saling Menghormati:** Berkomunikasi dengan bahasa yang santun, berniat baik, dan menghargai waktu serta dedikasi sesama kontributor.
+2. **Menerima Kritik Teknis Secara Profesional:** Membedakan antara kritik terhadap arsitektur kode dengan serangan personal; fokus pada solusi teknis terbaik untuk bahasa NUSANTARA.
+3. **Penyelesaian Perbedaan Melalui Musyawarah:** Menyelesaikan perdebatan desain melalui diskusi terbuka berlandaskan data, bukti pengujian, dan prinsip Konstitusi Bahasa.
+4. **Bimbingan untuk Pemula:** Menyambut kontributor baru dengan ramah, memberikan ulasan yang mendidik, dan membantu pengembang pemula bertumbuh.
 
 ---
 
-## Pelaporan Pelanggaran
+## 3. Perilaku yang Dilarang Keras
 
-Insiden pelanggaran dapat dilaporkan kepada tim pemelihara melalui kanal resmi repositori atau surel pemelihara yang tercantum di profil organisasi GitHub NUSANTARA. Seluruh laporan akan ditangani secara rahasia dan objektif.
+Tindakan-tindakan berikut dilarang di seluruh kanal resmi proyek (Issue, Pull Request, forum diskusi, dan media sosial resmi):
+1. **Pelecehan & Diskriminasi:** Segala bentuk ucapan atau tindakan merendahkan, menghina, atau melecehkan identitas personal.
+2. **Penyebaran Data Pribadi (*Doxxing*):** Mempublikasikan informasi pribadi pihak lain (surel, alamat, nomor telepon, percakapan privat) tanpa persetujuan eksplisit.
+3. **Spam & Promosi Komersial Ilegal:** Membanjiri issue atau pull request dengan pesan berulang, iklan, atau promosi yang tidak relevan dengan pengembangan bahasa.
+4. **Perilaku Menghasut & *Trolling*:** Sengaja memicu kemarahan, memecah belah komunitas, atau mengganggu jalannya musyawarah teknis.
+
+---
+
+## 4. Mekanisme Pelaporan Pelanggaran Secara Privat
+
+Apabila Anda mengalami, menyaksikan, atau mencurigai adanya pelanggaran terhadap Kode Etik ini, mohon laporkan secara privat untuk menjaga kerahasiaan dan objektivitas:
+
+- **Kanal Pelaporan Pelanggaran:** `[EMAIL_ATAU_KANAL_PELAPORAN_RESMI]`
+- **Tim Penangan:** Tim Pemelihara Utama (*Core Maintainers*) NUSANTARA.
+
+*(Catatan: Kanal pelaporan privat akan dikonfigurasi melalui pengaturan organisasi GitHub sebelum tim menerima pengaduan publik. Jangan menggunakan kontak pribadi tanpa mandat resmi).*
+
+Seluruh laporan akan diperiksa dengan asas keadilan, praduga tak bersalah, dan kerahasiaan penuh pelapor.
+
+---
+
+## 5. Penegakan & Sanksi
+
+Pelanggaran terhadap kode etik ini dapat dikenakan sanksi bertingkat oleh tim maintainer:
+1. **Teguran Pribadi:** Peringatan tertulis secara privat disertai penjelasan pelanggaran.
+2. **Peringatan Keras:** Penolakan atau penyuntingan komentar publik yang melanggar.
+3. **Penangguhan Sementara:** Pemblokiran sementara dari partisipasi pada repositori dan kanal organisasi.
+4. **Pemblokiran Permanen:** Larangan permanen atas seluruh interaksi dengan proyek NUSANTARA.

@@ -11,9 +11,9 @@ Setiap fase merupakan pencapaian rekayasa piranti lunak (*engineering milestone*
 | Fase | Nama Fase | Target Versi | Status |
 |---|---|---|---|
 | **Phase 1** | Identitas & Fondasi | `v0.1.0` | **Selesai** |
-| **Phase 2** | **Konstitusi Bahasa** | `v0.2.0` | **Selesai (Fase Saat Ini)** |
-| **Phase 3** | Lisensi & Tata Kelola | `v0.3.0` | Direncanakan Berikutnya |
-| **Phase 4** | Spesifikasi Sintaks (EBNF Formal) | `v0.4.0` | Direncanakan |
+| **Phase 2** | Konstitusi Bahasa | `v0.2.0` | **Selesai** |
+| **Phase 3** | **Lisensi & Tata Kelola** | `v0.3.0` | **Selesai (Fase Saat Ini)** |
+| **Phase 4** | Spesifikasi Sintaks (EBNF Formal) | `v0.4.0` | Direncanakan Berikutnya |
 | **Phase 5** | Dokumentasi Awal & Buku Panduan | `v0.5.0` | Direncanakan |
 | **Phase 6** | Lexer (Penganalisis Leksikal) | `v0.6.0` | Direncanakan |
 | **Phase 7** | Parser (Penganalisis Sintaksis) | `v0.7.0` | Direncanakan |
@@ -53,8 +53,8 @@ Setiap fase merupakan pencapaian rekayasa piranti lunak (*engineering milestone*
 
 ### Blok A: Fondasi & Spesifikasi (Phase 1 – 5)
 - **Phase 1 — Identitas & Fondasi:** Struktur repo, ekstensi `.nusantara`, filosofi bahasa, NIP-0001, contoh kode awal, alur Git & rilis v0.1.0. *(Selesai)*
-- **Phase 2 — Konstitusi Bahasa:** Piagam 10 prinsip konstitusi, struktur program resmi awal, tabel 32 kata kunci, tipe data dasar, operator, aturan penamaan, standar pesan galat, kebijakan kompatibilitas, NIP-0002, dan kasus uji spesifikasi. *(Selesai)*
-- **Phase 3 — Lisensi & Tata Kelola:** Badan pengawas bahasa (*Language Board*), komite review NIP, piagam kontributor, hak cipta, dan perlindungan merek terbuka.
+- **Phase 2 — Konstitusi Bahasa:** Piagam 10 prinsip konstitusi, struktur program awal, 32 kata kunci, tipe data dasar, operator, aturan penamaan, standar pesan galat, NIP-0002, dan kasus uji spesifikasi. *(Selesai)*
+- **Phase 3 — Lisensi & Tata Kelola:** Lisensi Apache 2.0 resmi, piagam tata kelola 5 peran komunitas, alur NIP 7 tahap, templat NIP, templat GitHub Issues & PR, kebijakan keamanan (responsible disclosure), dan panduan pengaturan GitHub. *(Selesai)*
 - **Phase 4 — Spesifikasi Sintaks:** EBNF (*Extended Backus-Naur Form*) resmi tata bahasa NUSANTARA dan eliminasi ambiguitas parsing.
 - **Phase 5 — Dokumentasi Awal:** Buku pegangan pemula, glosarium teknis resmi Bahasa Indonesia, dan panduan gaya penulisan kode.
 

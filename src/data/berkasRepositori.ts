@@ -8,6 +8,216 @@ export interface BerkasRepo {
 }
 
 export const BERKAS_REPOSITORI: BerkasRepo[] = [
+  // --- FASE 3: LISENSI & TATA KELOLA ---
+  {
+    jalur: 'LISENSI',
+    nama: 'LISENSI',
+    kategori: 'Lisensi Resmi (Apache 2.0)',
+    bahasa: 'teks',
+    ukuran: 11354,
+    konten: `                                 Apache License
+                           Version 2.0, January 2004
+                        http://www.apache.org/licenses/
+
+   TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
+   ...
+   Copyright [TAHUN] [NAMA PEMEGANG HAK CIPTA]
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.`
+  },
+  {
+    jalur: 'TATA-KELOLA.md',
+    nama: 'TATA-KELOLA.md',
+    kategori: 'Tata Kelola Komunitas',
+    bahasa: 'markdown',
+    ukuran: 3593,
+    konten: `# Tata Kelola Proyek & Komunitas NUSANTARA
+
+Struktur 5 Peran Komunitas:
+1. Pengguna (Users): Menggunakan bahasa, memberi umpan balik, dan melaporkan kutu.
+2. Kontributor (Contributors): Mengajukan kode, dokumentasi, pengujian melalui PR.
+3. Peninjau (Reviewers): Meninjau kelayakan, kepatuhan konstitusi, dan keamanan kode.
+4. Pemelihara (Maintainers): Tim inti penanggung jawab repositori, roadmap, dan NIP.
+5. Pengelola Rilis (Release Managers): Mengoordinasikan pembekuan kode dan rilis versi.`
+  },
+  {
+    jalur: 'KEAMANAN.md',
+    nama: 'KEAMANAN.md',
+    kategori: 'Kebijakan Keamanan',
+    bahasa: 'markdown',
+    ukuran: 2825,
+    konten: `# Kebijakan Keamanan Proyek NUSANTARA
+
+1. Pelaporan Bertanggung Jawab (Responsible Disclosure):
+   Laporkan kerentanan secara privat melalui GitHub Private Vulnerability Reporting atau kanal keamanan privat.
+   JANGAN membuka issue publik sebelum perbaikan dikoordinasikan.
+2. Larangan Rahasia dalam Kode: Dilarang memasukkan token, password, atau API keys.
+3. Audit Dependensi: Pemeriksaan berkala atas kerentanan pihak ketiga.`
+  },
+  {
+    jalur: 'KONTRIBUSI.md',
+    nama: 'KONTRIBUSI.md',
+    kategori: 'Panduan Kontribusi 10 Langkah',
+    bahasa: 'markdown',
+    ukuran: 4318,
+    konten: `# Panduan Kontribusi Bahasa Pemrograman NUSANTARA
+
+10 Langkah Kontribusi:
+1. Membaca dokumentasi dasar.
+2. Memeriksa issue yang sudah ada.
+3. Membuat issue diskusi baru.
+4. Membuat fork atau branch kerja.
+5. Membuat perubahan kecil & terfokus.
+6. Menambahkan pengujian.
+7. Memperbarui dokumentasi.
+8. Mengirim Pull Request.
+9. Menunggu peninjauan (review).
+10. Menyempurnakan masukan reviewer.
+
+Format Branch:
+fitur/nama-fitur, perbaikan/nama-perbaikan, dokumentasi/nama-dokumen, eksperimen/nama-eksperimen.`
+  },
+  {
+    jalur: 'KODE-ETIK.md',
+    nama: 'KODE-ETIK.md',
+    kategori: 'Kode Etik Komunitas',
+    bahasa: 'markdown',
+    ukuran: 3117,
+    konten: `# Kode Etik Komunitas Pengembang NUSANTARA
+
+Prinsip Etika Komunitas:
+1. Saling Menghormati
+2. Menerima Kritik Teknis Secara Profesional
+3. Penyelesaian Perbedaan Melalui Musyawarah
+4. Bimbingan Ramah untuk Pemula
+5. Pelaporan Pelanggaran Privat melalui [EMAIL_ATAU_KANAL_PELAPORAN_RESMI]`
+  },
+  {
+    jalur: 'dokumentasi/LISENSI.md',
+    nama: 'LISENSI.md',
+    kategori: 'Panduan Lisensi Apache 2.0',
+    bahasa: 'markdown',
+    ukuran: 4433,
+    konten: `# Panduan & Penjelasan Lisensi Apache License 2.0 NUSANTARA
+
+Hak Pengguna & Pengembang:
+- Penggunaan komersial & pribadi tanpa royalti.
+- Kebebasan modifikasi dan distribusi ulang.
+- Perlindungan hibah paten timbal balik (patent grant).
+- Kewajiban mencantumkan lisensi, atribusi, dan pemberitahuan perubahan.`
+  },
+  {
+    jalur: 'dokumentasi/KEBIJAKAN-LISENSI.md',
+    nama: 'KEBIJAKAN-LISENSI.md',
+    kategori: 'Kebijakan Dependensi & Aset',
+    bahasa: 'markdown',
+    ukuran: 2730,
+    konten: `# Kebijakan Lisensi Komponen & Dependensi Eksternal NUSANTARA
+
+Ketentuan Lisensi:
+- Kode utama: Apache License 2.0.
+- Dependensi pihak ketiga: Wajib berlisensi permisif yang kompatibel (MIT, BSD, Apache 2.0).
+- Aset media (font, gambar, audio): Wajib memiliki hak penggunaan jelas (CC BY / OFL).
+- Kontribusi dengan lisensi tidak jelas wajib ditangguhkan.`
+  },
+  {
+    jalur: 'dokumentasi/NIP/PROSES-NIP.md',
+    nama: 'PROSES-NIP.md',
+    kategori: 'Alur 7 Tahapan NIP',
+    bahasa: 'markdown',
+    ukuran: 2483,
+    konten: `# Alur & Proses Nusantara Improvement Proposal (NIP)
+
+Tahapan Siklus Hidup NIP:
+1. Draf
+2. Dalam Diskusi
+3. Peninjauan Formal
+4. Diterima / Ditunda / Ditolak
+5. Implementasi Teknis
+6. Dokumentasi & Pengujian
+7. Diterapkan dalam Rilis`
+  },
+  {
+    jalur: 'dokumentasi/NIP/TEMPLATE-NIP.md',
+    nama: 'TEMPLATE-NIP.md',
+    kategori: 'Format Templat NIP',
+    bahasa: 'markdown',
+    ukuran: 2232,
+    konten: `# NIP-XXXX: [Judul Proposal Peningkatan Nusantara]
+
+Bagian Wajib Templat NIP:
+1. Ringkasan
+2. Motivasi
+3. Rancangan Spesifikasi Teknis
+4. Dampak Kompatibilitas
+5. Pertimbangan Alternatif
+6. Rencana Pengujian
+7. Rencana Dokumentasi
+8. Riwayat Keputusan`
+  },
+  {
+    jalur: '.github/ISSUE_TEMPLATE/bug.md',
+    nama: 'bug.md',
+    kategori: 'Templat GitHub Issue',
+    bahasa: 'markdown',
+    ukuran: 1174,
+    konten: `---
+name: Laporan Kutu (Bug Report)
+about: Laporkan kesalahan atau perilaku tak terduga pada spesifikasi atau perkakas NUSANTARA
+---
+### Ringkasan Masalah
+### Langkah Reproduksi
+### Kode Sumber Terkait (.nusantara)
+### Hasil yang Diharapkan vs Terjadi
+### Informasi Lingkungan Pengujian`
+  },
+  {
+    jalur: '.github/ISSUE_TEMPLATE/fitur.md',
+    nama: 'fitur.md',
+    kategori: 'Templat GitHub Issue',
+    bahasa: 'markdown',
+    ukuran: 960,
+    konten: `---
+name: Usulan Fitur Baru (Feature Request)
+about: Usulkan penambahan kemampuan atau perbaikan spesifikasi bahasa NUSANTARA
+---
+### Masalah yang Ingin Diselesaikan
+### Usulan Fitur Baru
+### Contoh Penggunaan (.nusantara)
+### Dampak Kompatibilitas`
+  },
+  {
+    jalur: '.github/PULL_REQUEST_TEMPLATE.md',
+    nama: 'PULL_REQUEST_TEMPLATE.md',
+    kategori: 'Templat GitHub PR',
+    bahasa: 'markdown',
+    ukuran: 1369,
+    konten: `## Ringkasan Perubahan
+## Alasan Perubahan
+## Daftar Berkas yang Diubah / Ditambahkan
+## Pengujian yang Dijalankan
+## Dokumentasi yang Diperbarui
+## Dampak terhadap Kompatibilitas
+## Checklist Kontributor`
+  },
+  {
+    jalur: 'dokumentasi/PENGATURAN-GITHUB.md',
+    nama: 'PENGATURAN-GITHUB.md',
+    kategori: 'Panduan Pengaturan GitHub',
+    bahasa: 'markdown',
+    ukuran: 3605,
+    konten: `# Panduan Manual Pengaturan Repositori GitHub NUSANTARA
+
+Panduan Konfigurasi:
+1. Mengaktifkan Issues & Discussions
+2. Mengaktifkan Template Issue & PR
+3. Perlindungan Cabang Utama (Branch Protection)
+4. Pengaturan Hak Akses Tim (Collaborators)
+5. Mengaktifkan Pelaporan Keamanan Privat
+6. Prosedur Penandaan Tag & Rilis`
+  },
+
   // --- FASE 2: KONSTITUSI & SPESIFIKASI ---
   {
     jalur: 'dokumentasi/KONSTITUSI-BAHASA.md',
@@ -15,21 +225,7 @@ export const BERKAS_REPOSITORI: BerkasRepo[] = [
     kategori: 'Konstitusi Resmi (Phase 2)',
     bahasa: 'markdown',
     ukuran: 4818,
-    konten: `# Konstitusi Bahasa Pemrograman NUSANTARA
-
-Dokumen ini merupakan piagam konstitusional resmi bagi bahasa pemrograman NUSANTARA.
-
-10 Prinsip Konstitusi Bahasa:
-1. Bahasa Indonesia sebagai Bahasa Utama Sintaks
-2. Keterbacaan dan Konsistensi Sintaks
-3. Skalabilitas Multi-Domain (Skrip hingga NusantaraOS)
-4. Spesifikasi yang Dapat Diuji (Testable Specification)
-5. Transparansi Perubahan Sintaks
-6. Tata Kelola Perubahan Merusak Melalui NIP
-7. Kepatuhan Implementasi Kompilator
-8. Integritas Rekayasa (Tanpa Klaim Palsu)
-9. Kemandirian Sistem Operasi (Cross-Platform by Design)
-10. Keterbukaan & Kolaborasi Terbuka (MIT License)`
+    konten: `# Konstitusi Bahasa Pemrograman NUSANTARA\n\n10 Prinsip Konstitusi Bahasa dan Struktur Program Resmi Awal.`
   },
   {
     jalur: 'dokumentasi/KEYWORD.md',
@@ -37,11 +233,7 @@ Dokumen ini merupakan piagam konstitusional resmi bagi bahasa pemrograman NUSANT
     kategori: 'Tabel 32 Kata Kunci',
     bahasa: 'markdown',
     ukuran: 5098,
-    konten: `# Tabel Kata Kunci Resmi Bahasa NUSANTARA
-
-32 Kata Kunci Resmi (21 Ditetapkan, 11 Rancangan):
-- Ditetapkan: program, mulai, selesai, variabel, tetap, fungsi, kembalikan, jika, maka, selain, akhir, selama, untuk, dari, sampai, lakukan, hentikan, lanjutkan, benar, salah, kosong.
-- Rancangan: coba, tangkap, lempar, impor, buat, kelas, umum, pribadi, lindungi, baru, hapus.`
+    konten: `# Tabel Kata Kunci Resmi Bahasa NUSANTARA (32 Kata Kunci).`
   },
   {
     jalur: 'dokumentasi/TIPE-DATA.md',
@@ -49,23 +241,7 @@ Dokumen ini merupakan piagam konstitusional resmi bagi bahasa pemrograman NUSANT
     kategori: 'Spesifikasi Tipe Data',
     bahasa: 'markdown',
     ukuran: 3235,
-    konten: `# Spesifikasi Tipe Data & Deklarasi Nilai Bahasa NUSANTARA
-
-Taksonomi Tipe Data Awal:
-- teks: Rangkaian karakter Unicode UTF-8
-- bilangan: Bilangan bulat (integer)
-- desimal: Bilangan pecahan presisi ganda
-- logika: Nilai kebenaran boolean (benar / salah)
-- karakter: Satu satuan karakter tunggal
-- daftar: Kumpulan nilai berurutan terindeks [RANCANGAN]
-- peta: Pasangan kunci-nilai dictionary [RANCANGAN]
-- tanggal & waktu: Format penanggalan & masa [RANCANGAN]
-- kosong: Representasi ketiadaan nilai (null/void)
-
-Format Deklarasi:
-nama : teks = "Nusantara"
-variabel skor : bilangan = 0
-tetap BATAS_MAX : bilangan = 100`
+    konten: `# Spesifikasi Tipe Data & Deklarasi Nilai Bahasa NUSANTARA.`
   },
   {
     jalur: 'dokumentasi/OPERATOR.md',
@@ -73,23 +249,7 @@ tetap BATAS_MAX : bilangan = 100`
     kategori: 'Klasifikasi Operator',
     bahasa: 'markdown',
     ukuran: 3534,
-    konten: `# Klasifikasi & Prioritas Operator Bahasa NUSANTARA
-
-Operator Aritmetika: +, -, *, /, %
-Operator Perbandingan: ==, !=, >, <, >=, <=
-Operator Penugasan: =
-Operator Logika Bahasa Indonesia: dan, atau, tidak
-
-Rancangan Tabel Presedensi:
-Tingkat 1: ( ) Pengelompokan
-Tingkat 2: tidak, - (unari)
-Tingkat 3: *, /, %
-Tingkat 4: +, -
-Tingkat 5: <, <=, >, >=
-Tingkat 6: ==, !=
-Tingkat 7: dan
-Tingkat 8: atau
-Tingkat 9: = (penugasan)`
+    konten: `# Klasifikasi & Prioritas Operator Bahasa NUSANTARA.`
   },
   {
     jalur: 'dokumentasi/ATURAN-PENAMAAN.md',
@@ -97,17 +257,7 @@ Tingkat 9: = (penugasan)`
     kategori: 'Aturan Penamaan & Komentar',
     bahasa: 'markdown',
     ukuran: 3745,
-    konten: `# Aturan Penamaan Pengidentifikasi & Komentar Bahasa NUSANTARA
-
-Kaidah Penamaan:
-- Huruf, angka, dan garis bawah (_).
-- Karakter pertama WAJIB huruf atau garis bawah, TIDAK BOLEH diawali angka.
-- Dilarang sama dengan 32 kata kunci resmi.
-- Peka huruf besar dan kecil (case-sensitive).
-
-Komentar:
-// Komentar satu baris (DITETAPKAN)
-/* Komentar multibaris (RANCANGAN) */`
+    konten: `# Aturan Penamaan Pengidentifikasi & Komentar Bahasa NUSANTARA.`
   },
   {
     jalur: 'dokumentasi/PESAN-KESALAHAN.md',
@@ -115,14 +265,7 @@ Komentar:
     kategori: 'Standar Pesan Galat',
     bahasa: 'markdown',
     ukuran: 3469,
-    konten: `# Standar Pesan Kesalahan Diagnostik Bahasa NUSANTARA
-
-Standar format diagnostik Bahasa Indonesia:
-[Kategori Kesalahan] pada berkas: [nama], baris [X], kolom [Y]:
-    [Kutipan kode bermasalah]
-    ^^^^^ [Penunjuk posisi]
-Penyebab: [Penjelasan deskriptif]
-Saran:    [Rekomendasi perbaikan]`
+    konten: `# Standar Pesan Kesalahan Diagnostik Bahasa NUSANTARA.`
   },
   {
     jalur: 'dokumentasi/KOMPATIBILITAS.md',
@@ -130,14 +273,7 @@ Saran:    [Rekomendasi perbaikan]`
     kategori: 'Kebijakan Kompatibilitas',
     bahasa: 'markdown',
     ukuran: 2655,
-    konten: `# Kebijakan Kompatibilitas Versi Bahasa NUSANTARA
-
-Prinsip Stabilitas:
-1. Perlindungan Kode Sah
-2. Dokumentasi Komprehensif Perubahan
-3. Kewajiban Pengajuan NIP untuk Perubahan Merusak (Breaking Changes)
-4. Keterlacakan Spesifikasi (Traceability)
-5. Skema Semantic Versioning (vMAJOR.MINOR.PATCH)`
+    konten: `# Kebijakan Kompatibilitas Versi Bahasa NUSANTARA.`
   },
   {
     jalur: 'dokumentasi/nip/NIP-0002.md',
@@ -145,14 +281,7 @@ Prinsip Stabilitas:
     kategori: 'Proposal Konstitusi (Phase 2)',
     bahasa: 'markdown',
     ukuran: 4197,
-    konten: `# NIP-0002: Konstitusi Bahasa NUSANTARA
-
-- NIP Nomor: 0002
-- Judul: Konstitusi Bahasa NUSANTARA
-- Status: Diterima (Accepted)
-- Milestone: v0.2.0
-
-Proposal ini merumuskan Konstitusi Resmi Bahasa Pemrograman NUSANTARA sebagai landasan baku hukum tata bahasa, etika rekayasa perangkat lunak, serta spesifikasi awal struktur blok, kata kunci, tipe data dasar, operator, aturan penamaan, dan penanganan diagnostik kesalahan.`
+    konten: `# NIP-0002: Konstitusi Bahasa NUSANTARA (Accepted).`
   },
   {
     jalur: 'pengujian/spesifikasi/program-valid.nusantara',
@@ -160,28 +289,7 @@ Proposal ini merumuskan Konstitusi Resmi Bahasa Pemrograman NUSANTARA sebagai la
     kategori: 'Kasus Uji Program Valid',
     bahasa: 'nusantara',
     ukuran: 710,
-    konten: `program UjiKonstitusi
-
-mulai
-    namaPengembang : teks = "Komunitas Nusantara"
-    versiFase : bilangan = 2
-    skorKelayakan : desimal = 98.5
-    fondasiSah : logika = benar
-
-    tetap BATAS_MINIMAL : bilangan = 70
-
-    tampilkan("Nama Proyek: " + namaPengembang)
-
-    jika skorKelayakan >= BATAS_MINIMAL maka
-        tampilkan("Status Konstitusi: Disahkan")
-    selain
-        tampilkan("Status Konstitusi: Perlu Peninjauan")
-    akhir
-
-    untuk hitungan dari 1 sampai 3 lakukan
-        tampilkan(hitungan)
-    akhir
-selesai`
+    konten: `program UjiKonstitusi\n\nmulai\n    nama : teks = "Nusantara"\n    tampilkan(nama)\nselesai`
   },
   {
     jalur: 'pengujian/spesifikasi/program-tidak-valid.md',
@@ -189,15 +297,7 @@ selesai`
     kategori: 'Katalog Kasus Tak Valid',
     bahasa: 'markdown',
     ukuran: 3217,
-    konten: `# Katalog Kasus Uji Program Tidak Valid (Spesifikasi Konstitusi Phase 2)
-
-Kasus-kasus Pelanggaran Konstitusi:
-1. Program Tanpa Kata Kunci 'mulai'
-2. Program Tanpa Kata Kunci 'selesai'
-3. Nama Program Diawali Angka (misal: '123ProgramUtama')
-4. Nama Variabel Menggunakan Kata Kunci (misal: 'jika : bilangan = 10')
-5. Deklarasi Tipe Data Tidak Lengkap (misal: 'skor : = 100')
-6. Blok Kondisi 'jika' Tidak Ditutup 'akhir'`
+    konten: `# Katalog Kasus Uji Program Tidak Valid (Spesifikasi Konstitusi Phase 2).`
   },
 
   // --- BERKAS ROOT UTAMA ---
@@ -206,70 +306,24 @@ Kasus-kasus Pelanggaran Konstitusi:
     nama: 'README.md',
     kategori: 'Dokumentasi Utama',
     bahasa: 'markdown',
-    ukuran: 9841,
-    konten: `# NUSANTARA
-
-> **Bahasa Pemrograman 100% Bahasa Indonesia untuk Komputasi Modern, Terbuka, dan Berkelanjutan.**
-
-Status Saat Ini: Phase 2 Selesai (Konstitusi Bahasa NUSANTARA - v0.2.0).`
+    ukuran: 7150,
+    konten: `# NUSANTARA\n\nBahasa Pemrograman 100% Bahasa Indonesia untuk Komputasi Modern, Terbuka, dan Berkelanjutan.\nLisensi: Apache License 2.0.`
   },
   {
     jalur: 'PERUBAHAN.md',
     nama: 'PERUBAHAN.md',
     kategori: 'Catatan Rilis (Changelog)',
     bahasa: 'markdown',
-    ukuran: 4103,
-    konten: `# Catatan Perubahan (CHANGELOG) NUSANTARA
-
-## [v0.2.0] — 2026-10-02
-### Phase 2: Konstitusi Bahasa NUSANTARA
-- Menetapkan Konstitusi Bahasa (KONSTITUSI-BAHASA.md).
-- Menetapkan Tabel 32 Kata Kunci (KEYWORD.md).
-- Menetapkan Taksonomi Tipe Data (TIPE-DATA.md).
-- Menetapkan Klasifikasi Operator (OPERATOR.md).
-- Menetapkan Aturan Penamaan & Komentar (ATURAN-PENAMAAN.md).
-- Menetapkan Standar Pesan Kesalahan (PESAN-KESALAHAN.md).
-- Menetapkan Kebijakan Kompatibilitas Versi (KOMPATIBILITAS.md).
-- Menerbitkan Proposal NIP-0002.
-- Rangkaian Uji Spesifikasi (program-valid.nusantara & program-tidak-valid.md).`
+    ukuran: 4101,
+    konten: `# Catatan Perubahan NUSANTARA\n\n- v0.3.0: Phase 3 (Lisensi & Tata Kelola)\n- v0.2.0: Phase 2 (Konstitusi Bahasa)\n- v0.1.0: Phase 1 (Identitas & Fondasi).`
   },
   {
     jalur: 'ROADMAP.md',
     nama: 'ROADMAP.md',
     kategori: 'Peta Jalan 36 Fase',
     bahasa: 'markdown',
-    ukuran: 8153,
-    konten: `# Peta Jalan Pengembangan (ROADMAP) Bahasa Pemrograman NUSANTARA
-
-Phase 1: Identitas & Fondasi (v0.1.0 - Selesai)
-Phase 2: Konstitusi Bahasa (v0.2.0 - Selesai)
-Phase 3: Lisensi & Tata Kelola (v0.3.0 - Berikutnya)
-...
-Phase 36: NUSANTARA System & NusantaraOS (v1.0.0)`
-  },
-  {
-    jalur: 'LISENSI',
-    nama: 'LISENSI',
-    kategori: 'Tata Kelola Hukum',
-    bahasa: 'teks',
-    ukuran: 2386,
-    konten: `MIT License (c) 2026 Pengembang & Kontributor Bahasa Pemrograman NUSANTARA`
-  },
-  {
-    jalur: 'KONTRIBUSI.md',
-    nama: 'KONTRIBUSI.md',
-    kategori: 'Pedoman Komunitas',
-    bahasa: 'markdown',
-    ukuran: 3784,
-    konten: `# Panduan Kontribusi Bahasa Pemrograman NUSANTARA`
-  },
-  {
-    jalur: 'KODE-ETIK.md',
-    nama: 'KODE-ETIK.md',
-    kategori: 'Etika Komunitas',
-    bahasa: 'markdown',
-    ukuran: 1908,
-    konten: `# Kode Etik Komunitas Pengembang NUSANTARA`
+    ukuran: 8201,
+    konten: `# Peta Jalan Pengembangan (ROADMAP) Bahasa Pemrograman NUSANTARA\n\nPhase 1 Selesai, Phase 2 Selesai, Phase 3 Selesai (v0.3.0), Phase 4 Berikutnya.`
   },
   {
     jalur: 'dokumentasi/nip/NIP-0001.md',
@@ -277,7 +331,7 @@ Phase 36: NUSANTARA System & NusantaraOS (v1.0.0)`
     kategori: 'Proposal Fondasi',
     bahasa: 'markdown',
     ukuran: 4766,
-    konten: `# NIP-0001: Identitas dan Prinsip Dasar Bahasa NUSANTARA`
+    konten: `# NIP-0001: Identitas dan Prinsip Dasar Bahasa NUSANTARA.`
   },
   {
     jalur: 'contoh/01_halo.nusantara',
@@ -356,8 +410,6 @@ export const DAFTAR_KATA_KUNCI_PHASE2 = [
   { kw: 'hapus', status: 'RANCANGAN', arti: 'Dealokasi memori manual' },
 ];
 
-export const DAFTAR_KATA_KUNCI = DAFTAR_KATA_KUNCI_PHASE2.map(k => k.kw);
-
 export const DAFTAR_TIPE_DATA = [
   'teks', 'bilangan', 'desimal', 'logika', 'karakter', 'daftar', 'peta', 'tanggal', 'waktu', 'kosong'
 ];
@@ -369,8 +421,8 @@ export const DAFTAR_OPERATOR = [
 export const DAFTAR_FASE_ROADMAP = [
   { fase: 1, nama: 'Identitas & Fondasi', versi: 'v0.1.0', kategori: 'Fondasi', status: 'Selesai' },
   { fase: 2, nama: 'Konstitusi Bahasa', versi: 'v0.2.0', kategori: 'Fondasi', status: 'Selesai' },
-  { fase: 3, nama: 'Lisensi & Tata Kelola', versi: 'v0.3.0', kategori: 'Fondasi', status: 'Berikutnya' },
-  { fase: 4, nama: 'Spesifikasi Sintaks (EBNF)', versi: 'v0.4.0', kategori: 'Fondasi', status: 'Rencana' },
+  { fase: 3, nama: 'Lisensi & Tata Kelola', versi: 'v0.3.0', kategori: 'Fondasi', status: 'Selesai' },
+  { fase: 4, nama: 'Spesifikasi Sintaks (EBNF)', versi: 'v0.4.0', kategori: 'Fondasi', status: 'Berikutnya' },
   { fase: 5, nama: 'Dokumentasi Awal', versi: 'v0.5.0', kategori: 'Fondasi', status: 'Rencana' },
   { fase: 6, nama: 'Lexer', versi: 'v0.6.0', kategori: 'Mesin Inti', status: 'Rencana' },
   { fase: 7, nama: 'Parser', versi: 'v0.7.0', kategori: 'Mesin Inti', status: 'Rencana' },

@@ -1,47 +1,37 @@
 # Dokumentasi Resmi Bahasa Pemrograman NUSANTARA
 
-Selamat datang di pusat dokumentasi resmi **NUSANTARA**. Folder ini memuat seluruh konstitusi, spesifikasi teknis, pedoman leksikal, tata kelola versi, filosofi arsitektur, dan arsip usulan perbaikan bahasa (*NIP*).
+Selamat datang di pusat dokumentasi resmi **NUSANTARA**. Folder ini memuat seluruh tata kelola, konstitusi, kebijakan lisensi, spesifikasi teknis, pedoman leksikal, tata kelola versi, dan arsip usulan perbaikan bahasa (*NIP*).
 
 ---
 
-## Indeks Dokumen Konstitusi & Fondasi
+## Indeks Dokumen Repositori
 
-### Dokumen Konstitusi Resmi (Phase 2):
-1. **[Konstitusi Bahasa NUSANTARA](KONSTITUSI-BAHASA.md)**
-   - 10 Prinsip Konstitusi Bahasa.
-   - Ketetapan struktur program resmi awal (`program`, `mulai`, `selesai`).
-2. **[Tabel Kata Kunci Resmi (Keywords)](KEYWORD.md)**
-   - 32 kata kunci resmi (21 ditetapkan, 11 rancangan).
-   - Arti leksikal, fungsi komputasi, contoh sintaksis, dan fase implementasi.
-3. **[Spesifikasi Tipe Data](TIPE-DATA.md)**
-   - Taksonomi tipe data dasar: `teks`, `bilangan`, `desimal`, `logika`, `karakter`, `daftar`, `peta`, `tanggal`, `waktu`, `kosong`.
-   - Pembedaan wadah dinamis `variabel` vs konstanta mutlak `tetap`.
-4. **[Klasifikasi & Prioritas Operator](OPERATOR.md)**
-   - Operator aritmetika, perbandingan (relasional), logika berbahasa Indonesia (`dan`, `atau`, `tidak`), dan penugasan (`=`).
-   - Rancangan tabel presedensi 9 tingkat.
-5. **[Aturan Penamaan & Komentar](ATURAN-PENAMAAN.md)**
-   - Kaidah leksikal pengidentifikasi (karakter awal, larangan kata kunci, case-sensitivity).
-   - Sintaksis komentar satu baris (`//`) dan multibaris (`/* ... */`).
-6. **[Standar Pesan Kesalahan](PESAN-KESALAHAN.md)**
-   - Standar format pesan diagnostik galat sintaksis, tipe data, dan pengidentifikasi berbahasa Indonesia.
-7. **[Kebijakan Kompatibilitas Versi](KOMPATIBILITAS.md)**
-   - Komitmen stabilitas kode, skema penomoran versi SemVer, dan kewajiban proposal NIP untuk perubahan merusak.
+### 1. Tata Kelola & Kebijakan Lisensi (Phase 3):
+- **[Panduan Lisensi Apache 2.0](LISENSI.md)**: Penjelasan hak pengguna, pengembang, hibah paten, dan atribusi.
+- **[Kebijakan Lisensi Komponen](KEBIJAKAN-LISENSI.md)**: Ketentuan lisensi dependensi pihak ketiga dan aset media.
+- **[Kebijakan Versi & Rilis](KEBIJAKAN-RILIS.md)**: Skema SemVer dan panduan kenaikan angka versi.
+- **[Templat Publikasi Rilis](TEMPLATE-RELEASE.md)**: Format catatan rilis GitHub Release resmi.
+- **[Panduan Pengaturan GitHub](PENGATURAN-GITHUB.md)**: Panduan manual konfigurasi branch protection, template, dan keamanan di GitHub.
+- **[Tata Kelola Proyek](../TATA-KELOLA.md)**: Struktur 5 peran komunitas dan pembagian tanggung jawab.
+- **[Kebijakan Keamanan](../KEAMANAN.md)**: Prosedur pelaporan kerentanan privat secara bertanggung jawab.
+- **[Panduan Kontribusi](../KONTRIBUSI.md)**: 10 langkah kontribusi dan standar nama cabang kerja.
 
-### Dokumen Arsitektur & Pedoman (Phase 1):
-8. **[Prinsip Desain & Filosofi Bahasa](prinsip-desain.md)**
-   - 12 Prinsip Desain: Kedaulatan komputasi, sintaksis manusiawi, dan skalabilitas hingga NusantaraOS.
-9. **[Arsitektur Kompilator](arsitektur-kompilator.md)**
-   - Alur saluran pipa 7 tahap: Lexer -> Parser -> AST -> Semantik -> IR -> Optimizer -> Backend.
-   - Visi format berkas mandiri (`.gambar`, `.video`, `.suara`, dsb.) pada Phase 30.
-10. **[Panduan Mengunggah ke GitHub](panduan-github.md)**
-   - Prosedur inisialisasi Git, penandaan rilis, dan penerbitan GitHub Release.
+### 2. Sistem Nusantara Improvement Proposal (NIP):
+- **[Proses & Alur NIP](NIP/PROSES-NIP.md)**: Alur 7 tahapan usulan peningkatan bahasa.
+- **[Templat NIP](NIP/TEMPLATE-NIP.md)**: Format baku penulisan dokumen NIP.
+- **[NIP-0001: Identitas dan Prinsip Dasar Bahasa NUSANTARA](nip/NIP-0001.md)**
+- **[NIP-0002: Konstitusi Bahasa NUSANTARA](nip/NIP-0002.md)**
 
-### Nusantara Improvement Proposals (NIP):
-11. **[NIP-0001: Identitas dan Prinsip Dasar Bahasa NUSANTARA](nip/NIP-0001.md)**
-12. **[NIP-0002: Konstitusi Bahasa NUSANTARA](nip/NIP-0002.md)**
+### 3. Konstitusi & Spesifikasi Bahasa (Phase 2):
+- **[Konstitusi Bahasa NUSANTARA](KONSTITUSI-BAHASA.md)**: 10 Prinsip Konstitusi Bahasa NUSANTARA.
+- **[Tabel Kata Kunci Resmi](KEYWORD.md)**: 32 kata kunci (21 ditetapkan, 11 rancangan).
+- **[Spesifikasi Tipe Data](TIPE-DATA.md)**: Taksonomi tipe data dasar dan mutabilitas.
+- **[Klasifikasi Operator](OPERATOR.md)**: Operator aritmetika, perbandingan, logika Bahasa Indonesia, dan presedensi.
+- **[Aturan Penamaan & Komentar](ATURAN-PENAMAAN.md)**: Kaidah pengidentifikasi dan komentar `//`.
+- **[Standar Pesan Kesalahan](PESAN-KESALAHAN.md)**: Format pesan diagnostik berbahasa Indonesia.
+- **[Kebijakan Kompatibilitas Versi](KOMPATIBILITAS.md)**: Stabilitas kode sah dan komitmen backward compatibility.
 
----
-
-## Status Pengembangan (Phase 2 Selesai)
-
-Dokumentasi pada fase ini menetapkan **hukum konstitusional resmi bahasa**. Implementasi biner kompilator baru akan dimulai pada **Phase 6** (Lexer) dan fase-fase berikutnya sesuai dengan [Peta Jalan (ROADMAP.md)](../ROADMAP.md).
+### 4. Fondasi & Arsitektur (Phase 1):
+- **[Prinsip Desain & Filosofi Bahasa](prinsip-desain.md)**: 12 Prinsip Desain Kedaulatan Komputasi.
+- **[Arsitektur Kompilator](arsitektur-kompilator.md)**: Saluran pipa kompilasi 7 tahap menuju biner native.
+- **[Panduan Operasional GitHub Awal](panduan-github.md)**: Langkah inisialisasi awal Git.
