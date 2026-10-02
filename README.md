@@ -2,10 +2,11 @@
 
 > **Bahasa Pemrograman 100% Bahasa Indonesia untuk Komputasi Modern, Terbuka, dan Berkelanjutan.**
 
-[![Status](https://img.shields.io/badge/status-fase_1:_fondasi_&_identitas-blue.svg)](ROADMAP.md)
-[![Versi](https://img.shields.io/badge/versi-v0.1.0-emerald.svg)](PERUBAHAN.md)
+[![Status](https://img.shields.io/badge/status-fase_2:_konstitusi_bahasa-blue.svg)](ROADMAP.md)
+[![Versi](https://img.shields.io/badge/versi-v0.2.0-emerald.svg)](PERUBAHAN.md)
 [![Lisensi](https://img.shields.io/badge/lisensi-MIT-yellow.svg)](LISENSI)
-[![NIP](https://img.shields.io/badge/proposal-NIP--0001-purple.svg)](dokumentasi/nip/NIP-0001.md)
+[![Konstitusi](https://img.shields.io/badge/konstitusi-disahkan-purple.svg)](dokumentasi/KONSTITUSI-BAHASA.md)
+[![NIP](https://img.shields.io/badge/proposal-NIP--0001_&_0002-purple.svg)](dokumentasi/nip/NIP-0002.md)
 
 ---
 
@@ -17,7 +18,8 @@ NUSANTARA bukan sekadar terjemahan sintaksis bahasa asing, melainkan ikhtiar man
 
 - **Ekstensi Berkas Resmi:** `.nusantara`
 - **Lisensi:** Terbuka & Bebas (MIT License)
-- **Status Saat Ini:** **Masih dalam tahap pengembangan awal (Phase 1: Identitas & Fondasi).**
+- **Status Saat Ini:** **Masih dalam tahap pengembangan awal (Phase 2: Konstitusi Bahasa).**
+- **Dokumen Konstitusi Resmi:** [KONSTITUSI-BAHASA.md](dokumentasi/KONSTITUSI-BAHASA.md)
 
 ---
 
@@ -38,13 +40,13 @@ NUSANTARA bukan sekadar terjemahan sintaksis bahasa asing, melainkan ikhtiar man
 - **Sintaksis Tegas & Manusiawi:** Blok program diawali dan diakhiri secara eksplisit (`mulai` ... `selesai`, `jika` ... `maka` ... `selain` ... `akhir`).
 - **Aman & Dapat Diprediksi:** Mengutamakan pengecekan tipe statis (*static typing*) terinferensi secara bertahap pada fase lanjutan.
 - **Bebas Kompromi Teknis:** Tidak mengorbankan ketepatan arsitektural; target masa depan adalah kompilasi native berkinerja tinggi.
-- **Tanpa Klaim Palsu:** Pada Fase 1, kami tidak mengklaim kecepatan eksekusi yang belum diuji di dunia nyata. Semua metrik dibangun di atas pengujian terverifikasi.
+- **Tanpa Klaim Palsu:** Pada Fase 1 dan 2, kami tidak mengklaim kecepatan eksekusi atau fitur kompilator yang belum diimplementasikan. Semua metrik dibangun di atas pengujian spesifikasi terverifikasi.
 
 ---
 
-## 4. Contoh Sintaksis Awal NUSANTARA
+## 4. Contoh Sintaksis Resmi Awal NUSANTARA
 
-Berikut adalah spesifikasi sintaksis acuan yang disepakati pada **Phase 1** (akan direalisasikan pada fase kompilator):
+Berikut adalah spesifikasi sintaksis acuan yang ditetapkan pada **Konstitusi Bahasa (Phase 2)**:
 
 ### A. Program Halo Dunia
 ```nusantara
@@ -99,6 +101,7 @@ selesai
 ### E. Definisi Fungsi
 ```nusantara
 fungsi tambah(a : bilangan, b : bilangan) : bilangan
+
 mulai
     kembalikan a + b
 selesai
@@ -106,35 +109,19 @@ selesai
 
 ---
 
-## 5. Kata Kunci & Operator Awal
+## 5. Dokumen Spesifikasi Konstitusi Resmi
 
-### Kata Kunci (Keywords)
-| Kategori | Kata Kunci |
-|---|---|
-| **Struktur Program** | `program`, `mulai`, `selesai`, `impor` |
-| **Deklarasi & Data** | `variabel`, `tetap`, `buat`, `baru`, `hapus` |
-| **Alur Kontrol** | `jika`, `maka`, `selain`, `akhir` |
-| **Perulangan** | `selama`, `untuk`, `dari`, `sampai`, `lakukan`, `hentikan`, `lanjutkan` |
-| **Fungsi & Prosedur** | `fungsi`, `kembalikan` |
-| **Penanganan Galat** | `coba`, `tangkap`, `lempar` |
-| **Objek & Kelas** | `kelas`, `umum`, `pribadi`, `lindungi` |
-| **Nilai Literal** | `benar`, `salah`, `kosong` |
+Seluruh aturan teknis yang disahkan pada Phase 2 dimuat secara terperinci dalam dokumen-dokumen berikut:
 
-### Tipe Data Fondasi
-- `teks` — Rangkaian karakter Unicode
-- `bilangan` — Bilangan bulat (*integer*)
-- `desimal` — Bilangan pecahan presisi ganda (*floating point*)
-- `logika` — Boolean (`benar` / `salah`)
-- `karakter` — Satuan karakter tunggal
-- `daftar` — Kumpulan berurutan (*array/list*)
-- `peta` — Pasangan kunci-nilai (*dictionary/hash map*)
-- `tanggal` & `waktu` — Struktur penanggalan dan pencatatan masa
-- `kosong` — Nilai hampa (*null/nil/void*)
-
-### Operator Logika
-- `dan` — Konjungsi logis
-- `atau` — Disjungsi logis
-- `tidak` — Negasi logis
+- 📜 **[Konstitusi Bahasa](dokumentasi/KONSTITUSI-BAHASA.md):** 10 prinsip dasar dan struktur program awal.
+- 🔑 **[Tabel Kata Kunci (Keyword)](dokumentasi/KEYWORD.md):** 32 kata kunci resmi (21 [DITETAPKAN], 11 [RANCANGAN]).
+- 📦 **[Spesifikasi Tipe Data](dokumentasi/TIPE-DATA.md):** Taksonomi tipe data dasar dan mutabilitas (`variabel` vs `tetap`).
+- ⚡ **[Klasifikasi Operator](dokumentasi/OPERATOR.md):** Operator aritmetika, perbandingan, logika, dan tabel prioritas awal.
+- 🏷️ **[Aturan Penamaan & Komentar](dokumentasi/ATURAN-PENAMAAN.md):** Kaidah leksikal pengidentifikasi dan komentar `//`.
+- 🚨 **[Standar Pesan Kesalahan](dokumentasi/PESAN-KESALAHAN.md):** Format pesan galat diagnostik berbahasa Indonesia.
+- 🛡️ **[Kebijakan Kompatibilitas Versi](dokumentasi/KOMPATIBILITAS.md):** Prinsip kestabilan kode dan alur NIP.
+- 💡 **[Proposal NIP-0002](dokumentasi/nip/NIP-0002.md):** NIP pengesahan Konstitusi Bahasa NUSANTARA.
+- 🧪 **[Uji Kasus Spesifikasi](pengujian/spesifikasi/README.md):** Contoh program valid dan katalog program tidak valid.
 
 ---
 
@@ -146,31 +133,31 @@ Kompilator resmi NUSANTARA dirancang dengan saluran pipa (*compilation pipeline*
 Kode Sumber (.nusantara)
          │
          ▼
-    1. Lexer (Analisis Leksikal & Tokenisasi Bahasa Indonesia)
+    1. Lexer (Analisis Leksikal & Tokenisasi Bahasa Indonesia - Phase 6)
          │
          ▼
-    2. Parser (Analisis Sintaksis Berbasis Tata Bahasa Formal)
+    2. Parser (Analisis Sintaksis Berbasis Tata Bahasa Formal - Phase 7)
          │
          ▼
     3. AST (Pohon Sintaksis Abstrak)
          │
          ▼
-    4. Analisis Semantik (Pemeriksaan Tipe & Lingkup Variabel)
+    4. Analisis Semantik (Pemeriksaan Tipe & Lingkup Variabel - Phase 9 & 10)
          │
          ▼
-    5. IR (Intermediate Representation Bahasa Nusantara)
+    5. IR (Intermediate Representation Bahasa Nusantara - Phase 21)
          │
          ▼
-    6. Optimizer (Optimasi Kode & Efisiensi Memori)
+    6. Optimizer (Optimasi Kode & Efisiensi Memori - Phase 24)
          │
          ▼
-    7. Backend (Pembangkit Kode Mesin / LLVM / WebAssembly)
+    7. Backend (Pembangkit Kode Mesin / LLVM / WebAssembly - Phase 22 & 23)
          │
          ▼
     Berkas Eksekusi Asli (Native Binary / .exe / ELF / Mach-O)
 ```
 
-> **Catatan Fase 1:** Seluruh implementasi kompilator di atas belum dieksekusi pada fase ini. Fase 1 fokus murni pada arsitektur, identitas, dan konstitusi bahasa.
+> **Catatan Fase 2:** Seluruh implementasi kompilator di atas belum dieksekusi pada fase ini. Fase 2 fokus murni pada perumusan konstitusi, spesifikasi sintaksis, dan kasus uji spesifikasi.
 
 ---
 
@@ -192,13 +179,13 @@ Kode Sumber (.nusantara)
 
 ```
 [✓] Phase 1: Identitas & Fondasi NUSANTARA (v0.1.0)
-[ ] Phase 2: Konstitusi Bahasa NUSANTARA
+[✓] Phase 2: Konstitusi Bahasa NUSANTARA (v0.2.0)  <-- Fase Selesai
 [ ] Phase 3: Lisensi & Tata Kelola
 ...
 [ ] Phase 36: NUSANTARA System & NusantaraOS
 ```
 
-> Status resmi: **Masih dalam tahap pengembangan awal.** Belum ada berkas biner kompilator yang dirilis untuk publik pada Phase 1.
+> Status resmi: **Masih dalam tahap pengembangan awal (Phase 2 Selesai).** Belum ada berkas biner kompilator yang dirilis untuk publik.
 
 ---
 
@@ -213,9 +200,10 @@ NUSANTARA/
 ├── kerangka/            # Kerangka kerja aplikasi (web, desktop, seluler, game)
 ├── alat/                # Perkakas CLI, pemformat, dan pengelola paket
 ├── ide/                 # Konfigurasi ekstensi editor & IDE
-├── dokumentasi/         # Spesifikasi teknis & arsip NIP
+├── dokumentasi/         # Spesifikasi teknis, konstitusi, & arsip NIP
 ├── contoh/              # Contoh kode sumber resmi .nusantara
-├── pengujian/           # Perancangan sistem verifikasi dan uji coba
+├── pengujian/           # Rangkaian uji coba & spesifikasi
+│   └── spesifikasi/     # Uji kepatuhan konstitusi (program valid & tidak valid)
 ├── skrip/               # Skrip bantu pemeliharaan repositori
 ├── README.md            # Dokumentasi utama proyek
 ├── LISENSI              # Lisensi MIT terbuka
@@ -232,7 +220,7 @@ NUSANTARA/
 
 Pengembangan bahasa NUSANTARA terbuka untuk siapa saja. Alur kontribusi mengikuti standar GitHub:
 
-1. Pelajari [KONTRIBUSI.md](KONTRIBUSI.md) dan [KODE-ETIK.md](KODE-ETIK.md).
+1. Pelajari [KONTRIBUSI.md](KONTRIBUSI.md), [KODE-ETIK.md](KODE-ETIK.md), dan [KONSTITUSI-BAHASA.md](dokumentasi/KONSTITUSI-BAHASA.md).
 2. Buat **Issue** untuk mendiskusikan gagasan atau melaporkan kelemahan spesifikasi.
 3. Untuk usulan perubahan sintaksis atau tata kelola besar, ajukan **NIP (Nusantara Improvement Proposal)** pada folder `dokumentasi/nip/`.
 4. Buat branch spesifik (`fitur/...`, `perbaikan/...`, `eksperimen/...`).

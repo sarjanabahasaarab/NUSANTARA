@@ -8,29 +8,244 @@ export interface BerkasRepo {
 }
 
 export const BERKAS_REPOSITORI: BerkasRepo[] = [
+  // --- FASE 2: KONSTITUSI & SPESIFIKASI ---
+  {
+    jalur: 'dokumentasi/KONSTITUSI-BAHASA.md',
+    nama: 'KONSTITUSI-BAHASA.md',
+    kategori: 'Konstitusi Resmi (Phase 2)',
+    bahasa: 'markdown',
+    ukuran: 4818,
+    konten: `# Konstitusi Bahasa Pemrograman NUSANTARA
+
+Dokumen ini merupakan piagam konstitusional resmi bagi bahasa pemrograman NUSANTARA.
+
+10 Prinsip Konstitusi Bahasa:
+1. Bahasa Indonesia sebagai Bahasa Utama Sintaks
+2. Keterbacaan dan Konsistensi Sintaks
+3. Skalabilitas Multi-Domain (Skrip hingga NusantaraOS)
+4. Spesifikasi yang Dapat Diuji (Testable Specification)
+5. Transparansi Perubahan Sintaks
+6. Tata Kelola Perubahan Merusak Melalui NIP
+7. Kepatuhan Implementasi Kompilator
+8. Integritas Rekayasa (Tanpa Klaim Palsu)
+9. Kemandirian Sistem Operasi (Cross-Platform by Design)
+10. Keterbukaan & Kolaborasi Terbuka (MIT License)`
+  },
+  {
+    jalur: 'dokumentasi/KEYWORD.md',
+    nama: 'KEYWORD.md',
+    kategori: 'Tabel 32 Kata Kunci',
+    bahasa: 'markdown',
+    ukuran: 5098,
+    konten: `# Tabel Kata Kunci Resmi Bahasa NUSANTARA
+
+32 Kata Kunci Resmi (21 Ditetapkan, 11 Rancangan):
+- Ditetapkan: program, mulai, selesai, variabel, tetap, fungsi, kembalikan, jika, maka, selain, akhir, selama, untuk, dari, sampai, lakukan, hentikan, lanjutkan, benar, salah, kosong.
+- Rancangan: coba, tangkap, lempar, impor, buat, kelas, umum, pribadi, lindungi, baru, hapus.`
+  },
+  {
+    jalur: 'dokumentasi/TIPE-DATA.md',
+    nama: 'TIPE-DATA.md',
+    kategori: 'Spesifikasi Tipe Data',
+    bahasa: 'markdown',
+    ukuran: 3235,
+    konten: `# Spesifikasi Tipe Data & Deklarasi Nilai Bahasa NUSANTARA
+
+Taksonomi Tipe Data Awal:
+- teks: Rangkaian karakter Unicode UTF-8
+- bilangan: Bilangan bulat (integer)
+- desimal: Bilangan pecahan presisi ganda
+- logika: Nilai kebenaran boolean (benar / salah)
+- karakter: Satu satuan karakter tunggal
+- daftar: Kumpulan nilai berurutan terindeks [RANCANGAN]
+- peta: Pasangan kunci-nilai dictionary [RANCANGAN]
+- tanggal & waktu: Format penanggalan & masa [RANCANGAN]
+- kosong: Representasi ketiadaan nilai (null/void)
+
+Format Deklarasi:
+nama : teks = "Nusantara"
+variabel skor : bilangan = 0
+tetap BATAS_MAX : bilangan = 100`
+  },
+  {
+    jalur: 'dokumentasi/OPERATOR.md',
+    nama: 'OPERATOR.md',
+    kategori: 'Klasifikasi Operator',
+    bahasa: 'markdown',
+    ukuran: 3534,
+    konten: `# Klasifikasi & Prioritas Operator Bahasa NUSANTARA
+
+Operator Aritmetika: +, -, *, /, %
+Operator Perbandingan: ==, !=, >, <, >=, <=
+Operator Penugasan: =
+Operator Logika Bahasa Indonesia: dan, atau, tidak
+
+Rancangan Tabel Presedensi:
+Tingkat 1: ( ) Pengelompokan
+Tingkat 2: tidak, - (unari)
+Tingkat 3: *, /, %
+Tingkat 4: +, -
+Tingkat 5: <, <=, >, >=
+Tingkat 6: ==, !=
+Tingkat 7: dan
+Tingkat 8: atau
+Tingkat 9: = (penugasan)`
+  },
+  {
+    jalur: 'dokumentasi/ATURAN-PENAMAAN.md',
+    nama: 'ATURAN-PENAMAAN.md',
+    kategori: 'Aturan Penamaan & Komentar',
+    bahasa: 'markdown',
+    ukuran: 3745,
+    konten: `# Aturan Penamaan Pengidentifikasi & Komentar Bahasa NUSANTARA
+
+Kaidah Penamaan:
+- Huruf, angka, dan garis bawah (_).
+- Karakter pertama WAJIB huruf atau garis bawah, TIDAK BOLEH diawali angka.
+- Dilarang sama dengan 32 kata kunci resmi.
+- Peka huruf besar dan kecil (case-sensitive).
+
+Komentar:
+// Komentar satu baris (DITETAPKAN)
+/* Komentar multibaris (RANCANGAN) */`
+  },
+  {
+    jalur: 'dokumentasi/PESAN-KESALAHAN.md',
+    nama: 'PESAN-KESALAHAN.md',
+    kategori: 'Standar Pesan Galat',
+    bahasa: 'markdown',
+    ukuran: 3469,
+    konten: `# Standar Pesan Kesalahan Diagnostik Bahasa NUSANTARA
+
+Standar format diagnostik Bahasa Indonesia:
+[Kategori Kesalahan] pada berkas: [nama], baris [X], kolom [Y]:
+    [Kutipan kode bermasalah]
+    ^^^^^ [Penunjuk posisi]
+Penyebab: [Penjelasan deskriptif]
+Saran:    [Rekomendasi perbaikan]`
+  },
+  {
+    jalur: 'dokumentasi/KOMPATIBILITAS.md',
+    nama: 'KOMPATIBILITAS.md',
+    kategori: 'Kebijakan Kompatibilitas',
+    bahasa: 'markdown',
+    ukuran: 2655,
+    konten: `# Kebijakan Kompatibilitas Versi Bahasa NUSANTARA
+
+Prinsip Stabilitas:
+1. Perlindungan Kode Sah
+2. Dokumentasi Komprehensif Perubahan
+3. Kewajiban Pengajuan NIP untuk Perubahan Merusak (Breaking Changes)
+4. Keterlacakan Spesifikasi (Traceability)
+5. Skema Semantic Versioning (vMAJOR.MINOR.PATCH)`
+  },
+  {
+    jalur: 'dokumentasi/nip/NIP-0002.md',
+    nama: 'NIP-0002.md',
+    kategori: 'Proposal Konstitusi (Phase 2)',
+    bahasa: 'markdown',
+    ukuran: 4197,
+    konten: `# NIP-0002: Konstitusi Bahasa NUSANTARA
+
+- NIP Nomor: 0002
+- Judul: Konstitusi Bahasa NUSANTARA
+- Status: Diterima (Accepted)
+- Milestone: v0.2.0
+
+Proposal ini merumuskan Konstitusi Resmi Bahasa Pemrograman NUSANTARA sebagai landasan baku hukum tata bahasa, etika rekayasa perangkat lunak, serta spesifikasi awal struktur blok, kata kunci, tipe data dasar, operator, aturan penamaan, dan penanganan diagnostik kesalahan.`
+  },
+  {
+    jalur: 'pengujian/spesifikasi/program-valid.nusantara',
+    nama: 'program-valid.nusantara',
+    kategori: 'Kasus Uji Program Valid',
+    bahasa: 'nusantara',
+    ukuran: 710,
+    konten: `program UjiKonstitusi
+
+mulai
+    namaPengembang : teks = "Komunitas Nusantara"
+    versiFase : bilangan = 2
+    skorKelayakan : desimal = 98.5
+    fondasiSah : logika = benar
+
+    tetap BATAS_MINIMAL : bilangan = 70
+
+    tampilkan("Nama Proyek: " + namaPengembang)
+
+    jika skorKelayakan >= BATAS_MINIMAL maka
+        tampilkan("Status Konstitusi: Disahkan")
+    selain
+        tampilkan("Status Konstitusi: Perlu Peninjauan")
+    akhir
+
+    untuk hitungan dari 1 sampai 3 lakukan
+        tampilkan(hitungan)
+    akhir
+selesai`
+  },
+  {
+    jalur: 'pengujian/spesifikasi/program-tidak-valid.md',
+    nama: 'program-tidak-valid.md',
+    kategori: 'Katalog Kasus Tak Valid',
+    bahasa: 'markdown',
+    ukuran: 3217,
+    konten: `# Katalog Kasus Uji Program Tidak Valid (Spesifikasi Konstitusi Phase 2)
+
+Kasus-kasus Pelanggaran Konstitusi:
+1. Program Tanpa Kata Kunci 'mulai'
+2. Program Tanpa Kata Kunci 'selesai'
+3. Nama Program Diawali Angka (misal: '123ProgramUtama')
+4. Nama Variabel Menggunakan Kata Kunci (misal: 'jika : bilangan = 10')
+5. Deklarasi Tipe Data Tidak Lengkap (misal: 'skor : = 100')
+6. Blok Kondisi 'jika' Tidak Ditutup 'akhir'`
+  },
+
+  // --- BERKAS ROOT UTAMA ---
   {
     jalur: 'README.md',
     nama: 'README.md',
     kategori: 'Dokumentasi Utama',
     bahasa: 'markdown',
-    ukuran: 9286,
+    ukuran: 9841,
     konten: `# NUSANTARA
 
 > **Bahasa Pemrograman 100% Bahasa Indonesia untuk Komputasi Modern, Terbuka, dan Berkelanjutan.**
 
-## 1. Tentang NUSANTARA
-NUSANTARA adalah bahasa pemrograman serba guna (general-purpose programming language) yang dirancang dari nol menggunakan 100% tata bahasa, istilah teknis, dan leksikon Bahasa Indonesia.
+Status Saat Ini: Phase 2 Selesai (Konstitusi Bahasa NUSANTARA - v0.2.0).`
+  },
+  {
+    jalur: 'PERUBAHAN.md',
+    nama: 'PERUBAHAN.md',
+    kategori: 'Catatan Rilis (Changelog)',
+    bahasa: 'markdown',
+    ukuran: 4103,
+    konten: `# Catatan Perubahan (CHANGELOG) NUSANTARA
 
-- Ekstensi Berkas Resmi: .nusantara
-- Lisensi: Terbuka & Bebas (MIT License)
-- Status Saat Ini: Masih dalam tahap pengembangan awal (Phase 1: Identitas & Fondasi).
+## [v0.2.0] — 2026-10-02
+### Phase 2: Konstitusi Bahasa NUSANTARA
+- Menetapkan Konstitusi Bahasa (KONSTITUSI-BAHASA.md).
+- Menetapkan Tabel 32 Kata Kunci (KEYWORD.md).
+- Menetapkan Taksonomi Tipe Data (TIPE-DATA.md).
+- Menetapkan Klasifikasi Operator (OPERATOR.md).
+- Menetapkan Aturan Penamaan & Komentar (ATURAN-PENAMAAN.md).
+- Menetapkan Standar Pesan Kesalahan (PESAN-KESALAHAN.md).
+- Menetapkan Kebijakan Kompatibilitas Versi (KOMPATIBILITAS.md).
+- Menerbitkan Proposal NIP-0002.
+- Rangkaian Uji Spesifikasi (program-valid.nusantara & program-tidak-valid.md).`
+  },
+  {
+    jalur: 'ROADMAP.md',
+    nama: 'ROADMAP.md',
+    kategori: 'Peta Jalan 36 Fase',
+    bahasa: 'markdown',
+    ukuran: 8153,
+    konten: `# Peta Jalan Pengembangan (ROADMAP) Bahasa Pemrograman NUSANTARA
 
-## 2. Alasan & Tujuan Dibuat
-1. Demokratisasi Pemrograman: Membuka akses logika komputasi untuk generasi muda, pelajar, dan insinyur Indonesia tanpa sekat bahasa asing.
-2. Keterbacaan Alami (Cognitive Fluency): Sintaksis terstruktur yang mudah dipahami manusia.
-3. Kemandirian Perangkat Lunak: Membangun ekosistem teknologi nasional yang kokoh dan berdaulat.
-4. Jangkauan Menyeluruh: Dari skrip pemula hingga sistem operasi (NusantaraOS).
-5. Transparansi & Komunitas Terbuka: Dikembangkan murni open source di GitHub melalui NIP (Nusantara Improvement Proposal).`
+Phase 1: Identitas & Fondasi (v0.1.0 - Selesai)
+Phase 2: Konstitusi Bahasa (v0.2.0 - Selesai)
+Phase 3: Lisensi & Tata Kelola (v0.3.0 - Berikutnya)
+...
+Phase 36: NUSANTARA System & NusantaraOS (v1.0.0)`
   },
   {
     jalur: 'LISENSI',
@@ -38,15 +253,7 @@ NUSANTARA adalah bahasa pemrograman serba guna (general-purpose programming lang
     kategori: 'Tata Kelola Hukum',
     bahasa: 'teks',
     ukuran: 2386,
-    konten: `MIT License
-
-Hak Cipta (c) 2026 Pengembang & Kontributor Bahasa Pemrograman NUSANTARA
-
-Dengan ini diberikan izin tanpa biaya kepada siapa pun yang memperoleh salinan
-perangkat lunak ini dan berkas dokumentasi terkait ("Perangkat Lunak"), untuk
-memperlakukan Perangkat Lunak tanpa batasan, termasuk tanpa batasan hak untuk
-menggunakan, menyalin, memodifikasi, menggabungkan, menerbitkan, mendistribusikan,
-mensublisensikan, dan/atau menjual salinan Perangkat Lunak...`
+    konten: `MIT License (c) 2026 Pengembang & Kontributor Bahasa Pemrograman NUSANTARA`
   },
   {
     jalur: 'KONTRIBUSI.md',
@@ -54,17 +261,7 @@ mensublisensikan, dan/atau menjual salinan Perangkat Lunak...`
     kategori: 'Pedoman Komunitas',
     bahasa: 'markdown',
     ukuran: 3784,
-    konten: `# Panduan Kontribusi Bahasa Pemrograman NUSANTARA
-
-Alur Kontribusi Komunitas:
-Issue -> Diskusi Komunitas -> Proposal (NIP) -> Implementasi pada Branch Cabang -> Pengujian Mandiri -> Tinjauan Kode (PR) -> Penggabungan (Merge) -> Rilis Bertahap.
-
-Struktur Cabang (Branching Model):
-- main: Cabang produksi yang selalu stabil.
-- develop: Cabang integrasi pengembangan aktif.
-- fitur/*: Cabang pembuatan spesifikasi/fitur baru.
-- perbaikan/*: Cabang perbaikan galat atau revisi dokumentasi.
-- eksperimen/*: Cabang pengujian gagasan baru.`
+    konten: `# Panduan Kontribusi Bahasa Pemrograman NUSANTARA`
   },
   {
     jalur: 'KODE-ETIK.md',
@@ -72,46 +269,7 @@ Struktur Cabang (Branching Model):
     kategori: 'Etika Komunitas',
     bahasa: 'markdown',
     ukuran: 1908,
-    konten: `# Kode Etik Komunitas Pengembang NUSANTARA
-
-Sebagai kontributor dan pemelihara proyek bahasa pemrograman NUSANTARA, kami bertekad menciptakan lingkungan kolaboratif yang inklusif, terbuka, ramah, dan bebas dari diskriminasi bagi setiap orang, tanpa memandang latar belakang, suku, agama, gender, atau tingkat keahlian.`
-  },
-  {
-    jalur: 'PERUBAHAN.md',
-    nama: 'PERUBAHAN.md',
-    kategori: 'Catatan Rilis',
-    bahasa: 'markdown',
-    ukuran: 2442,
-    konten: `# Catatan Perubahan (CHANGELOG) NUSANTARA
-
-## [v0.1.0] — 2026-10-02
-### Phase 1: Identitas & Fondasi NUSANTARA
-
-- Identitas Bahasa: Penetapan nama resmi NUSANTARA dan ekstensi .nusantara.
-- Struktur Repositori: Pemetaan struktur modular 10 folder utama.
-- Proposal NIP-0001: Identitas dan Prinsip Dasar Bahasa NUSANTARA.
-- Contoh Sintaksis Awal: 5 berkas kode sumber acuan (.nusantara).
-- Peta Jalan 36 Fase: Dari Fondasi hingga NusantaraOS.`
-  },
-  {
-    jalur: 'ROADMAP.md',
-    nama: 'ROADMAP.md',
-    kategori: 'Peta Jalan 36 Fase',
-    bahasa: 'markdown',
-    ukuran: 7933,
-    konten: `# Peta Jalan Pengembangan (ROADMAP) Bahasa Pemrograman NUSANTARA
-
-Peta jalan 36 fase pengembangan dari fondasi hingga NusantaraOS:
-- Phase 1: Identitas & Fondasi (v0.1.0 - Selesai)
-- Phase 2: Konstitusi Bahasa (v0.2.0)
-- Phase 3: Lisensi & Tata Kelola (v0.3.0)
-- Phase 4: Spesifikasi Sintaks (v0.4.0)
-- Phase 5: Dokumentasi Awal (v0.5.0)
-- Phase 6: Lexer (v0.6.0)
-- Phase 7: Parser (v0.7.0)
-- Phase 8: Interpreter (v0.8.0)
-...
-- Phase 36: NUSANTARA System & NusantaraOS (v1.0.0)`
+    konten: `# Kode Etik Komunitas Pengembang NUSANTARA`
   },
   {
     jalur: 'dokumentasi/nip/NIP-0001.md',
@@ -119,69 +277,7 @@ Peta jalan 36 fase pengembangan dari fondasi hingga NusantaraOS:
     kategori: 'Proposal Fondasi',
     bahasa: 'markdown',
     ukuran: 4766,
-    konten: `# NIP-0001: Identitas dan Prinsip Dasar Bahasa NUSANTARA
-
-- NIP Nomor: 0001
-- Judul: Identitas dan Prinsip Dasar Bahasa NUSANTARA
-- Penulis: Tim Inisiator & Maintainer Bahasa NUSANTARA
-- Status: Diterima (Accepted)
-- Tipe: Standar Inti (Core Standard)
-
-Proposal ini menetapkan identitas resmi, tata nama, ekstensi berkas .nusantara, leksikon inti, dan filosofi perancangan bahasa pemrograman NUSANTARA.`
-  },
-  {
-    jalur: 'dokumentasi/prinsip-desain.md',
-    nama: 'prinsip-desain.md',
-    kategori: 'Filosofi Desain',
-    bahasa: 'markdown',
-    ukuran: 5086,
-    konten: `# Prinsip Desain & Filosofi Bahasa NUSANTARA
-
-12 Prinsip Desain Utama:
-1. Bahasa Pemrograman untuk Semua
-2. Bahasa Indonesia sebagai Bahasa Utama
-3. Sintaksis Mudah Dibaca Manusia
-4. Kemampuan Teknis Tingkat Tinggi
-5. Terbuka Seutuhnya (Open Source MIT)
-6. Berorientasi Komunitas (NIP System)
-7. Lintas Platform (Cross-Platform)
-8. Keamanan & Pencegahan Cacat (Null-Safety)
-9. Performa Tinggi Tanpa Klaim Kosong
-10. Mudah Dipelajari & Diajarkan
-11. Skalabilitas dari Skrip Kecil hingga Enterprise
-12. Berkembang Menuju Sistem Operasi NusantaraOS`
-  },
-  {
-    jalur: 'dokumentasi/arsitektur-kompilator.md',
-    nama: 'arsitektur-kompilator.md',
-    kategori: 'Arsitektur Kompilator',
-    bahasa: 'markdown',
-    ukuran: 5919,
-    konten: `# Arsitektur Kompilator & Saluran Pipa Bahasa NUSANTARA
-
-Saluran Pipa Kompilasi:
-Kode Sumber (.nusantara) -> Lexer -> Parser -> AST -> Semantik -> IR -> Optimizer -> Backend -> Executable Mesin.
-
-Visi Format Berkas Mandiri (Phase 30):
-.gambar, .video, .suara, .animasi, .buku, .font, .ikon.`
-  },
-  {
-    jalur: 'dokumentasi/panduan-github.md',
-    nama: 'panduan-github.md',
-    kategori: 'Panduan Operasional GitHub',
-    bahasa: 'markdown',
-    ukuran: 3836,
-    konten: `# Panduan Mengunggah Phase 1 ke GitHub
-
-Langkah-langkah:
-1. Buat repositori kosong di GitHub bernama NUSANTARA.
-2. Inisialisasi Git: git init && git branch -M main
-3. Tambahkan berkas: git add .
-4. Buat komit: git commit -m "feat: fondasi awal bahasa NUSANTARA"
-5. Hubungkan remote & dorong: git remote add origin <URL> && git push -u origin main
-6. Buat tag v0.1.0: git tag -a v0.1.0 -m "NUSANTARA v0.1.0 — Identitas & Fondasi"
-7. Dorong tag: git push origin v0.1.0
-8. Publikasikan GitHub Release resmi bertajuk "NUSANTARA v0.1.0 — Identitas & Fondasi".`
+    konten: `# NIP-0001: Identitas dan Prinsip Dasar Bahasa NUSANTARA`
   },
   {
     jalur: 'contoh/01_halo.nusantara',
@@ -189,11 +285,7 @@ Langkah-langkah:
     kategori: 'Kode Contoh',
     bahasa: 'nusantara',
     ukuran: 57,
-    konten: `program Halo
-
-mulai
-    tampilkan("Halo Dunia!")
-selesai`
+    konten: `program Halo\n\nmulai\n    tampilkan("Halo Dunia!")\nselesai`
   },
   {
     jalur: 'contoh/02_data.nusantara',
@@ -201,17 +293,7 @@ selesai`
     kategori: 'Kode Contoh',
     bahasa: 'nusantara',
     ukuran: 179,
-    konten: `program Data
-
-mulai
-    nama : teks = "Muhammad"
-    umur : bilangan = 30
-    tinggi : desimal = 170.5
-    aktif : logika = benar
-
-    tampilkan(nama)
-    tampilkan(umur)
-selesai`
+    konten: `program Data\n\nmulai\n    nama : teks = "Muhammad"\n    umur : bilangan = 30\n    tinggi : desimal = 170.5\n    aktif : logika = benar\n\n    tampilkan(nama)\n    tampilkan(umur)\nselesai`
   },
   {
     jalur: 'contoh/03_kondisi.nusantara',
@@ -219,17 +301,7 @@ selesai`
     kategori: 'Kode Contoh',
     bahasa: 'nusantara',
     ukuran: 165,
-    konten: `program Kondisi
-
-mulai
-    nilai : bilangan = 80
-
-    jika nilai >= 75 maka
-        tampilkan("Lulus")
-    selain
-        tampilkan("Belum lulus")
-    akhir
-selesai`
+    konten: `program Kondisi\n\nmulai\n    nilai : bilangan = 80\n\n    jika nilai >= 75 maka\n        tampilkan("Lulus")\n    selain\n        tampilkan("Belum lulus")\n    akhir\nselesai`
   },
   {
     jalur: 'contoh/04_perulangan.nusantara',
@@ -237,13 +309,7 @@ selesai`
     kategori: 'Kode Contoh',
     bahasa: 'nusantara',
     ukuran: 110,
-    konten: `program Perulangan
-
-mulai
-    untuk angka dari 1 sampai 10 lakukan
-        tampilkan(angka)
-    akhir
-selesai`
+    konten: `program Perulangan\n\nmulai\n    untuk angka dari 1 sampai 10 lakukan\n        tampilkan(angka)\n    akhir\nselesai`
   },
   {
     jalur: 'contoh/05_fungsi.nusantara',
@@ -251,38 +317,46 @@ selesai`
     kategori: 'Kode Contoh',
     bahasa: 'nusantara',
     ukuran: 89,
-    konten: `fungsi tambah(a : bilangan, b : bilangan) : bilangan
-
-mulai
-    kembalikan a + b
-selesai`
-  },
-  {
-    jalur: 'pengujian/README.md',
-    nama: 'pengujian/README.md',
-    kategori: 'Kerangka Pengujian',
-    bahasa: 'markdown',
-    ukuran: 1818,
-    konten: `# Sistem Pengujian Bahasa Pemrograman NUSANTARA
-
-Tahapan pengujian bertahap:
-1. Uji Fondasi (Phase 1): Skrip evaluasi integritas berkas.
-2. Uji Leksikal / Tokenizer (Phase 6)
-3. Uji Sintaksis / Parser (Phase 7)
-4. Uji Semantik & Tipe Data (Phase 9-10)
-5. Uji Evaluasi Interpreter (Phase 8)
-6. Uji Integrasi Biner Native (Phase 23)
-7. Uji Regresi (Berkelanjutan)`
+    konten: `fungsi tambah(a : bilangan, b : bilangan) : bilangan\n\nmulai\n    kembalikan a + b\nselesai`
   }
 ];
 
-export const DAFTAR_KATA_KUNCI = [
-  'program', 'mulai', 'selesai', 'variabel', 'tetap', 'fungsi', 'kembalikan',
-  'jika', 'maka', 'selain', 'akhir', 'selama', 'untuk', 'dari', 'sampai',
-  'lakukan', 'hentikan', 'lanjutkan', 'benar', 'salah', 'kosong', 'coba',
-  'tangkap', 'lempar', 'impor', 'buat', 'kelas', 'umum', 'pribadi', 'lindungi',
-  'baru', 'hapus'
+export const DAFTAR_KATA_KUNCI_PHASE2 = [
+  { kw: 'program', status: 'DITETAPKAN', arti: 'Deklarasi nama unit program utama' },
+  { kw: 'mulai', status: 'DITETAPKAN', arti: 'Membuka blok eksekusi instruksi' },
+  { kw: 'selesai', status: 'DITETAPKAN', arti: 'Menutup blok utama program' },
+  { kw: 'variabel', status: 'DITETAPKAN', arti: 'Deklarasi wadah data dinamis (mutable)' },
+  { kw: 'tetap', status: 'DITETAPKAN', arti: 'Deklarasi wadah data konstan (immutable)' },
+  { kw: 'fungsi', status: 'DITETAPKAN', arti: 'Deklarasi subrutin / fungsi' },
+  { kw: 'kembalikan', status: 'DITETAPKAN', arti: 'Mengembalikan nilai dari fungsi' },
+  { kw: 'jika', status: 'DITETAPKAN', arti: 'Pengujian kondisi logis' },
+  { kw: 'maka', status: 'DITETAPKAN', arti: 'Membuka cabang benar' },
+  { kw: 'selain', status: 'DITETAPKAN', arti: 'Membuka cabang alternatif' },
+  { kw: 'akhir', status: 'DITETAPKAN', arti: 'Penutup blok percabangan & perulangan' },
+  { kw: 'selama', status: 'DITETAPKAN', arti: 'Perulangan bersyarat kondisi' },
+  { kw: 'untuk', status: 'DITETAPKAN', arti: 'Perulangan iteratif rentang' },
+  { kw: 'dari', status: 'DITETAPKAN', arti: 'Batas awal rentang' },
+  { kw: 'sampai', status: 'DITETAPKAN', arti: 'Batas akhir rentang' },
+  { kw: 'lakukan', status: 'DITETAPKAN', arti: 'Membuka blok instruksi perulangan' },
+  { kw: 'hentikan', status: 'DITETAPKAN', arti: 'Memutus perulangan (break)' },
+  { kw: 'lanjutkan', status: 'DITETAPKAN', arti: 'Melompati ke iterasi berikutnya (continue)' },
+  { kw: 'benar', status: 'DITETAPKAN', arti: 'Literal boolean true' },
+  { kw: 'salah', status: 'DITETAPKAN', arti: 'Literal boolean false' },
+  { kw: 'kosong', status: 'DITETAPKAN', arti: 'Representasi ketiadaan nilai (null/void)' },
+  { kw: 'coba', status: 'RANCANGAN', arti: 'Membuka blok pengawasan eksepsi' },
+  { kw: 'tangkap', status: 'RANCANGAN', arti: 'Menangkap galat yang dilempar' },
+  { kw: 'lempar', status: 'RANCANGAN', arti: 'Melontarkan eksepsi' },
+  { kw: 'impor', status: 'RANCANGAN', arti: 'Memuat modul/pustaka eksternal' },
+  { kw: 'buat', status: 'RANCANGAN', arti: 'Mengalokasikan struktur data baru' },
+  { kw: 'kelas', status: 'RANCANGAN', arti: 'Definisi cetak biru objek (OOP)' },
+  { kw: 'umum', status: 'RANCANGAN', arti: 'Akses publik properti/metode' },
+  { kw: 'pribadi', status: 'RANCANGAN', arti: 'Akses privat terisolasi' },
+  { kw: 'lindungi', status: 'RANCANGAN', arti: 'Akses terproteksi pewarisan' },
+  { kw: 'baru', status: 'RANCANGAN', arti: 'Instansiasi objek kelas' },
+  { kw: 'hapus', status: 'RANCANGAN', arti: 'Dealokasi memori manual' },
 ];
+
+export const DAFTAR_KATA_KUNCI = DAFTAR_KATA_KUNCI_PHASE2.map(k => k.kw);
 
 export const DAFTAR_TIPE_DATA = [
   'teks', 'bilangan', 'desimal', 'logika', 'karakter', 'daftar', 'peta', 'tanggal', 'waktu', 'kosong'
@@ -294,9 +368,9 @@ export const DAFTAR_OPERATOR = [
 
 export const DAFTAR_FASE_ROADMAP = [
   { fase: 1, nama: 'Identitas & Fondasi', versi: 'v0.1.0', kategori: 'Fondasi', status: 'Selesai' },
-  { fase: 2, nama: 'Konstitusi Bahasa', versi: 'v0.2.0', kategori: 'Fondasi', status: 'Berikutnya' },
-  { fase: 3, nama: 'Lisensi & Tata Kelola', versi: 'v0.3.0', kategori: 'Fondasi', status: 'Rencana' },
-  { fase: 4, nama: 'Spesifikasi Sintaks', versi: 'v0.4.0', kategori: 'Fondasi', status: 'Rencana' },
+  { fase: 2, nama: 'Konstitusi Bahasa', versi: 'v0.2.0', kategori: 'Fondasi', status: 'Selesai' },
+  { fase: 3, nama: 'Lisensi & Tata Kelola', versi: 'v0.3.0', kategori: 'Fondasi', status: 'Berikutnya' },
+  { fase: 4, nama: 'Spesifikasi Sintaks (EBNF)', versi: 'v0.4.0', kategori: 'Fondasi', status: 'Rencana' },
   { fase: 5, nama: 'Dokumentasi Awal', versi: 'v0.5.0', kategori: 'Fondasi', status: 'Rencana' },
   { fase: 6, nama: 'Lexer', versi: 'v0.6.0', kategori: 'Mesin Inti', status: 'Rencana' },
   { fase: 7, nama: 'Parser', versi: 'v0.7.0', kategori: 'Mesin Inti', status: 'Rencana' },

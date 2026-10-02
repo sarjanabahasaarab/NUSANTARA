@@ -10,11 +10,11 @@ Setiap fase merupakan pencapaian rekayasa piranti lunak (*engineering milestone*
 
 | Fase | Nama Fase | Target Versi | Status |
 |---|---|---|---|
-| **Phase 1** | **Identitas & Fondasi** | `v0.1.0` | **Selesai (Fase Saat Ini)** |
-| **Phase 2** | Konstitusi Bahasa | `v0.2.0` | Direncanakan Berikutnya |
-| **Phase 3** | Lisensi & Tata Kelola | `v0.3.0` | Direncanakan |
-| **Phase 4** | Spesifikasi Sintaks | `v0.4.0` | Direncanakan |
-| **Phase 5** | Dokumentasi Awal | `v0.5.0` | Direncanakan |
+| **Phase 1** | Identitas & Fondasi | `v0.1.0` | **Selesai** |
+| **Phase 2** | **Konstitusi Bahasa** | `v0.2.0` | **Selesai (Fase Saat Ini)** |
+| **Phase 3** | Lisensi & Tata Kelola | `v0.3.0` | Direncanakan Berikutnya |
+| **Phase 4** | Spesifikasi Sintaks (EBNF Formal) | `v0.4.0` | Direncanakan |
+| **Phase 5** | Dokumentasi Awal & Buku Panduan | `v0.5.0` | Direncanakan |
 | **Phase 6** | Lexer (Penganalisis Leksikal) | `v0.6.0` | Direncanakan |
 | **Phase 7** | Parser (Penganalisis Sintaksis) | `v0.7.0` | Direncanakan |
 | **Phase 8** | Interpreter (Penerjemah Eksekusi AST) | `v0.8.0` | Direncanakan |
@@ -52,11 +52,11 @@ Setiap fase merupakan pencapaian rekayasa piranti lunak (*engineering milestone*
 ## Rincian Tiap Fase
 
 ### Blok A: Fondasi & Spesifikasi (Phase 1 – 5)
-- **Phase 1 — Identitas & Fondasi:** Struktur repo, ekstensi `.nusantara`, filosofi bahasa, NIP-0001, contoh kode awal, alur Git & rilis v0.1.0. *(Sedang Aktif)*
-- **Phase 2 — Konstitusi Bahasa:** Pedoman formal tata bahasa, aturan peminjaman istilah, ortografi istilah teknis, batas-batas semantik.
-- **Phase 3 — Lisensi & Tata Kelola:** Badan pengawas bahasa (*Language Board*), komite review NIP, piagam kontributor.
-- **Phase 4 — Spesifikasi Sintaks:** EBNF (*Extended Backus-Naur Form*) resmi tata bahasa NUSANTARA.
-- **Phase 5 — Dokumentasi Awal:** Buku pegangan pemula, glosarium teknis resmi Bahasa Indonesia, panduan gaya penulisan kode.
+- **Phase 1 — Identitas & Fondasi:** Struktur repo, ekstensi `.nusantara`, filosofi bahasa, NIP-0001, contoh kode awal, alur Git & rilis v0.1.0. *(Selesai)*
+- **Phase 2 — Konstitusi Bahasa:** Piagam 10 prinsip konstitusi, struktur program resmi awal, tabel 32 kata kunci, tipe data dasar, operator, aturan penamaan, standar pesan galat, kebijakan kompatibilitas, NIP-0002, dan kasus uji spesifikasi. *(Selesai)*
+- **Phase 3 — Lisensi & Tata Kelola:** Badan pengawas bahasa (*Language Board*), komite review NIP, piagam kontributor, hak cipta, dan perlindungan merek terbuka.
+- **Phase 4 — Spesifikasi Sintaks:** EBNF (*Extended Backus-Naur Form*) resmi tata bahasa NUSANTARA dan eliminasi ambiguitas parsing.
+- **Phase 5 — Dokumentasi Awal:** Buku pegangan pemula, glosarium teknis resmi Bahasa Indonesia, dan panduan gaya penulisan kode.
 
 ### Blok B: Mesin Inti Kompilator (Phase 6 – 13)
 - **Phase 6 — Lexer:** Tokenisasi kode sumber `.nusantara`, pelacak nomor baris/kolom, penanganan literal Unicode.
