@@ -12,9 +12,9 @@ Setiap fase merupakan pencapaian rekayasa piranti lunak (*engineering milestone*
 |---|---|---|---|
 | **Phase 1** | Identitas & Fondasi | `v0.1.0` | **Selesai** |
 | **Phase 2** | Konstitusi Bahasa | `v0.2.0` | **Selesai** |
-| **Phase 3** | **Lisensi & Tata Kelola** | `v0.3.0` | **Selesai (Fase Saat Ini)** |
-| **Phase 4** | Spesifikasi Sintaks (EBNF Formal) | `v0.4.0` | Direncanakan Berikutnya |
-| **Phase 5** | Dokumentasi Awal & Buku Panduan | `v0.5.0` | Direncanakan |
+| **Phase 3** | Lisensi & Tata Kelola | `v0.3.0` | **Selesai** |
+| **Phase 4** | **Spesifikasi Sintaks (EBNF Formal)** | `v0.4.0` | **Selesai (Fase Saat Ini)** |
+| **Phase 5** | Dokumentasi Awal & Buku Panduan | `v0.5.0` | Direncanakan Berikutnya |
 | **Phase 6** | Lexer (Penganalisis Leksikal) | `v0.6.0` | Direncanakan |
 | **Phase 7** | Parser (Penganalisis Sintaksis) | `v0.7.0` | Direncanakan |
 | **Phase 8** | Interpreter (Penerjemah Eksekusi AST) | `v0.8.0` | Direncanakan |
@@ -55,8 +55,8 @@ Setiap fase merupakan pencapaian rekayasa piranti lunak (*engineering milestone*
 - **Phase 1 — Identitas & Fondasi:** Struktur repo, ekstensi `.nusantara`, filosofi bahasa, NIP-0001, contoh kode awal, alur Git & rilis v0.1.0. *(Selesai)*
 - **Phase 2 — Konstitusi Bahasa:** Piagam 10 prinsip konstitusi, struktur program awal, 32 kata kunci, tipe data dasar, operator, aturan penamaan, standar pesan galat, NIP-0002, dan kasus uji spesifikasi. *(Selesai)*
 - **Phase 3 — Lisensi & Tata Kelola:** Lisensi Apache 2.0 resmi, piagam tata kelola 5 peran komunitas, alur NIP 7 tahap, templat NIP, templat GitHub Issues & PR, kebijakan keamanan (responsible disclosure), dan panduan pengaturan GitHub. *(Selesai)*
-- **Phase 4 — Spesifikasi Sintaks:** EBNF (*Extended Backus-Naur Form*) resmi tata bahasa NUSANTARA dan eliminasi ambiguitas parsing.
-- **Phase 5 — Dokumentasi Awal:** Buku pegangan pemula, glosarium teknis resmi Bahasa Indonesia, dan panduan gaya penulisan kode.
+- **Phase 4 — Spesifikasi Sintaks (EBNF Formal):** Tata bahasa formal EBNF lengkap, spesifikasi token leksikal, taksonomi literal, hirarki ekspresi tanpa ambiguitas, pengesahan presedensi operator 8 tingkat, katalog keputusan terbuka, dan 15 kasus uji negatif. *(Selesai)*
+- **Phase 5 — Dokumentasi Awal:** Buku panduan pemula, glosarium teknis resmi Bahasa Indonesia, dan panduan gaya penulisan kode (*style guide*).
 
 ### Blok B: Mesin Inti Kompilator (Phase 6 – 13)
 - **Phase 6 — Lexer:** Tokenisasi kode sumber `.nusantara`, pelacak nomor baris/kolom, penanganan literal Unicode.

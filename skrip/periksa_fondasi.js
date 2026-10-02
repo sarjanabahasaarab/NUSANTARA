@@ -1,6 +1,6 @@
 /**
  * Skrip Pemeriksaan Kepatuhan Repositori Bahasa NUSANTARA
- * Memvalidasi integritas seluruh berkas Phase 1, Phase 2, dan Phase 3 (v0.3.0).
+ * Memvalidasi integritas seluruh berkas Phase 1, 2, 3, dan Phase 4 (v0.4.0).
  */
 
 import fs from 'node:fs';
@@ -13,14 +13,14 @@ const rootDir = path.resolve(__dirname, '..');
 
 const berkasWajib = [
   // --- TATA KELOLA & LISENSI UTAMA (Phase 3 & Root) ---
-  { berkas: 'README.md', kategori: 'Dokumentasi Utama', fase: 'Phase 1-3' },
+  { berkas: 'README.md', kategori: 'Dokumentasi Utama', fase: 'Phase 1-4' },
   { berkas: 'LISENSI', kategori: 'Teks Apache License 2.0', fase: 'Phase 3' },
   { berkas: 'TATA-KELOLA.md', kategori: 'Struktur 5 Peran Komunitas', fase: 'Phase 3' },
   { berkas: 'KEAMANAN.md', kategori: 'Kebijakan Keamanan', fase: 'Phase 3' },
   { berkas: 'KONTRIBUSI.md', kategori: 'Panduan Kontribusi 10 Langkah', fase: 'Phase 1-3' },
   { berkas: 'KODE-ETIK.md', kategori: 'Kode Etik Komunitas', fase: 'Phase 1-3' },
-  { berkas: 'PERUBAHAN.md', kategori: 'Catatan Rilis (Changelog)', fase: 'Phase 1-3' },
-  { berkas: 'ROADMAP.md', kategori: 'Peta Jalan 36 Fase', fase: 'Phase 1-3' },
+  { berkas: 'PERUBAHAN.md', kategori: 'Catatan Rilis (Changelog)', fase: 'Phase 1-4' },
+  { berkas: 'ROADMAP.md', kategori: 'Peta Jalan 36 Fase', fase: 'Phase 1-4' },
   { berkas: '.gitignore', kategori: 'Konfigurasi Git', fase: 'Phase 1' },
 
   // --- TEMPLAT GITHUB (Phase 3) ---
@@ -29,6 +29,23 @@ const berkasWajib = [
   { berkas: '.github/ISSUE_TEMPLATE/dokumentasi.md', kategori: 'Templat Isu Dokumentasi', fase: 'Phase 3' },
   { berkas: '.github/ISSUE_TEMPLATE/pertanyaan.md', kategori: 'Templat Diskusi & Tanya', fase: 'Phase 3' },
   { berkas: '.github/PULL_REQUEST_TEMPLATE.md', kategori: 'Templat Pull Request', fase: 'Phase 3' },
+
+  // --- SPESIFIKASI SINTAKS FORMAL EBNF (Phase 4 Baru) ---
+  { berkas: 'dokumentasi/SPESIFIKASI-SINTAKS.md', kategori: 'Spesifikasi Sintaks Induk', fase: 'Phase 4' },
+  { berkas: 'dokumentasi/GRAMMAR-EBNF.md', kategori: 'Tata Bahasa Formal EBNF', fase: 'Phase 4' },
+  { berkas: 'dokumentasi/TOKEN.md', kategori: 'Spesifikasi Token Leksikal', fase: 'Phase 4' },
+  { berkas: 'dokumentasi/IDENTIFIER.md', kategori: 'Kaidah Pengidentifikasi', fase: 'Phase 4' },
+  { berkas: 'dokumentasi/LITERAL.md', kategori: 'Spesifikasi Bentuk Literal', fase: 'Phase 4' },
+  { berkas: 'dokumentasi/EKSPRESI.md', kategori: 'Spesifikasi Tata Ekspresi', fase: 'Phase 4' },
+  { berkas: 'dokumentasi/PRIORITAS-OPERATOR.md', kategori: 'Tabel Presedensi 8 Tingkat', fase: 'Phase 4' },
+  { berkas: 'dokumentasi/ATURAN-BLOK.md', kategori: 'Aturan Blok & Kontrol Aliran', fase: 'Phase 4' },
+  { berkas: 'dokumentasi/KEPUTUSAN-TERBUKA.md', kategori: 'Katalog Keputusan Terbuka', fase: 'Phase 4' },
+  { berkas: 'dokumentasi/CONTOH-SINTAKS.md', kategori: 'Katalog 10 Contoh Sintaks', fase: 'Phase 4' },
+
+  // --- PENGUJIAN SINTAKS FORMAL (Phase 4 Baru) ---
+  { berkas: 'pengujian/spesifikasi/kasus-valid.md', kategori: 'Koleksi Kasus Valid', fase: 'Phase 4' },
+  { berkas: 'pengujian/spesifikasi/kasus-tidak-valid.md', kategori: '15 Kasus Negatif EBNF', fase: 'Phase 4' },
+  { berkas: 'pengujian/spesifikasi/grammar-checklist.md', kategori: 'Daftar Periksa EBNF', fase: 'Phase 4' },
 
   // --- DOKUMENTASI TATA KELOLA & KEBIJAKAN (Phase 3) ---
   { berkas: 'dokumentasi/LISENSI.md', kategori: 'Panduan Lisensi Apache 2.0', fase: 'Phase 3' },
@@ -43,7 +60,7 @@ const berkasWajib = [
   { berkas: 'dokumentasi/KONSTITUSI-BAHASA.md', kategori: 'Konstitusi Bahasa', fase: 'Phase 2' },
   { berkas: 'dokumentasi/KEYWORD.md', kategori: 'Tabel 32 Kata Kunci', fase: 'Phase 2' },
   { berkas: 'dokumentasi/TIPE-DATA.md', kategori: 'Spesifikasi Tipe Data', fase: 'Phase 2' },
-  { berkas: 'dokumentasi/OPERATOR.md', kategori: 'Klasifikasi Operator', fase: 'Phase 2' },
+  { berkas: 'dokumentasi/OPERATOR.md', kategori: 'Klasifikasi Operator', fase: 'Phase 2-4' },
   { berkas: 'dokumentasi/ATURAN-PENAMAAN.md', kategori: 'Kaidah Penamaan & Komentar', fase: 'Phase 2' },
   { berkas: 'dokumentasi/PESAN-KESALAHAN.md', kategori: 'Standar Pesan Galat', fase: 'Phase 2' },
   { berkas: 'dokumentasi/KOMPATIBILITAS.md', kategori: 'Kebijakan Kompatibilitas', fase: 'Phase 2' },
@@ -55,7 +72,7 @@ const berkasWajib = [
   { berkas: 'pengujian/spesifikasi/program-tidak-valid.md', kategori: 'Katalog Kasus Tak Valid', fase: 'Phase 2' },
 
   // --- FONDASI & IDENTITAS (Phase 1) ---
-  { berkas: 'dokumentasi/README.md', kategori: 'Indeks Dokumentasi', fase: 'Phase 1-3' },
+  { berkas: 'dokumentasi/README.md', kategori: 'Indeks Dokumentasi', fase: 'Phase 1-4' },
   { berkas: 'dokumentasi/prinsip-desain.md', kategori: 'Filosofi Desain', fase: 'Phase 1' },
   { berkas: 'dokumentasi/arsitektur-kompilator.md', kategori: 'Arsitektur Kompilator', fase: 'Phase 1' },
   { berkas: 'dokumentasi/panduan-github.md', kategori: 'Panduan Operasional GitHub', fase: 'Phase 1' },
@@ -82,8 +99,8 @@ const berkasWajib = [
 ];
 
 console.log('=============================================================================');
-console.log('PEMERIKSAAN KEPATUHAN LISENSI, TATA KELOLA & SPESIFIKASI BAHASA NUSANTARA');
-console.log('Target Milestone: Phase 3 — Lisensi & Tata Kelola (v0.3.0)');
+console.log('PEMERIKSAAN KEPATUHAN SPESIFIKASI SINTAKS EBNF BAHASA NUSANTARA');
+console.log('Target Milestone: Phase 4 — Spesifikasi Sintaks (v0.4.0)');
 console.log('=============================================================================\n');
 
 let jumlahLulus = 0;
@@ -93,7 +110,7 @@ for (const item of berkasWajib) {
   const lokasi = path.join(rootDir, item.berkas);
   if (fs.existsSync(lokasi)) {
     const stats = fs.statSync(lokasi);
-    console.log(`[✓ LULUS] ${item.berkas.padEnd(46)} | ${item.kategori.padEnd(28)} | ${item.fase} (${stats.size} B)`);
+    console.log(`[✓ LULUS] ${item.berkas.padEnd(46)} | ${item.kategori.padEnd(30)} | ${item.fase} (${stats.size} B)`);
     jumlahLulus++;
   } else {
     console.error(`[✗ GAGAL] ${item.berkas.padEnd(46)} | BERKAS TIDAK DITEMUKAN!`);
@@ -106,8 +123,8 @@ console.log(`Hasil Evaluasi: ${jumlahLulus} berkas LULUS, ${jumlahGagal} berkas 
 console.log('-----------------------------------------------------------------------------');
 
 if (jumlahGagal === 0) {
-  console.log('STATUS: SELURUH STRUKTUR LISENSI, TATA KELOLA, DAN SPESIFIKASI LENGKAP.');
-  console.log('Repositori siap untuk milestone v0.3.0 (feat: tetapkan lisensi dan tata kelola NUSANTARA).');
+  console.log('STATUS: SELURUH TATA BAHASA EBNF DAN SPESIFIKASI SINTAKS LENGKAP & TERUJI.');
+  console.log('Repositori siap untuk milestone v0.4.0 (feat: tetapkan spesifikasi sintaks NUSANTARA).');
   process.exit(0);
 } else {
   console.error('STATUS: TERDAPAT BERKAS RESMI YANG HILANG. PERIKSA KEMBALI SEBELUM COMMIT.');

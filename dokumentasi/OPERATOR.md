@@ -2,7 +2,7 @@
 
 Dokumen ini mendefinisikan operator simbolik dan leksikal yang dirancang untuk ekspresi matematis, relasional, dan logis dalam bahasa **NUSANTARA**.
 
-Status: **[DITETAPKAN] untuk simbol & kata kunci dasar; [RANCANGAN] untuk hirarki presedensi formal (disahkan pada Phase 4 & Phase 10).**
+Status: **[DITETAPKAN] — Acuan Parsing Ekspresi Resmi (Disahkan pada Phase 4).**
 
 ---
 
@@ -47,20 +47,19 @@ Sesuai prinsip konstitusi bahasa, operator logika menggunakan kata leksikal Baha
 
 ---
 
-## 2. Tabel Presedensi (Prioritas) Operator [RANCANGAN AWAL]
+## 2. Tabel Presedensi (Prioritas) Operator Resmi [DITETAPKAN]
 
-Berikut rancangan hirarki urutan evaluasi operator dari prioritas tertinggi ke terendah:
+Tabel hirarki urutan evaluasi operator dari prioritas tertinggi ke terendah yang disahkan pada **Phase 4 (Spesifikasi Sintaks - EBNF)**:
 
 | Prioritas | Kategori Operator | Simbol / Kata Kunci | Arah Asosiatif | Status Pengesahan |
 |---|---|---|---|---|
 | 1 (Tertinggi) | Pengelompokan | `( )` | Dari dalam ke luar | **[DITETAPKAN]** |
-| 2 | Negasi Logika Unari | `tidak`, `-` (negatif) | Kanan ke Kiri | **[RANCANGAN Phase 4]** |
-| 3 | Perkalian & Pembagian | `*`, `/`, `%` | Kiri ke Kanan | **[RANCANGAN Phase 4]** |
-| 4 | Penjumlahan & Pengurangan | `+`, `-` | Kiri ke Kanan | **[RANCANGAN Phase 4]** |
-| 5 | Perbandingan Ukuran | `<`, `<=`, `>`, `>=` | Kiri ke Kanan | **[RANCANGAN Phase 4]** |
-| 6 | Perbandingan Kesetaraan | `==`, `!=` | Kiri ke Kanan | **[RANCANGAN Phase 4]** |
-| 7 | Konjungsi Logika | `dan` | Kiri ke Kanan | **[RANCANGAN Phase 4]** |
-| 8 | Disjungsi Logika | `atau` | Kiri ke Kanan | **[RANCANGAN Phase 4]** |
-| 9 (Terendah) | Penugasan | `=` | Kanan ke Kiri | **[RANCANGAN Phase 4]** |
+| 2 | Negasi Logika & Tanda Unari | `tidak`, `-` (unari) | Kanan ke Kiri | **[DITETAPKAN]** |
+| 3 | Perkalian, Pembagian, Modulo | `*`, `/`, `%` | Kiri ke Kanan | **[DITETAPKAN]** |
+| 4 | Penjumlahan & Pengurangan | `+`, `-` | Kiri ke Kanan | **[DITETAPKAN]** |
+| 5 | Perbandingan Ukuran | `<`, `<=`, `>`, `>=` | Kiri ke Kanan | **[DITETAPKAN]** |
+| 6 | Perbandingan Kesetaraan | `==`, `!=` | Kiri ke Kanan | **[DITETAPKAN]** |
+| 7 | Konjungsi Logika | `dan` | Kiri ke Kanan | **[DITETAPKAN]** |
+| 8 (Terendah) | Disjungsi Logika | `atau` | Kiri ke Kanan | **[DITETAPKAN]** |
 
-> **Catatan Pengesahan:** Rancangan presedensi di atas merupakan cetak biru awal. Pengesahan formal dengan pohon parsing ekspresi ambiguitas nol akan ditetapkan pada **Phase 4 (Spesifikasi Sintaks - EBNF)** dan **Phase 10 (Operator)**.
+> Rincian tata bahasa pohon ekspresi bebas ambiguitas dijelaskan secara komprehensif pada dokumen [PRIORITAS-OPERATOR.md](PRIORITAS-OPERATOR.md) dan [EKSPRESI.md](EKSPRESI.md).
