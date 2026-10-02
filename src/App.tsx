@@ -20,39 +20,37 @@ import {
   AlertTriangle,
   Binary,
   Compass,
-  Network
+  Network,
+  Play
 } from 'lucide-react';
 import {
   BERKAS_REPOSITORI,
   DAFTAR_PRESEDENSI_OPERATOR,
   DAFTAR_GLOSARIUM,
-  DAFTAR_KATA_KUNCI_PHASE2,
   DAFTAR_FASE_ROADMAP,
   BerkasRepo
 } from './data/berkasRepositori';
 import { Lexer } from './lexer/lexer';
-import { TokenStream } from './lexer/tokenStream';
 import { JenisToken } from './lexer/jenisToken';
 import { Parser } from './parser/parser';
 import { ASTPrinter } from './parser/astPrinter';
+import { Interpreter } from './interpreter/interpreter';
+import { PenulisOutputBuffer } from './interpreter/outputWriter';
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState<'parser' | 'lexer' | 'panduan' | 'ebnf' | 'glosarium' | 'berkas' | 'keyword' | 'roadmap' | 'git'>('parser');
+  const [activeTab, setActiveTab] = useState<'interpreter' | 'parser' | 'lexer' | 'panduan' | 'ebnf' | 'glosarium' | 'berkas' | 'roadmap' | 'git'>('interpreter');
   const [selectedFile, setSelectedFile] = useState<BerkasRepo>(BERKAS_REPOSITORI[0]);
   const [copiedText, setCopiedText] = useState<string | null>(null);
   const [playgroundCode, setPlaygroundCode] = useState<string>(
-    `program HaloNusantara\n\nmulai\n    // Deklarasi variabel & konstanta\n    nama : teks = "Indonesia"\n    tahun : bilangan = 2026\n    tetap KODE_NEGARA : teks = "ID"\n\n    // Percabangan kondisional & ekspresi presedensi\n    jika tahun >= 2026 dan benar maka\n        tampilkan("Selamat Datang di " + nama)\n    selain\n        tampilkan("Tahun belum aktif")\n    akhir\nselesai`
+    `fungsi faktorial(n : bilangan) : bilangan\nmulai\n    jika n <= 1 maka\n        kembalikan 1\n    akhir\n    kembalikan n * faktorial(n - 1)\nselesai\n\nprogram Utama\nmulai\n    // 1. Deklarasi data\n    nama : teks = "Indonesia"\n    tahun : bilangan = 2026\n    tetap KODE : teks = "ID"\n\n    // 2. Evaluasi fungsi dan cetak keluaran\n    tampilkan("Selamat Datang di", nama)\n    tampilkan("Tahun:", tahun, "| Kode:", KODE)\n\n    // 3. Perulangan & Rekursi\n    tampilkan("--- Hitung Faktorial 1 sampai 5 ---")\n    untuk i dari 1 sampai 5 lakukan\n        tampilkan("Faktorial", i, "=", faktorial(i))\n    akhir\nselesai`
   );
   const [activeFilterCategory, setActiveFilterCategory] = useState<string>('Semua');
 
   // 1. Eksekusi Lexer
-  const { tokens, lexerErrors } = useMemo(() => {
+  const { tokens } = useMemo(() => {
     const l = new Lexer(playgroundCode, { sertakanBarisBaru: false });
-    const { token, galat } = l.tokenisasi();
-    return {
-      tokens: token,
-      lexerErrors: galat,
-    };
+    const { token } = l.tokenisasi();
+    return { tokens: token };
   }, [playgroundCode]);
 
   // 2. Eksekusi Parser (Phase 7)
@@ -71,6 +69,24 @@ export default function App() {
         ast: null,
         astString: '',
         parserErrors: [e],
+      };
+    }
+  }, [playgroundCode]);
+
+  // 3. Eksekusi Interpreter (Phase 8)
+  const { runOutput, runtimeError } = useMemo(() => {
+    try {
+      const buffer = new PenulisOutputBuffer();
+      const interp = new Interpreter(buffer);
+      interp.jalankanKode(playgroundCode);
+      return {
+        runOutput: buffer.dapatkanSeluruhTeks(),
+        runtimeError: null,
+      };
+    } catch (e: any) {
+      return {
+        runOutput: [],
+        runtimeError: e.message || String(e),
       };
     }
   }, [playgroundCode]);
@@ -100,6 +116,14 @@ export default function App() {
           </div>
 
           <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-300">
+            <button
+              onClick={() => setActiveTab('interpreter')}
+              className={`hover:text-white transition-colors cursor-pointer ${
+                activeTab === 'interpreter' ? 'text-emerald-400 font-semibold' : 'text-slate-400'
+              }`}
+            >
+              Interpreter (Phase 8)
+            </button>
             <button
               onClick={() => setActiveTab('parser')}
               className={`hover:text-white transition-colors cursor-pointer ${
@@ -152,17 +176,17 @@ export default function App() {
 
           <div className="flex items-center gap-3">
             <button
-              onClick={() => handleCopy('git commit -m "feat: implement nusantara parser and ast"', 'commit-p7')}
+              onClick={() => handleCopy('git commit -m "feat: implement nusantara interpreter"', 'commit-p8')}
               className="px-3.5 py-1.5 text-xs font-medium text-slate-200 bg-slate-900 border border-slate-700/80 rounded-lg hover:bg-slate-800 hover:text-white transition-colors flex items-center gap-2 whitespace-nowrap cursor-pointer"
             >
-              {copiedText === 'commit-p7' ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Terminal className="w-3.5 h-3.5 text-slate-400" />}
-              <span>{copiedText === 'commit-p7' ? 'Tersalin' : 'Salin Komit Phase 7'}</span>
+              {copiedText === 'commit-p8' ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Terminal className="w-3.5 h-3.5 text-slate-400" />}
+              <span>{copiedText === 'commit-p8' ? 'Tersalin' : 'Salin Komit Phase 8'}</span>
             </button>
             <button
-              onClick={() => setActiveTab('parser')}
-              className="px-3.5 py-1.5 text-xs font-semibold text-white bg-cyan-600 rounded-lg hover:bg-cyan-500 transition-colors whitespace-nowrap cursor-pointer"
+              onClick={() => setActiveTab('interpreter')}
+              className="px-3.5 py-1.5 text-xs font-semibold text-white bg-emerald-600 rounded-lg hover:bg-emerald-500 transition-colors whitespace-nowrap cursor-pointer"
             >
-              Milestone v0.7.0
+              Milestone v0.8.0
             </button>
           </div>
         </div>
@@ -172,29 +196,29 @@ export default function App() {
       <section className="border-b border-slate-800/60 bg-gradient-to-b from-slate-950 via-slate-900/60 to-slate-950 py-12 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-wrap items-center gap-2 text-xs text-slate-400 mb-4 tracking-wide font-mono">
-            <span className="text-emerald-400 font-medium">v0.7.0</span>
+            <span className="text-emerald-400 font-medium">v0.8.0</span>
             <span aria-hidden="true">·</span>
-            <span>Phase 7: Implementasi Parser & AST</span>
+            <span>Phase 8: Implementasi Interpreter</span>
             <span aria-hidden="true">·</span>
-            <span className="text-cyan-400 font-medium">Precedence Climbing 8 Tingkat</span>
+            <span className="text-emerald-300 font-medium">Eksekusi Nyata AST</span>
             <span aria-hidden="true">·</span>
-            <span className="text-purple-400 font-medium">11 Kelompok Uji Parser Lulus 100%</span>
+            <span className="text-cyan-400 font-medium">15 Uji Interpreter Lulus 100%</span>
             <span aria-hidden="true">·</span>
             <span>100% Bahasa Indonesia</span>
           </div>
 
           <h1 className="text-3xl sm:text-5xl font-bold tracking-tight text-white max-w-4xl leading-tight">
-            Penganalisis Sintaksis (Parser): Membentuk Pohon Sintaksis Abstrak (AST).
+            Penerjemah Eksekusi (Interpreter): Program NUSANTARA Kini Dapat Dijalankan.
           </h1>
 
           <p className="mt-4 text-base sm:text-lg text-slate-300 max-w-3xl leading-relaxed">
-            Parser resmi mengonsumsi TokenStream dari Lexer, memvalidasi kepatuhan tata bahasa EBNF, mengevaluasi presedensi operator tanpa bias ambiguitas, dan menyusun simpul program berstruktur untuk disiapkan bagi Interpreter pada Phase 8.
+            Untuk pertama kalinya, kode sumber NUSANTARA ditransformasikan dari teks mentah ke token leksikal, divalidasi ke pohon sintaksis abstrak (AST), dan langsung dieksekusi di memori untuk menghasilkan luaran program secara nyata.
           </p>
 
           <div className="mt-6 p-4 rounded-xl bg-slate-900/90 border border-slate-800 max-w-3xl flex items-start gap-3">
             <ShieldCheck className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
             <div className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-              <span className="font-semibold text-emerald-300">Batas Arsitektur Phase 7:</span> Hanya modul Lexer, Parser, dan struktur pohon AST yang aktif. Komponen Interpreter (evaluasi nilai runtime) dan Compiler (biner mesin) belum diimplementasikan dan akan dimulai pada Phase 8 (Interpreter).
+              <span className="font-semibold text-emerald-300">Batas Arsitektur Phase 8:</span> Menggunakan arsitektur Tree-Walk AST Interpreter. Komponen Backend Compiler (pembangkitan kode biner mesin native) direncanakan pada Phase 22.
             </div>
           </div>
         </div>
@@ -203,6 +227,15 @@ export default function App() {
       {/* 3. MAIN CONTENT AREA */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 py-8 flex-1 w-full">
         <div className="flex items-center gap-2 border-b border-slate-800 pb-4 mb-8 overflow-x-auto text-sm">
+          <button
+            onClick={() => setActiveTab('interpreter')}
+            className={`px-4 py-2 rounded-lg font-medium transition-colors whitespace-nowrap cursor-pointer flex items-center gap-2 ${
+              activeTab === 'interpreter' ? 'bg-emerald-950 text-emerald-200 border border-emerald-700/60' : 'text-slate-400 hover:text-white hover:bg-slate-900'
+            }`}
+          >
+            <Play className="w-4 h-4 text-emerald-400" />
+            <span>Interpreter (Phase 8)</span>
+          </button>
           <button
             onClick={() => setActiveTab('parser')}
             className={`px-4 py-2 rounded-lg font-medium transition-colors whitespace-nowrap cursor-pointer flex items-center gap-2 ${
@@ -218,7 +251,7 @@ export default function App() {
               activeTab === 'lexer' ? 'bg-slate-800 text-white' : 'text-slate-400 hover:text-white hover:bg-slate-900'
             }`}
           >
-            <Cpu className="w-4 h-4 text-emerald-400" />
+            <Cpu className="w-4 h-4 text-teal-400" />
             <span>Lexer (Phase 6)</span>
           </button>
           <button
@@ -245,7 +278,7 @@ export default function App() {
               activeTab === 'glosarium' ? 'bg-slate-800 text-white' : 'text-slate-400 hover:text-white hover:bg-slate-900'
             }`}
           >
-            <Compass className="w-4 h-4 text-teal-400" />
+            <Compass className="w-4 h-4 text-amber-400" />
             <span>Glosarium Istilah</span>
           </button>
           <button
@@ -255,7 +288,7 @@ export default function App() {
             }`}
           >
             <Folder className="w-4 h-4 text-amber-400" />
-            <span>Penjelajah Berkas (113)</span>
+            <span>Penjelajah Berkas (123)</span>
           </button>
           <button
             onClick={() => setActiveTab('roadmap')}
@@ -277,39 +310,39 @@ export default function App() {
           </button>
         </div>
 
-        {/* TAB 1: PARSER & AST NYATA (PHASE 7) */}
-        {activeTab === 'parser' && (
+        {/* TAB 1: INTERPRETER EKSEKUSI NYATA (PHASE 8) */}
+        {activeTab === 'interpreter' && (
           <div className="space-y-6">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
               {/* Editor Kode Sumber */}
-              <div className="lg:col-span-6 bg-slate-900/80 border border-slate-800 rounded-xl p-4 flex flex-col h-[680px]">
+              <div className="lg:col-span-6 bg-slate-900/80 border border-slate-800 rounded-xl p-4 flex flex-col h-[700px]">
                 <div className="flex items-center justify-between pb-3 mb-3 border-b border-slate-800">
                   <div className="flex items-center gap-2">
-                    <Code2 className="w-4 h-4 text-cyan-400" />
+                    <Code2 className="w-4 h-4 text-emerald-400" />
                     <span className="text-xs font-semibold text-slate-300 uppercase tracking-wider">
-                      Kode Sumber .nusantara
+                      Editor Sumber .nusantara
                     </span>
                   </div>
                   <div className="flex items-center gap-2">
                     <button
                       onClick={() =>
                         setPlaygroundCode(
-                          `fungsi hitungLuas(panjang : bilangan, lebar : bilangan) : bilangan\nmulai\n    kembalikan panjang * lebar\nselesai\n\nprogram Utama\nmulai\n    p : bilangan = 10\n    l : bilangan = 5\n    luas : bilangan = hitungLuas(p, l)\n    tampilkan(luas)\nselesai`
+                          `program DeretFibonacci\n\nmulai\n    a : bilangan = 0\n    b : bilangan = 1\n    tampilkan("Deret Fibonacci Awal:")\n    untuk i dari 1 sampai 8 lakukan\n        tampilkan(a)\n        c : bilangan = a + b\n        a = b\n        b = c\n    akhir\nselesai`
                         )
                       }
                       className="px-2.5 py-1 text-[11px] font-medium bg-slate-800 text-slate-300 hover:text-white rounded transition-colors cursor-pointer"
                     >
-                      Contoh Fungsi
+                      Contoh Fibonacci
                     </button>
                     <button
                       onClick={() =>
                         setPlaygroundCode(
-                          `program UjiPresedensi\nmulai\n    // Menguji (a + b) * c vs a + b * c\n    hasil1 = a + b * c\n    hasil2 = (a + b) * c\nselesai`
+                          `program KasirSederhana\n\nmulai\n    harga : bilangan = 25000\n    jumlah : bilangan = 3\n    total : bilangan = harga * jumlah\n    \n    jika total >= 50000 maka\n        diskon : bilangan = 5000\n        total = total - diskon\n        tampilkan("Dapat Diskon Rp 5.000!")\n    akhir\n    \n    tampilkan("Total Bayar: Rp", total)\nselesai`
                         )
                       }
-                      className="px-2.5 py-1 text-[11px] font-medium bg-cyan-950/60 text-cyan-300 hover:text-white border border-cyan-800/60 rounded transition-colors cursor-pointer"
+                      className="px-2.5 py-1 text-[11px] font-medium bg-emerald-950/60 text-emerald-300 hover:text-white border border-emerald-800/60 rounded transition-colors cursor-pointer"
                     >
-                      Uji Presedensi
+                      Contoh Kasir
                     </button>
                   </div>
                 </div>
@@ -325,51 +358,75 @@ export default function App() {
                 <div className="mt-3 pt-3 border-t border-slate-800 flex items-center justify-between text-xs font-mono text-slate-400">
                   <span>Karakter: {playgroundCode.length}</span>
                   <span>Baris: {playgroundCode.split('\n').length}</span>
-                  <span className="text-cyan-400">Pipeline: Lexer ➔ Parser (AST)</span>
+                  <span className="text-emerald-400 font-semibold">Saluran Pipa: Lexer ➔ Parser ➔ Interpreter</span>
                 </div>
               </div>
 
-              {/* Pohon Sintaksis Abstrak (AST Visualizer) */}
-              <div className="lg:col-span-6 bg-slate-900/80 border border-slate-800 rounded-xl p-4 flex flex-col h-[680px]">
+              {/* Terminal Keluaran Eksekusi Program */}
+              <div className="lg:col-span-6 bg-slate-900/80 border border-slate-800 rounded-xl p-4 flex flex-col h-[700px]">
                 <div className="flex items-center justify-between pb-3 mb-3 border-b border-slate-800">
                   <div className="flex items-center gap-2">
-                    <Network className="w-4 h-4 text-cyan-400" />
+                    <Terminal className="w-4 h-4 text-emerald-400" />
                     <span className="text-xs font-semibold text-slate-300 uppercase tracking-wider">
-                      Pohon Sintaksis Abstrak (Abstract Syntax Tree)
+                      Terminal Keluaran Eksekusi Program (Output)
                     </span>
                   </div>
-                  <span className="font-mono text-xs text-slate-400 bg-slate-950 px-2 py-0.5 rounded border border-slate-800">
-                    {ast ? `Program: ${ast.namaProgram}` : 'Galat Parsing'}
+                  <span className="font-mono text-xs text-emerald-400 bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-800/80">
+                    Live Execution
                   </span>
                 </div>
 
-                {parserErrors.length > 0 && (
-                  <div className="mb-3 p-3 rounded-lg bg-rose-950/60 border border-rose-800/80 text-rose-200 text-xs font-mono space-y-1">
+                {runtimeError && (
+                  <div className="mb-3 p-3 rounded-lg bg-rose-950/80 border border-rose-800 text-rose-200 text-xs font-mono space-y-1">
                     <div className="font-bold flex items-center gap-1.5 text-rose-300">
                       <AlertTriangle className="w-3.5 h-3.5" />
-                      Ditemukan {parserErrors.length} Kesalahan Sintaksis:
+                      Kesalahan Runtime / Sintaksis:
                     </div>
-                    {parserErrors.map((err, idx) => (
-                      <div key={idx} className="text-[11px] pl-5">
-                        • {err.message}
-                      </div>
-                    ))}
+                    <div className="text-[11px] pl-5">{runtimeError}</div>
                   </div>
                 )}
 
-                <div className="flex-1 overflow-auto bg-slate-950/90 border border-slate-800 rounded-lg p-4 font-mono text-xs text-cyan-200 leading-relaxed">
-                  {astString ? (
-                    <pre className="whitespace-pre-wrap">{astString}</pre>
-                  ) : (
-                    <div className="text-slate-500 italic">Pohon AST tidak dapat dibentuk karena terdapat kesalahan sintaksis di atas.</div>
-                  )}
+                <div className="flex-1 overflow-auto bg-black border border-slate-800 rounded-lg p-4 font-mono text-xs sm:text-sm leading-relaxed text-emerald-300">
+                  {runOutput.length > 0 ? (
+                    <div className="space-y-1">
+                      {runOutput.map((baris, idx) => (
+                        <div key={idx} className="flex items-start gap-2">
+                          <span className="text-slate-600 select-none text-xs">&gt;</span>
+                          <span className="text-slate-100">{baris}</span>
+                        </div>
+                      ))}
+                    </div>
+                  ) : !runtimeError ? (
+                    <div className="text-slate-600 italic">Program dieksekusi tanpa memanggil tampilkan().</div>
+                  ) : null}
+                </div>
+
+                <div className="mt-3 pt-3 border-t border-slate-800 flex items-center justify-between text-xs font-mono text-slate-500">
+                  <span>Keluaran: {runOutput.length} baris</span>
+                  <span>Fungsi Bawaan: tampilkan(...)</span>
                 </div>
               </div>
             </div>
           </div>
         )}
 
-        {/* TAB 2: LEXER INTERAKTIF */}
+        {/* TAB 2: PARSER & AST */}
+        {activeTab === 'parser' && (
+          <div className="space-y-6">
+            <div className="bg-slate-900/80 border border-slate-800 rounded-xl p-4 flex flex-col h-[680px]">
+              <div className="flex items-center justify-between pb-3 mb-3 border-b border-slate-800">
+                <span className="text-xs font-semibold text-slate-300 uppercase tracking-wider">
+                  Pohon Sintaksis Abstrak (Abstract Syntax Tree)
+                </span>
+              </div>
+              <div className="flex-1 overflow-auto bg-slate-950/90 border border-slate-800 rounded-lg p-4 font-mono text-xs text-cyan-200 leading-relaxed">
+                <pre className="whitespace-pre-wrap">{astString}</pre>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* TAB 3: LEXER */}
         {activeTab === 'lexer' && (
           <div className="space-y-6">
             <div className="bg-slate-900/80 border border-slate-800 rounded-xl p-4 flex flex-col h-[650px]">
@@ -400,7 +457,7 @@ export default function App() {
           </div>
         )}
 
-        {/* TAB 3: PANDUAN */}
+        {/* TAB 4: PANDUAN */}
         {activeTab === 'panduan' && (
           <div className="space-y-6">
             <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-6">
@@ -410,12 +467,11 @@ export default function App() {
           </div>
         )}
 
-        {/* TAB 4: TATA BAHASA EBNF */}
+        {/* TAB 5: TATA BAHASA EBNF */}
         {activeTab === 'ebnf' && (
           <div className="space-y-6">
             <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-6">
               <h2 className="text-xl font-bold text-white mb-2">Tata Bahasa Formal EBNF (ISO/IEC 14977)</h2>
-              <p className="text-xs text-slate-400 font-mono mb-4">Disahkan pada Phase 4 sebagai acuan mutlak Lexer & Parser</p>
               <pre className="p-4 bg-slate-950 font-mono text-xs text-purple-300 rounded-xl border border-slate-800 overflow-x-auto leading-relaxed">
 {`program_utama = "program", spasi, pengidentifikasi, pemisah_baris, blok_utama ;
 blok_utama = "mulai", pemisah_baris, daftar_pernyataan, "selesai" ;
@@ -427,7 +483,7 @@ pernyataan = deklarasi_variabel | deklarasi_tetap | penugasan | pemanggilan_fung
           </div>
         )}
 
-        {/* TAB 5: GLOSARIUM */}
+        {/* TAB 6: GLOSARIUM */}
         {activeTab === 'glosarium' && (
           <div className="space-y-6">
             <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-6">
@@ -456,12 +512,12 @@ pernyataan = deklarasi_variabel | deklarasi_tetap | penugasan | pemanggilan_fung
           </div>
         )}
 
-        {/* TAB 6: PENJELAJAH BERKAS */}
+        {/* TAB 7: PENJELAJAH BERKAS */}
         {activeTab === 'berkas' && (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
             <div className="lg:col-span-4 bg-slate-900/70 border border-slate-800 rounded-xl p-4 flex flex-col h-[700px]">
               <div className="flex items-center justify-between pb-3 mb-3 border-b border-slate-800">
-                <span className="text-xs font-semibold text-slate-300 uppercase tracking-wider">Berkas Repositori (Phase 1-7)</span>
+                <span className="text-xs font-semibold text-slate-300 uppercase tracking-wider">Berkas Repositori (Phase 1-8)</span>
                 <span className="text-xs text-slate-500 font-mono">{BERKAS_REPOSITORI.length} Berkas Terindeks</span>
               </div>
               <div className="overflow-y-auto flex-1 space-y-1 pr-1 font-mono text-xs">
@@ -515,20 +571,20 @@ pernyataan = deklarasi_variabel | deklarasi_tetap | penugasan | pemanggilan_fung
           </div>
         )}
 
-        {/* TAB 7: PETA JALAN */}
+        {/* TAB 8: PETA JALAN */}
         {activeTab === 'roadmap' && (
           <div className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
               {filteredRoadmap.map((item) => {
-                const isCompleted = item.fase <= 7;
-                const isCurrent = item.fase === 7;
-                const isNext = item.fase === 8;
+                const isCompleted = item.fase <= 8;
+                const isCurrent = item.fase === 8;
+                const isNext = item.fase === 9;
                 return (
                   <div
                     key={item.fase}
                     className={`p-4 rounded-xl border transition-all ${
                       isCurrent
-                        ? 'bg-cyan-950/40 border-cyan-600/80 shadow-sm shadow-cyan-900/30'
+                        ? 'bg-emerald-950/40 border-emerald-600/80 shadow-sm shadow-emerald-900/30'
                         : isCompleted
                         ? 'bg-emerald-950/20 border-emerald-800/60'
                         : isNext
@@ -541,7 +597,7 @@ pernyataan = deklarasi_variabel | deklarasi_tetap | penugasan | pemanggilan_fung
                       <span
                         className={`font-mono text-[10px] px-2 py-0.5 rounded ${
                           isCurrent
-                            ? 'bg-cyan-900/60 text-cyan-300 font-semibold'
+                            ? 'bg-emerald-900/60 text-emerald-300 font-semibold'
                             : isCompleted
                             ? 'bg-emerald-900/60 text-emerald-300 font-semibold'
                             : isNext
@@ -561,16 +617,16 @@ pernyataan = deklarasi_variabel | deklarasi_tetap | penugasan | pemanggilan_fung
           </div>
         )}
 
-        {/* TAB 8: SINKRONISASI GIT */}
+        {/* TAB 9: SINKRONISASI GIT */}
         {activeTab === 'git' && (
           <div className="space-y-6">
             <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-6">
-              <h2 className="text-xl font-bold text-white mb-2">Sinkronisasi Komit Phase 7 ke GitHub</h2>
-              <p className="text-sm text-slate-300 mb-6">Jalankan perintah berikut untuk menyinkronkan seluruh modul Parser & AST ke repositori GitHub:</p>
+              <h2 className="text-xl font-bold text-white mb-2">Sinkronisasi Komit Phase 8 ke GitHub</h2>
+              <p className="text-sm text-slate-300 mb-6">Jalankan perintah berikut untuk menyinkronkan seluruh modul Interpreter ke repositori GitHub:</p>
               <div className="space-y-3 font-mono text-xs">
-                <pre className="text-cyan-300 bg-slate-950 p-3 rounded-lg border border-slate-800">git add .</pre>
-                <pre className="text-cyan-300 bg-slate-950 p-3 rounded-lg border border-slate-800">git commit -m "feat: implement nusantara parser and ast"</pre>
-                <pre className="text-cyan-300 bg-slate-950 p-3 rounded-lg border border-slate-800">git push origin main</pre>
+                <pre className="text-emerald-300 bg-slate-950 p-3 rounded-lg border border-slate-800">git add .</pre>
+                <pre className="text-emerald-300 bg-slate-950 p-3 rounded-lg border border-slate-800">git commit -m "feat: implement nusantara interpreter"</pre>
+                <pre className="text-emerald-300 bg-slate-950 p-3 rounded-lg border border-slate-800">git push origin main</pre>
               </div>
             </div>
           </div>
@@ -583,7 +639,7 @@ pernyataan = deklarasi_variabel | deklarasi_tetap | penugasan | pemanggilan_fung
           <div className="flex items-center gap-2 text-slate-400">
             <span className="font-bold text-slate-200 font-sans">NUSANTARA</span>
             <span>·</span>
-            <span>Milestone v0.7.0 (Phase 7: Parser & AST)</span>
+            <span>Milestone v0.8.0 (Phase 8: Interpreter AST Selesai)</span>
             <span>·</span>
             <span>Apache License 2.0</span>
           </div>

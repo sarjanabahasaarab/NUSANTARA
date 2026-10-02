@@ -2,30 +2,38 @@
 
 Seluruh perubahan penting pada proyek bahasa pemrograman NUSANTARA dicatat dalam dokumen ini.
 
-Format penomoran versi mengacu pada **Semantic Versioning** (`vMAJOR.MINOR.PATCH`). Pada masa pengembangan awal, versi minor mencerminkan tahapan fase roadmap (misal `v0.1.0` untuk Phase 1, `v0.2.0` untuk Phase 2, `v0.3.0` untuk Phase 3, `v0.4.0` untuk Phase 4, `v0.5.0` untuk Phase 5, `v0.6.0` untuk Phase 6, `v0.7.0` untuk Phase 7), sedangkan patch (`v0.7.1`) digunakan untuk penyempurnaan dokumen atau perbaikan kecil.
+Format penomoran versi mengacu pada **Semantic Versioning** (`vMAJOR.MINOR.PATCH`). Pada masa pengembangan awal, versi minor mencerminkan tahapan fase roadmap (misal `v0.1.0` untuk Phase 1, `v0.2.0` untuk Phase 2, `v0.3.0` untuk Phase 3, `v0.4.0` untuk Phase 4, `v0.5.0` untuk Phase 5, `v0.6.0` untuk Phase 6, `v0.7.0` untuk Phase 7, `v0.8.0` untuk Phase 8).
+
+---
+
+## [v0.8.0] — 2026-10-02
+### Phase 8: Implementasi Interpreter NUSANTARA
+
+Fase ini menghadirkan modul lapis ketiga dari saluran pipa kompilasi: **Interpreter (Penerjemah Eksekusi AST)**. Untuk pertama kalinya, program berformat `.nusantara` dapat benar-benar dieksekusi secara nyata dalam memori dan menghasilkan luaran program.
+
+#### Ditambahkan:
+- **Modul Runtime & Interpreter Inti (`src/interpreter/`):**
+  - `src/interpreter/nilai.ts`: Sistem representasi nilai runtime (`Teks`, `Bilangan`, `Desimal`, `Logika`, `Kosong`, `FungsiPengguna`, `FungsiBawaan`).
+  - `src/interpreter/environment.ts`: Manajemen rantai lingkup leksikal (*lexical scope*), tabel simbol, dan proteksi kekekalan konstanta `tetap` (*immutable*).
+  - `src/interpreter/sinyal.ts`: Penanganan kontrol alur internal untuk `kembalikan` (*return*), `hentikan` (*break*), dan `lanjutkan` (*continue*).
+  - `src/interpreter/outputWriter.ts`: Abstraksi keluaran luaran (`PenulisOutputBuffer` dan `PenulisOutputKonsol`) untuk memfasilitasi pengujian otomatis dan antarmuka interaktif.
+  - `src/interpreter/galat.ts`: Sistem kesalahan runtime (`GalatRuntime`) dilengkapi informasi jenis, koordinat kode sumber, dan pelacak jejak tumpukan (*stack trace*).
+  - `src/interpreter/interpreter.ts`: Mesin eksekusi pohon AST mencakup evaluasi operator aritmatika, perbandingan, logika hubung singkat (*short-circuit*), penugasan, percabangan `jika-maka-selain`, perulangan `untuk` dan `selama`, pemanggilan fungsi modular, fungsi rekursif mandiri, serta fungsi bawaan `tampilkan(...)`.
+  - `src/interpreter/index.ts`: Ekspor terpadu modul interpreter.
+- **Dokumentasi Pengembang Interpreter:**
+  - `docs/pengembang/interpreter.md`: Panduan teknis arsitektur penerjemah AST, evaluasi ekspresi, lingkup variabel, dan fungsi bawaan.
+- **Rangkaian Pengujian Interpreter (`pengujian/interpreter/`):**
+  - `pengujian/interpreter/uji_interpreter.ts`: 15 uji unit & integrasi untuk Halo Dunia, evaluasi literal, presedensi aritmatika, short-circuit logic, proteksi nilai tetap, percabangan, loop, fungsi, rekursi faktorial, dan runtime error.
+  - `pengujian/interpreter/README.md`: Panduan eksekusi pengujian Interpreter.
+- **Skrip Perintah:**
+  - Menambahkan skrip `"test:interpreter"` dan menyatukannya ke dalam `"npm test"`.
 
 ---
 
 ## [v0.7.0] — 2026-10-02
 ### Phase 7: Implementasi Parser NUSANTARA
-
-Fase ini menghadirkan modul lapis kedua dari saluran pipa kompilasi: **Parser (Penganalisis Sintaksis)** dan struktur data **Pohon Sintaksis Abstrak (*Abstract Syntax Tree / AST*)**. Parser mengonsumsi token dari Lexer Phase 6 dan memvalidasi tata bahasa EBNF resmi tanpa menyertakan interpreter/compiler prematur.
-
-#### Ditambahkan:
-- **Modul Parser & AST Inti (`src/parser/`):**
-  - `src/parser/ast.ts`: Definisi taksonomi simpul AST (`NodeProgram`, `PernyataanAST`, `EkspresiAST`, `Literal`, `Pengidentifikasi`, `EkspresiUnari`, `EkspresiBiner`, `PercabanganJika`, `PerulanganUntuk`, `PerulanganSelama`, `DeklarasiFungsi`, dsb.).
-  - `src/parser/galat.ts`: Sistem pelaporan galat sintaksis diagnostik berbahasa Indonesia (`GalatParser`).
-  - `src/parser/astPrinter.ts`: Utilitas pencetak pohon AST berformat teks hierarkis untuk inspeksi pengembang.
-  - `src/parser/parser.ts`: Mesin penganalisis sintaksis berbasis recursive descent dan precedence climbing (8 tingkat presedensi operator formal) dengan kemampuan sinkronisasi pemulihan galat (*error recovery*).
-  - `src/parser/index.ts`: Ekspor terpadu modul Parser dan AST.
-  - `src/parser/README.md`: Dokumentasi komponen dan alur Parser.
-- **Dokumentasi Pengembang Parser:**
-  - `docs/pengembang/parser.md`: Buku panduan arsitektur sintaksis, pohon AST, urutan presedensi, dan alur penambahan grammar baru.
-- **Rangkaian Pengujian Parser (`pengujian/parser/`):**
-  - `pengujian/parser/uji_parser.ts`: 11 kelompok pengujian mencakup program dasar, presedensi operator, deklarasi variabel/tetap, percabangan jika, perulangan untuk/selama, fungsi, AST printer, dan penanganan galat sintaksis.
-  - `pengujian/parser/README.md`: Panduan eksekusi pengujian Parser.
-- **Skrip Perintah:**
-  - Menambahkan `"test:parser"` pada `package.json` dan menyatukannya dalam `"npm test"`.
+- Modul Parser dan AST inti (`src/parser/`) dengan recursive descent dan precedence climbing 8 tingkat.
+- 11 kelompok pengujian Parser lulus 100%.
 
 ---
 
@@ -48,7 +56,6 @@ Fase ini menghadirkan modul lapis kedua dari saluran pipa kompilasi: **Parser (P
 - Menetapkan tata bahasa formal EBNF lengkap (ISO/IEC 14977).
 - Menetapkan spesifikasi token leksikal dan aturan pengidentifikasi ASCII.
 - Mengesahkan tabel presedensi 8 tingkat operator dan arah asosiasi.
-- Menyediakan katalog 15 kasus uji negatif.
 
 ---
 
@@ -56,15 +63,12 @@ Fase ini menghadirkan modul lapis kedua dari saluran pipa kompilasi: **Parser (P
 ### Phase 3: Lisensi & Tata Kelola NUSANTARA
 - Menetapkan Apache License 2.0 lengkap pada `LISENSI`.
 - Menetapkan tata kelola meritokrasi 5 peran di `TATA-KELOLA.md`.
-- Menetapkan alur NIP 7 tahap di `PROSES-NIP.md` dan `TEMPLATE-NIP.md`.
 
 ---
 
 ## [v0.2.0] — 2026-10-02
 ### Phase 2: Konstitusi Bahasa NUSANTARA
-- Menetapkan Piagam 10 Prinsip Konstitusi Bahasa.
-- Menetapkan tabel 32 kata kunci resmi.
-- Menerbitkan proposal NIP-0002.
+- Menetapkan Piagam 10 Prinsip Konstitusi Bahasa dan tabel 32 kata kunci.
 
 ---
 

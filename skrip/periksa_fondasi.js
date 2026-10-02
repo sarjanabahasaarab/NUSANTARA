@@ -1,6 +1,6 @@
 /**
  * Skrip Pemeriksaan Kepatuhan Repositori Bahasa NUSANTARA
- * Memvalidasi integritas seluruh berkas Phase 1, 2, 3, 4, 5, 6, dan Phase 7 (v0.7.0).
+ * Memvalidasi integritas seluruh berkas Phase 1, 2, 3, 4, 5, 6, 7, dan Phase 8 (v0.8.0).
  */
 
 import fs from 'node:fs';
@@ -13,14 +13,14 @@ const rootDir = path.resolve(__dirname, '..');
 
 const berkasWajib = [
   // --- TATA KELOLA & LISENSI UTAMA (Phase 3 & Root) ---
-  { berkas: 'README.md', kategori: 'Dokumentasi Utama', fase: 'Phase 1-7' },
+  { berkas: 'README.md', kategori: 'Dokumentasi Utama', fase: 'Phase 1-8' },
   { berkas: 'LISENSI', kategori: 'Teks Apache License 2.0', fase: 'Phase 3' },
   { berkas: 'TATA-KELOLA.md', kategori: 'Struktur 5 Peran Komunitas', fase: 'Phase 3' },
   { berkas: 'KEAMANAN.md', kategori: 'Kebijakan Keamanan', fase: 'Phase 3' },
   { berkas: 'KONTRIBUSI.md', kategori: 'Panduan Kontribusi 10 Langkah', fase: 'Phase 1-3' },
   { berkas: 'KODE-ETIK.md', kategori: 'Kode Etik Komunitas', fase: 'Phase 1-3' },
-  { berkas: 'PERUBAHAN.md', kategori: 'Catatan Rilis (Changelog)', fase: 'Phase 1-7' },
-  { berkas: 'ROADMAP.md', kategori: 'Peta Jalan 36 Fase', fase: 'Phase 1-7' },
+  { berkas: 'PERUBAHAN.md', kategori: 'Catatan Rilis (Changelog)', fase: 'Phase 1-8' },
+  { berkas: 'ROADMAP.md', kategori: 'Peta Jalan 36 Fase', fase: 'Phase 1-8' },
   { berkas: '.gitignore', kategori: 'Konfigurasi Git', fase: 'Phase 1' },
 
   // --- TEMPLAT GITHUB (Phase 3) ---
@@ -30,7 +30,19 @@ const berkasWajib = [
   { berkas: '.github/ISSUE_TEMPLATE/pertanyaan.md', kategori: 'Templat Diskusi & Tanya', fase: 'Phase 3' },
   { berkas: '.github/PULL_REQUEST_TEMPLATE.md', kategori: 'Templat Pull Request', fase: 'Phase 3' },
 
-  // --- IMPLEMENTASI MODUL PARSER & AST (Phase 7 Baru) ---
+  // --- IMPLEMENTASI MODUL INTERPRETER RUNTIME (Phase 8 Baru) ---
+  { berkas: 'src/interpreter/nilai.ts', kategori: 'Sistem Nilai Runtime', fase: 'Phase 8' },
+  { berkas: 'src/interpreter/environment.ts', kategori: 'Manajemen Lingkup & Tabel Simbol', fase: 'Phase 8' },
+  { berkas: 'src/interpreter/sinyal.ts', kategori: 'Sinyal Kontrol Alur Eksekusi', fase: 'Phase 8' },
+  { berkas: 'src/interpreter/outputWriter.ts', kategori: 'Abstraksi Pencetak Keluaran', fase: 'Phase 8' },
+  { berkas: 'src/interpreter/galat.ts', kategori: 'Pelaporan Galat Runtime', fase: 'Phase 8' },
+  { berkas: 'src/interpreter/interpreter.ts', kategori: 'Mesin Eksekusi AST', fase: 'Phase 8' },
+  { berkas: 'src/interpreter/index.ts', kategori: 'Ekspor Terpadu Interpreter', fase: 'Phase 8' },
+  { berkas: 'docs/pengembang/interpreter.md', kategori: 'Dokumentasi Teknis Interpreter', fase: 'Phase 8' },
+  { berkas: 'pengujian/interpreter/uji_interpreter.ts', kategori: 'Rangkaian 15 Uji Interpreter', fase: 'Phase 8' },
+  { berkas: 'pengujian/interpreter/README.md', kategori: 'Panduan Eksekusi Uji Interpreter', fase: 'Phase 8' },
+
+  // --- IMPLEMENTASI MODUL PARSER & AST (Phase 7) ---
   { berkas: 'src/parser/ast.ts', kategori: 'Definisi Struktur Simpul AST', fase: 'Phase 7' },
   { berkas: 'src/parser/galat.ts', kategori: 'Pelaporan Galat Sintaksis', fase: 'Phase 7' },
   { berkas: 'src/parser/astPrinter.ts', kategori: 'Utilitas Visualisasi Pohon AST', fase: 'Phase 7' },
@@ -154,7 +166,7 @@ const berkasWajib = [
 
 console.log('=============================================================================');
 console.log('PEMERIKSAAN KEPATUHAN SPESIFIKASI & IMPLEMENTASI BAHASA NUSANTARA');
-console.log('Target Milestone: Phase 7 — Parser (Penganalisis Sintaksis & AST) (v0.7.0)');
+console.log('Target Milestone: Phase 8 — Interpreter (Penerjemah Eksekusi AST) (v0.8.0)');
 console.log('=============================================================================\n');
 
 let jumlahLulus = 0;
@@ -177,8 +189,8 @@ console.log(`Hasil Evaluasi: ${jumlahLulus} berkas LULUS, ${jumlahGagal} berkas 
 console.log('-----------------------------------------------------------------------------');
 
 if (jumlahGagal === 0) {
-  console.log('STATUS: SELURUH DOKUMENTASI, SPESIFIKASI, LEXER, DAN PARSER LENGKAP & TERUJI.');
-  console.log('Repositori siap untuk milestone v0.7.0 (feat: implement nusantara parser and ast).');
+  console.log('STATUS: SELURUH DOKUMENTASI, SPESIFIKASI, LEXER, PARSER, DAN INTERPRETER LENGKAP & TERUJI.');
+  console.log('Repositori siap untuk milestone v0.8.0 (feat: implement nusantara interpreter).');
   process.exit(0);
 } else {
   console.error('STATUS: TERDAPAT BERKAS RESMI YANG HILANG. PERIKSA KEMBALI SEBELUM COMMIT.');

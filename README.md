@@ -2,12 +2,13 @@
 
 > **Bahasa Pemrograman 100% Bahasa Indonesia untuk Komputasi Modern, Terbuka, dan Berkelanjutan.**
 
-[![Status](https://img.shields.io/badge/status-fase_7:_parser_selesai-blue.svg)](ROADMAP.md)
-[![Versi](https://img.shields.io/badge/versi-v0.7.0-emerald.svg)](PERUBAHAN.md)
+[![Status](https://img.shields.io/badge/status-fase_8:_interpreter_selesai-blue.svg)](ROADMAP.md)
+[![Versi](https://img.shields.io/badge/versi-v0.8.0-emerald.svg)](PERUBAHAN.md)
 [![Lisensi](https://img.shields.io/badge/lisensi-Apache_2.0-blue.svg)](LISENSI)
 [![Tata Bahasa](https://img.shields.io/badge/grammar-EBNF_ISO--14977-purple.svg)](dokumentasi/GRAMMAR-EBNF.md)
 [![Lexer](https://img.shields.io/badge/lexer-lulus_100%25-teal.svg)](docs/pengembang/lexer.md)
-[![Parser & AST](https://img.shields.io/badge/parser-lulus_100%25-cyan.svg)](docs/pengembang/parser.md)
+[![Parser](https://img.shields.io/badge/parser-lulus_100%25-cyan.svg)](docs/pengembang/parser.md)
+[![Interpreter](https://img.shields.io/badge/interpreter-eksekusi_nyata-green.svg)](docs/pengembang/interpreter.md)
 
 ---
 
@@ -19,12 +20,12 @@ NUSANTARA bukan sekadar penerjemah sintaksis bahasa asing, melainkan ikhtiar man
 
 - **Ekstensi Berkas Resmi:** `.nusantara`
 - **Lisensi:** [Apache License 2.0](LISENSI)
-- **Status Saat Ini:** **Phase 7: Parser & AST Selesai (Milestone v0.7.0).**
+- **Status Saat Ini:** **Phase 8: Interpreter Selesai (Milestone v0.8.0) — Program NUSANTARA dapat dieksekusi secara nyata!**
+- **Dokumentasi Interpreter:** [docs/pengembang/interpreter.md](docs/pengembang/interpreter.md)
 - **Dokumentasi Parser:** [docs/pengembang/parser.md](docs/pengembang/parser.md)
 - **Dokumentasi Lexer:** [docs/pengembang/lexer.md](docs/pengembang/lexer.md)
 - **Pusat Buku Panduan:** [docs/README.md](docs/README.md) & [Indeks Lengkap](docs/indeks.md)
 - **Tata Bahasa Formal:** [GRAMMAR-EBNF.md](dokumentasi/GRAMMAR-EBNF.md)
-- **Dokumen Konstitusi Resmi:** [KONSTITUSI-BAHASA.md](dokumentasi/KONSTITUSI-BAHASA.md)
 
 ---
 
@@ -53,25 +54,24 @@ Source Code (.nusantara)
          │
          ▼
  ┌───────────────┐
- │  Interpreter  │  <-- [Target Berikutnya: Phase 8 (v0.8.0)]
+ │  Interpreter  │  <-- [SELESAI DI PHASE 8 (v0.8.0)]
  └───────────────┘
          │
          ▼
-      Eksekusi
+ Keluaran Eksekusi Program (Output)
 ```
 
-> ⚠️ **Catatan Batas Implementasi:** Pada Phase 7, komponen yang aktif adalah **Lexer**, **Parser**, dan struktur **AST**. Komponen Interpreter dan Compiler sengaja belum dibuat pada fase ini dan akan dikerjakan pada **Phase 8 (Interpreter)**.
+> ⚠️ **Catatan Batas Implementasi:** Pada Phase 8, program dieksekusi melalui **Tree-Walk Interpreter AST**. Komponen Backend Compiler (biner mesin native) direncanakan pada Phase 22.
 
 ---
 
-## 3. Menjalankan Pengujian Lexer & Parser
-
-Pengujian komprehensif Lexer (21 uji) dan Parser (11 uji) dapat dijalankan melalui perintah:
+## 3. Menjalankan Pengujian Lengkap
 
 ```bash
-npm run test:lexer   # Uji modul leksikal
-npm run test:parser  # Uji modul sintaksis dan pohon AST
-npm test             # Audit menyeluruh repositori dan seluruh unit test
+npm run test:lexer        # 21 Uji modul leksikal
+npm run test:parser       # 11 Uji modul sintaksis dan pohon AST
+npm run test:interpreter  # 15 Uji eksekusi runtime program nyata
+npm test                  # Audit menyeluruh repositori dan seluruh unit test
 ```
 
 ---
@@ -85,8 +85,9 @@ npm test             # Audit menyeluruh repositori dan seluruh unit test
 [✓] Phase 4: Spesifikasi Sintaks NUSANTARA (v0.4.0)
 [✓] Phase 5: Dokumentasi Awal & Buku Panduan (v0.5.0)
 [✓] Phase 6: Lexer (Penganalisis Leksikal) (v0.6.0)
-[✓] Phase 7: Parser (Penganalisis Sintaksis & AST) (v0.7.0) <-- Fase Selesai
-[ ] Phase 8: Interpreter (Penerjemah Eksekusi AST)          <-- Target Berikutnya
+[✓] Phase 7: Parser (Penganalisis Sintaksis & AST) (v0.7.0)
+[✓] Phase 8: Interpreter (Penerjemah Eksekusi AST) (v0.8.0) <-- Fase Selesai
+[ ] Phase 9: Variabel & Tipe Data Lanjutan                  <-- Target Berikutnya
 ...
 [ ] Phase 36: NUSANTARA System & NusantaraOS
 ```
@@ -95,4 +96,4 @@ npm test             # Audit menyeluruh repositori dan seluruh unit test
 
 ## 5. Lisensi
 
-Proyek NUSANTARA dilindungi di bawah [Apache License 2.0](LISENSI). Seluruh rancangan, tata bahasa, dan kode terbuka untuk dimanfaatkan, diteliti, serta dikembangkan bersama oleh masyarakat luas.
+Proyek NUSANTARA dilindungi di bawah [Apache License 2.0](LISENSI).

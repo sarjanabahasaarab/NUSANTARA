@@ -8,6 +8,48 @@ export interface BerkasRepo {
 }
 
 export const BERKAS_REPOSITORI: BerkasRepo[] = [
+  // --- FASE 8: IMPLEMENTASI INTERPRETER INTI ---
+  {
+    jalur: 'src/interpreter/interpreter.ts',
+    nama: 'interpreter.ts',
+    kategori: 'Mesin Eksekusi AST',
+    bahasa: 'javascript',
+    ukuran: 15800,
+    konten: `// Interpreter Resmi Bahasa NUSANTARA (Phase 8)`
+  },
+  {
+    jalur: 'src/interpreter/nilai.ts',
+    nama: 'nilai.ts',
+    kategori: 'Sistem Nilai Runtime',
+    bahasa: 'javascript',
+    ukuran: 2800,
+    konten: `// Sistem Nilai Runtime Bahasa NUSANTARA`
+  },
+  {
+    jalur: 'src/interpreter/environment.ts',
+    nama: 'environment.ts',
+    kategori: 'Manajemen Lingkup & Simbol',
+    bahasa: 'javascript',
+    ukuran: 2300,
+    konten: `// Manajemen Lingkup & Perlindungan Nilai Tetap`
+  },
+  {
+    jalur: 'docs/pengembang/interpreter.md',
+    nama: 'interpreter.md',
+    kategori: 'Dokumentasi Teknis Interpreter',
+    bahasa: 'markdown',
+    ukuran: 3900,
+    konten: `# Arsitektur & Dokumentasi Teknis Interpreter NUSANTARA`
+  },
+  {
+    jalur: 'pengujian/interpreter/uji_interpreter.ts',
+    nama: 'uji_interpreter.ts',
+    kategori: 'Rangkaian 15 Uji Interpreter',
+    bahasa: 'javascript',
+    ukuran: 8400,
+    konten: `// Pengujian Komprehensif Interpreter Bahasa NUSANTARA`
+  },
+
   // --- FASE 7: IMPLEMENTASI PARSER & AST INTI ---
   {
     jalur: 'src/parser/parser.ts',
@@ -26,28 +68,12 @@ export const BERKAS_REPOSITORI: BerkasRepo[] = [
     konten: `// Definisi Simpul AST Bahasa NUSANTARA`
   },
   {
-    jalur: 'src/parser/astPrinter.ts',
-    nama: 'astPrinter.ts',
-    kategori: 'Visualisasi Pohon AST',
-    bahasa: 'javascript',
-    ukuran: 4200,
-    konten: `// Utilitas Visualisasi Pohon AST`
-  },
-  {
     jalur: 'docs/pengembang/parser.md',
     nama: 'parser.md',
     kategori: 'Dokumentasi Teknis Parser',
     bahasa: 'markdown',
     ukuran: 3600,
     konten: `# Arsitektur & Dokumentasi Teknis Parser NUSANTARA`
-  },
-  {
-    jalur: 'pengujian/parser/uji_parser.ts',
-    nama: 'uji_parser.ts',
-    kategori: 'Rangkaian 11 Uji Parser & AST',
-    bahasa: 'javascript',
-    ukuran: 8100,
-    konten: `// Pengujian Komprehensif Parser & AST Bahasa NUSANTARA`
   },
 
   // --- FASE 6: IMPLEMENTASI LEXER INTI ---
@@ -60,28 +86,12 @@ export const BERKAS_REPOSITORI: BerkasRepo[] = [
     konten: `// Lexer Resmi Bahasa NUSANTARA (Phase 6)`
   },
   {
-    jalur: 'src/lexer/jenisToken.ts',
-    nama: 'jenisToken.ts',
-    kategori: 'Taksonomi Token Leksikal',
-    bahasa: 'javascript',
-    ukuran: 3620,
-    konten: `// Taksonomi Jenis Token Bahasa NUSANTARA`
-  },
-  {
     jalur: 'src/lexer/tokenStream.ts',
     nama: 'tokenStream.ts',
     kategori: 'Abstraksi Aliran Token',
     bahasa: 'javascript',
     ukuran: 1850,
     konten: `// TokenStream untuk Parser Phase 7`
-  },
-  {
-    jalur: 'docs/pengembang/lexer.md',
-    nama: 'lexer.md',
-    kategori: 'Dokumentasi Teknis Lexer',
-    bahasa: 'markdown',
-    ukuran: 3450,
-    konten: `# Arsitektur & Dokumentasi Teknis Lexer NUSANTARA`
   },
 
   // --- FASE 5: BUKU PANDUAN & DOKUMENTASI AWAL (docs/) ---
@@ -119,14 +129,6 @@ export const BERKAS_REPOSITORI: BerkasRepo[] = [
     ukuran: 5522,
     konten: `# Tata Bahasa Formal EBNF Bahasa NUSANTARA (ISO/IEC 14977)`
   },
-  {
-    jalur: 'dokumentasi/PRIORITAS-OPERATOR.md',
-    nama: 'PRIORITAS-OPERATOR.md',
-    kategori: 'Tabel Presedensi 8 Tingkat',
-    bahasa: 'markdown',
-    ukuran: 2097,
-    konten: `# Tabel Prioritas & Presedensi Operator Resmi Bahasa NUSANTARA`
-  },
 
   // --- FASE 3: LISENSI & TATA KELOLA ---
   {
@@ -153,15 +155,15 @@ export const BERKAS_REPOSITORI: BerkasRepo[] = [
     kategori: 'Dokumentasi Utama',
     bahasa: 'markdown',
     ukuran: 5610,
-    konten: `# NUSANTARA (Phase 7: Parser Selesai - v0.7.0)`
+    konten: `# NUSANTARA (Phase 8: Interpreter Selesai - v0.8.0)`
   },
   {
     jalur: 'PERUBAHAN.md',
     nama: 'PERUBAHAN.md',
     kategori: 'Catatan Rilis (Changelog)',
     bahasa: 'markdown',
-    ukuran: 7800,
-    konten: `# Catatan Perubahan NUSANTARA (v0.7.0, v0.6.0, v0.5.0, v0.4.0, v0.3.0, v0.2.0, v0.1.0)`
+    ukuran: 8900,
+    konten: `# Catatan Perubahan NUSANTARA (v0.8.0, v0.7.0, v0.6.0, v0.5.0, v0.4.0, v0.3.0, v0.2.0, v0.1.0)`
   },
   {
     jalur: 'ROADMAP.md',
@@ -198,45 +200,11 @@ export const DAFTAR_GLOSARIUM = [
   { asing: 'Compiler', lokal: 'Kompilator', ket: 'Program penerjemah kode sumber menjadi kode mesin biner mandiri.' },
   { asing: 'Escape Sequence', lokal: 'Karakter Lolos', ket: 'Karakter khusus yang diawali simbol \\ (seperti \\n untuk baris baru).' },
   { asing: 'Immutable', lokal: 'Tak Terubahkan / Kekal', ket: 'Sifat nilai tetap (konstanta) yang dilarang diubah setelah didefinisikan.' },
+  { asing: 'Interpreter', lokal: 'Penerjemah Eksekusi', ket: 'Komponen yang menjalankan instruksi AST langsung di memori komputer.' },
   { asing: 'Lexer / Tokenizer', lokal: 'Penganalisis Leksikal', ket: 'Komponen yang memecah aliran teks sumber menjadi token-token bermakna.' },
   { asing: 'Parser', lokal: 'Penganalisis Sintaksis', ket: 'Komponen yang memvalidasi tata bahasa token dan membentuk pohon AST.' },
   { asing: 'Precedence Climbing', lokal: 'Pemanjatan Presedensi', ket: 'Metode evaluasi hierarki operator berdasarkan tingkat prioritas matematis.' },
   { asing: 'Short-circuit Evaluation', lokal: 'Evaluasi Hubung Singkat', ket: 'Penghentian evaluasi ekspresi logika jika hasil akhir sudah pasti.' },
-];
-
-export const DAFTAR_KATA_KUNCI_PHASE2 = [
-  { kw: 'program', status: 'DITETAPKAN', arti: 'Deklarasi nama unit program utama' },
-  { kw: 'mulai', status: 'DITETAPKAN', arti: 'Membuka blok eksekusi instruksi' },
-  { kw: 'selesai', status: 'DITETAPKAN', arti: 'Menutup blok utama program' },
-  { kw: 'variabel', status: 'DITETAPKAN', arti: 'Deklarasi wadah data dinamis (mutable)' },
-  { kw: 'tetap', status: 'DITETAPKAN', arti: 'Deklarasi wadah data konstan (immutable)' },
-  { kw: 'fungsi', status: 'DITETAPKAN', arti: 'Deklarasi subrutin / fungsi' },
-  { kw: 'kembalikan', status: 'DITETAPKAN', arti: 'Mengembalikan nilai dari fungsi' },
-  { kw: 'jika', status: 'DITETAPKAN', arti: 'Pengujian kondisi logis' },
-  { kw: 'maka', status: 'DITETAPKAN', arti: 'Membuka cabang benar' },
-  { kw: 'selain', status: 'DITETAPKAN', arti: 'Membuka cabang alternatif' },
-  { kw: 'akhir', status: 'DITETAPKAN', arti: 'Penutup blok percabangan & perulangan' },
-  { kw: 'selama', status: 'DITETAPKAN', arti: 'Perulangan bersyarat kondisi' },
-  { kw: 'untuk', status: 'DITETAPKAN', arti: 'Perulangan iteratif rentang' },
-  { kw: 'dari', status: 'DITETAPKAN', arti: 'Batas awal rentang' },
-  { kw: 'sampai', status: 'DITETAPKAN', arti: 'Batas akhir rentang' },
-  { kw: 'lakukan', status: 'DITETAPKAN', arti: 'Membuka blok instruksi perulangan' },
-  { kw: 'hentikan', status: 'DITETAPKAN', arti: 'Memutus perulangan (break)' },
-  { kw: 'lanjutkan', status: 'DITETAPKAN', arti: 'Melompati ke iterasi berikutnya (continue)' },
-  { kw: 'benar', status: 'DITETAPKAN', arti: 'Literal boolean true' },
-  { kw: 'salah', status: 'DITETAPKAN', arti: 'Literal boolean false' },
-  { kw: 'kosong', status: 'DITETAPKAN', arti: 'Representasi ketiadaan nilai (null/void)' },
-  { kw: 'coba', status: 'RANCANGAN', arti: 'Membuka blok pengawasan eksepsi' },
-  { kw: 'tangkap', status: 'RANCANGAN', arti: 'Menangkap galat yang dilempar' },
-  { kw: 'lempar', status: 'RANCANGAN', arti: 'Melontarkan eksepsi' },
-  { kw: 'impor', status: 'RANCANGAN', arti: 'Memuat modul/pustaka eksternal' },
-  { kw: 'buat', status: 'RANCANGAN', arti: 'Mengalokasikan struktur data baru' },
-  { kw: 'kelas', status: 'RANCANGAN', arti: 'Definisi cetak biru objek (OOP)' },
-  { kw: 'umum', status: 'RANCANGAN', arti: 'Akses publik properti/metode' },
-  { kw: 'pribadi', status: 'RANCANGAN', arti: 'Akses privat terisolasi' },
-  { kw: 'lindungi', status: 'RANCANGAN', arti: 'Akses terproteksi pewarisan' },
-  { kw: 'baru', status: 'RANCANGAN', arti: 'Instansiasi objek kelas' },
-  { kw: 'hapus', status: 'RANCANGAN', arti: 'Dealokasi memori manual' },
 ];
 
 export const DAFTAR_FASE_ROADMAP = [
@@ -247,15 +215,15 @@ export const DAFTAR_FASE_ROADMAP = [
   { fase: 5, nama: 'Dokumentasi Awal & Panduan', versi: 'v0.5.0', kategori: 'Fondasi', status: 'Selesai' },
   { fase: 6, nama: 'Lexer (Penganalisis Leksikal)', versi: 'v0.6.0', kategori: 'Mesin Inti', status: 'Selesai' },
   { fase: 7, nama: 'Parser (Penganalisis Sintaksis & AST)', versi: 'v0.7.0', kategori: 'Mesin Inti', status: 'Selesai' },
-  { fase: 8, nama: 'Interpreter', versi: 'v0.8.0', kategori: 'Mesin Inti', status: 'Berikutnya' },
-  { fase: 9, nama: 'Variabel & Tipe Data', versi: 'v0.9.0', kategori: 'Mesin Inti', status: 'Rencana' },
-  { fase: 10, nama: 'Operator', versi: 'v0.10.0', kategori: 'Mesin Inti', status: 'Rencana' },
-  { fase: 11, nama: 'Percabangan', versi: 'v0.11.0', kategori: 'Mesin Inti', status: 'Rencana' },
-  { fase: 12, nama: 'Perulangan', versi: 'v0.12.0', kategori: 'Mesin Inti', status: 'Rencana' },
-  { fase: 13, nama: 'Fungsi', versi: 'v0.13.0', kategori: 'Mesin Inti', status: 'Rencana' },
-  { fase: 14, nama: 'Struktur Data', versi: 'v0.14.0', kategori: 'Fitur Lanjut', status: 'Rencana' },
-  { fase: 15, nama: 'Modul', versi: 'v0.15.0', kategori: 'Fitur Lanjut', status: 'Rencana' },
-  { fase: 16, nama: 'Kelas & Objek', versi: 'v0.16.0', kategori: 'Fitur Lanjut', status: 'Rencana' },
+  { fase: 8, nama: 'Interpreter (Penerjemah Eksekusi AST)', versi: 'v0.8.0', kategori: 'Mesin Inti', status: 'Selesai' },
+  { fase: 9, nama: 'Variabel & Tipe Data Lanjutan', versi: 'v0.9.0', kategori: 'Mesin Inti', status: 'Berikutnya' },
+  { fase: 10, nama: 'Operator Lanjutan', versi: 'v0.10.0', kategori: 'Mesin Inti', status: 'Rencana' },
+  { fase: 11, nama: 'Percabangan Lanjutan', versi: 'v0.11.0', kategori: 'Mesin Inti', status: 'Rencana' },
+  { fase: 12, nama: 'Perulangan Lanjutan', versi: 'v0.12.0', kategori: 'Mesin Inti', status: 'Rencana' },
+  { fase: 13, nama: 'Fungsi Lanjutan', versi: 'v0.13.0', kategori: 'Mesin Inti', status: 'Rencana' },
+  { fase: 14, nama: 'Struktur Data (Daftar & Peta)', versi: 'v0.14.0', kategori: 'Fitur Lanjut', status: 'Rencana' },
+  { fase: 15, nama: 'Modul & Ruang Nama', versi: 'v0.15.0', kategori: 'Fitur Lanjut', status: 'Rencana' },
+  { fase: 16, nama: 'Kelas & Objek (OOP)', versi: 'v0.16.0', kategori: 'Fitur Lanjut', status: 'Rencana' },
   { fase: 17, nama: 'Pewarisan & Antarmuka', versi: 'v0.17.0', kategori: 'Fitur Lanjut', status: 'Rencana' },
   { fase: 18, nama: 'Penanganan Kesalahan', versi: 'v0.18.0', kategori: 'Fitur Lanjut', status: 'Rencana' },
   { fase: 19, nama: 'Generik', versi: 'v0.19.0', kategori: 'Fitur Lanjut', status: 'Rencana' },
