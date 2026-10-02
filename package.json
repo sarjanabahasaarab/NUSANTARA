@@ -10,7 +10,8 @@
     "clean": "rm -rf dist server.js",
     "lint": "tsc --noEmit",
     "test:lexer": "tsx pengujian/lexer/uji_lexer.ts",
-    "test": "node skrip/periksa_fondasi.js && tsx pengujian/lexer/uji_lexer.ts"
+    "test:parser": "tsx pengujian/parser/uji_parser.ts",
+    "test": "node skrip/periksa_fondasi.js && tsx pengujian/lexer/uji_lexer.ts && tsx pengujian/parser/uji_parser.ts"
   },
   "dependencies": {
     "@google/genai": "^2.4.0",

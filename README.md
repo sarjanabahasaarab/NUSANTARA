@@ -2,11 +2,12 @@
 
 > **Bahasa Pemrograman 100% Bahasa Indonesia untuk Komputasi Modern, Terbuka, dan Berkelanjutan.**
 
-[![Status](https://img.shields.io/badge/status-fase_6:_lexer_selesai-blue.svg)](ROADMAP.md)
-[![Versi](https://img.shields.io/badge/versi-v0.6.0-emerald.svg)](PERUBAHAN.md)
+[![Status](https://img.shields.io/badge/status-fase_7:_parser_selesai-blue.svg)](ROADMAP.md)
+[![Versi](https://img.shields.io/badge/versi-v0.7.0-emerald.svg)](PERUBAHAN.md)
 [![Lisensi](https://img.shields.io/badge/lisensi-Apache_2.0-blue.svg)](LISENSI)
 [![Tata Bahasa](https://img.shields.io/badge/grammar-EBNF_ISO--14977-purple.svg)](dokumentasi/GRAMMAR-EBNF.md)
 [![Lexer](https://img.shields.io/badge/lexer-lulus_100%25-teal.svg)](docs/pengembang/lexer.md)
+[![Parser & AST](https://img.shields.io/badge/parser-lulus_100%25-cyan.svg)](docs/pengembang/parser.md)
 
 ---
 
@@ -18,7 +19,8 @@ NUSANTARA bukan sekadar penerjemah sintaksis bahasa asing, melainkan ikhtiar man
 
 - **Ekstensi Berkas Resmi:** `.nusantara`
 - **Lisensi:** [Apache License 2.0](LISENSI)
-- **Status Saat Ini:** **Phase 6: Lexer Selesai (Milestone v0.6.0).**
+- **Status Saat Ini:** **Phase 7: Parser & AST Selesai (Milestone v0.7.0).**
+- **Dokumentasi Parser:** [docs/pengembang/parser.md](docs/pengembang/parser.md)
 - **Dokumentasi Lexer:** [docs/pengembang/lexer.md](docs/pengembang/lexer.md)
 - **Pusat Buku Panduan:** [docs/README.md](docs/README.md) & [Indeks Lengkap](docs/indeks.md)
 - **Tata Bahasa Formal:** [GRAMMAR-EBNF.md](dokumentasi/GRAMMAR-EBNF.md)
@@ -43,23 +45,33 @@ Source Code (.nusantara)
          │
          ▼
  ┌───────────────┐
- │    Parser     │  <-- [Fase Berikutnya: Phase 7 (v0.7.0)]
+ │    Parser     │  <-- [SELESAI DI PHASE 7 (v0.7.0)]
  └───────────────┘
          │
          ▼
  Pohon Sintaksis Abstrak (AST)
+         │
+         ▼
+ ┌───────────────┐
+ │  Interpreter  │  <-- [Target Berikutnya: Phase 8 (v0.8.0)]
+ └───────────────┘
+         │
+         ▼
+      Eksekusi
 ```
 
-> ⚠️ **Catatan Batas Implementasi:** Pada Phase 6, komponen yang aktif adalah **Lexer**. Komponen Parser dan Compiler belum diimplementasikan pada fase ini dan akan dilanjutkan pada **Phase 7 (Parser)**.
+> ⚠️ **Catatan Batas Implementasi:** Pada Phase 7, komponen yang aktif adalah **Lexer**, **Parser**, dan struktur **AST**. Komponen Interpreter dan Compiler sengaja belum dibuat pada fase ini dan akan dikerjakan pada **Phase 8 (Interpreter)**.
 
 ---
 
-## 3. Menjalankan Pengujian Lexer
+## 3. Menjalankan Pengujian Lexer & Parser
 
-Pengujian komprehensif 21 kelompok uji Lexer dapat dijalankan melalui perintah:
+Pengujian komprehensif Lexer (21 uji) dan Parser (11 uji) dapat dijalankan melalui perintah:
 
 ```bash
-npm run test:lexer
+npm run test:lexer   # Uji modul leksikal
+npm run test:parser  # Uji modul sintaksis dan pohon AST
+npm test             # Audit menyeluruh repositori dan seluruh unit test
 ```
 
 ---
@@ -72,8 +84,9 @@ npm run test:lexer
 [✓] Phase 3: Lisensi & Tata Kelola NUSANTARA (v0.3.0)
 [✓] Phase 4: Spesifikasi Sintaks NUSANTARA (v0.4.0)
 [✓] Phase 5: Dokumentasi Awal & Buku Panduan (v0.5.0)
-[✓] Phase 6: Lexer (Penganalisis Leksikal) (v0.6.0)  <-- Fase Selesai
-[ ] Phase 7: Parser (Penganalisis Sintaksis & AST)   <-- Target Berikutnya
+[✓] Phase 6: Lexer (Penganalisis Leksikal) (v0.6.0)
+[✓] Phase 7: Parser (Penganalisis Sintaksis & AST) (v0.7.0) <-- Fase Selesai
+[ ] Phase 8: Interpreter (Penerjemah Eksekusi AST)          <-- Target Berikutnya
 ...
 [ ] Phase 36: NUSANTARA System & NusantaraOS
 ```

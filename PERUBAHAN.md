@@ -2,33 +2,37 @@
 
 Seluruh perubahan penting pada proyek bahasa pemrograman NUSANTARA dicatat dalam dokumen ini.
 
-Format penomoran versi mengacu pada **Semantic Versioning** (`vMAJOR.MINOR.PATCH`). Pada masa pengembangan awal, versi minor mencerminkan tahapan fase roadmap (misal `v0.1.0` untuk Phase 1, `v0.2.0` untuk Phase 2, `v0.3.0` untuk Phase 3, `v0.4.0` untuk Phase 4, `v0.5.0` untuk Phase 5, `v0.6.0` untuk Phase 6), sedangkan patch (`v0.6.1`) digunakan untuk penyempurnaan dokumen atau perbaikan kecil.
+Format penomoran versi mengacu pada **Semantic Versioning** (`vMAJOR.MINOR.PATCH`). Pada masa pengembangan awal, versi minor mencerminkan tahapan fase roadmap (misal `v0.1.0` untuk Phase 1, `v0.2.0` untuk Phase 2, `v0.3.0` untuk Phase 3, `v0.4.0` untuk Phase 4, `v0.5.0` untuk Phase 5, `v0.6.0` untuk Phase 6, `v0.7.0` untuk Phase 7), sedangkan patch (`v0.7.1`) digunakan untuk penyempurnaan dokumen atau perbaikan kecil.
+
+---
+
+## [v0.7.0] — 2026-10-02
+### Phase 7: Implementasi Parser NUSANTARA
+
+Fase ini menghadirkan modul lapis kedua dari saluran pipa kompilasi: **Parser (Penganalisis Sintaksis)** dan struktur data **Pohon Sintaksis Abstrak (*Abstract Syntax Tree / AST*)**. Parser mengonsumsi token dari Lexer Phase 6 dan memvalidasi tata bahasa EBNF resmi tanpa menyertakan interpreter/compiler prematur.
+
+#### Ditambahkan:
+- **Modul Parser & AST Inti (`src/parser/`):**
+  - `src/parser/ast.ts`: Definisi taksonomi simpul AST (`NodeProgram`, `PernyataanAST`, `EkspresiAST`, `Literal`, `Pengidentifikasi`, `EkspresiUnari`, `EkspresiBiner`, `PercabanganJika`, `PerulanganUntuk`, `PerulanganSelama`, `DeklarasiFungsi`, dsb.).
+  - `src/parser/galat.ts`: Sistem pelaporan galat sintaksis diagnostik berbahasa Indonesia (`GalatParser`).
+  - `src/parser/astPrinter.ts`: Utilitas pencetak pohon AST berformat teks hierarkis untuk inspeksi pengembang.
+  - `src/parser/parser.ts`: Mesin penganalisis sintaksis berbasis recursive descent dan precedence climbing (8 tingkat presedensi operator formal) dengan kemampuan sinkronisasi pemulihan galat (*error recovery*).
+  - `src/parser/index.ts`: Ekspor terpadu modul Parser dan AST.
+  - `src/parser/README.md`: Dokumentasi komponen dan alur Parser.
+- **Dokumentasi Pengembang Parser:**
+  - `docs/pengembang/parser.md`: Buku panduan arsitektur sintaksis, pohon AST, urutan presedensi, dan alur penambahan grammar baru.
+- **Rangkaian Pengujian Parser (`pengujian/parser/`):**
+  - `pengujian/parser/uji_parser.ts`: 11 kelompok pengujian mencakup program dasar, presedensi operator, deklarasi variabel/tetap, percabangan jika, perulangan untuk/selama, fungsi, AST printer, dan penanganan galat sintaksis.
+  - `pengujian/parser/README.md`: Panduan eksekusi pengujian Parser.
+- **Skrip Perintah:**
+  - Menambahkan `"test:parser"` pada `package.json` dan menyatukannya dalam `"npm test"`.
 
 ---
 
 ## [v0.6.0] — 2026-10-02
 ### Phase 6: Implementasi Lexer NUSANTARA
-
-Fase ini menghadirkan modul inti pertama dari pipa kompilasi: **Lexer (Penganalisis Leksikal)** yang membaca kode sumber teks UTF-8 `.nusantara` dan mengubahnya menjadi rangkaian token terstruktur tanpa ketergantungan parser prematur.
-
-#### Ditambahkan:
-- **Modul Lexer Inti (`src/lexer/`):**
-  - `src/lexer/posisi.ts`: Antarmuka pelacak koordinat karakter (`baris`, `kolom`, `indeks`) dan pemformat posisi diagnostik.
-  - `src/lexer/jenisToken.ts`: Enumerasi 32 kata kunci, identifier, literal (bilangan, desimal, teks, karakter), operator aritmatika, operator logika, pemisah, serta token khusus `EOF` dan `ILEGAL`.
-  - `src/lexer/keyword.ts`: Tabel pencarian kata kunci resmi dan operator leksikal Bahasa Indonesia (`dan`, `atau`, `tidak`).
-  - `src/lexer/galat.ts`: Sistem pelaporan kesalahan leksikal diagnostik berbahasa Indonesia (`GalatLexer`).
-  - `src/lexer/lexer.ts`: Mesin pemindai karakter dengan dukungan operator multi-karakter (*longest match*), penanganan komentar `//`, dan pelacakan whitespace.
-  - `src/lexer/tokenStream.ts`: Abstraksi pembungkus aliran token (`current`, `next`, `peek`, `is`, `eof`) yang disiapkan untuk konsumsi Parser pada Phase 7.
-  - `src/lexer/index.ts`: Ekspor terpadu modul lexer.
-- **Arsitektur Placeholder Parser:**
-  - `src/parser/README.md`: Penegasan batas implementasi bahwa Parser akan dibangun pada Phase 7.
-- **Dokumentasi Pengembang Lexer:**
-  - `docs/pengembang/lexer.md`: Panduan arsitektur leksikal, alur kerja, API, dan petunjuk penambahan token.
-- **Rangkaian Pengujian Komprehensif (`pengujian/lexer/`):**
-  - `pengujian/lexer/uji_lexer.ts`: 21 kelompok pengujian mencakup 32 kata kunci, literal, operator longest match, komentar, posisi akurat, pelaporan galat, dan TokenStream.
-  - `pengujian/lexer/README.md`: Panduan eksekusi pengujian.
-- **Skrip Perintah:**
-  - Menambahkan `"test:lexer"` dan `"test"` pada `package.json`.
+- Modul Lexer inti (`src/lexer/`) dengan pemindaian UTF-8, pelacakan baris/kolom, literal, operator longest-match, dan TokenStream.
+- 21 kelompok pengujian Lexer lulus 100%.
 
 ---
 

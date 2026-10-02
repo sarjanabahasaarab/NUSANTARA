@@ -8,6 +8,48 @@ export interface BerkasRepo {
 }
 
 export const BERKAS_REPOSITORI: BerkasRepo[] = [
+  // --- FASE 7: IMPLEMENTASI PARSER & AST INTI ---
+  {
+    jalur: 'src/parser/parser.ts',
+    nama: 'parser.ts',
+    kategori: 'Mesin Penganalisis Sintaksis EBNF',
+    bahasa: 'javascript',
+    ukuran: 14500,
+    konten: `// Parser Resmi Bahasa NUSANTARA (Phase 7)`
+  },
+  {
+    jalur: 'src/parser/ast.ts',
+    nama: 'ast.ts',
+    kategori: 'Definisi Struktur Simpul AST',
+    bahasa: 'javascript',
+    ukuran: 5120,
+    konten: `// Definisi Simpul AST Bahasa NUSANTARA`
+  },
+  {
+    jalur: 'src/parser/astPrinter.ts',
+    nama: 'astPrinter.ts',
+    kategori: 'Visualisasi Pohon AST',
+    bahasa: 'javascript',
+    ukuran: 4200,
+    konten: `// Utilitas Visualisasi Pohon AST`
+  },
+  {
+    jalur: 'docs/pengembang/parser.md',
+    nama: 'parser.md',
+    kategori: 'Dokumentasi Teknis Parser',
+    bahasa: 'markdown',
+    ukuran: 3600,
+    konten: `# Arsitektur & Dokumentasi Teknis Parser NUSANTARA`
+  },
+  {
+    jalur: 'pengujian/parser/uji_parser.ts',
+    nama: 'uji_parser.ts',
+    kategori: 'Rangkaian 11 Uji Parser & AST',
+    bahasa: 'javascript',
+    ukuran: 8100,
+    konten: `// Pengujian Komprehensif Parser & AST Bahasa NUSANTARA`
+  },
+
   // --- FASE 6: IMPLEMENTASI LEXER INTI ---
   {
     jalur: 'src/lexer/lexer.ts',
@@ -40,14 +82,6 @@ export const BERKAS_REPOSITORI: BerkasRepo[] = [
     bahasa: 'markdown',
     ukuran: 3450,
     konten: `# Arsitektur & Dokumentasi Teknis Lexer NUSANTARA`
-  },
-  {
-    jalur: 'pengujian/lexer/uji_lexer.ts',
-    nama: 'uji_lexer.ts',
-    kategori: 'Rangkaian 21 Uji Lexer',
-    bahasa: 'javascript',
-    ukuran: 8900,
-    konten: `// Pengujian Komprehensif Lexer Bahasa NUSANTARA`
   },
 
   // --- FASE 5: BUKU PANDUAN & DOKUMENTASI AWAL (docs/) ---
@@ -119,15 +153,15 @@ export const BERKAS_REPOSITORI: BerkasRepo[] = [
     kategori: 'Dokumentasi Utama',
     bahasa: 'markdown',
     ukuran: 5610,
-    konten: `# NUSANTARA (Phase 6: Lexer Selesai - v0.6.0)`
+    konten: `# NUSANTARA (Phase 7: Parser Selesai - v0.7.0)`
   },
   {
     jalur: 'PERUBAHAN.md',
     nama: 'PERUBAHAN.md',
     kategori: 'Catatan Rilis (Changelog)',
     bahasa: 'markdown',
-    ukuran: 6510,
-    konten: `# Catatan Perubahan NUSANTARA (v0.6.0, v0.5.0, v0.4.0, v0.3.0, v0.2.0, v0.1.0)`
+    ukuran: 7800,
+    konten: `# Catatan Perubahan NUSANTARA (v0.7.0, v0.6.0, v0.5.0, v0.4.0, v0.3.0, v0.2.0, v0.1.0)`
   },
   {
     jalur: 'ROADMAP.md',
@@ -166,6 +200,7 @@ export const DAFTAR_GLOSARIUM = [
   { asing: 'Immutable', lokal: 'Tak Terubahkan / Kekal', ket: 'Sifat nilai tetap (konstanta) yang dilarang diubah setelah didefinisikan.' },
   { asing: 'Lexer / Tokenizer', lokal: 'Penganalisis Leksikal', ket: 'Komponen yang memecah aliran teks sumber menjadi token-token bermakna.' },
   { asing: 'Parser', lokal: 'Penganalisis Sintaksis', ket: 'Komponen yang memvalidasi tata bahasa token dan membentuk pohon AST.' },
+  { asing: 'Precedence Climbing', lokal: 'Pemanjatan Presedensi', ket: 'Metode evaluasi hierarki operator berdasarkan tingkat prioritas matematis.' },
   { asing: 'Short-circuit Evaluation', lokal: 'Evaluasi Hubung Singkat', ket: 'Penghentian evaluasi ekspresi logika jika hasil akhir sudah pasti.' },
 ];
 
@@ -211,8 +246,8 @@ export const DAFTAR_FASE_ROADMAP = [
   { fase: 4, nama: 'Spesifikasi Sintaks (EBNF)', versi: 'v0.4.0', kategori: 'Fondasi', status: 'Selesai' },
   { fase: 5, nama: 'Dokumentasi Awal & Panduan', versi: 'v0.5.0', kategori: 'Fondasi', status: 'Selesai' },
   { fase: 6, nama: 'Lexer (Penganalisis Leksikal)', versi: 'v0.6.0', kategori: 'Mesin Inti', status: 'Selesai' },
-  { fase: 7, nama: 'Parser (Penganalisis Sintaksis & AST)', versi: 'v0.7.0', kategori: 'Mesin Inti', status: 'Berikutnya' },
-  { fase: 8, nama: 'Interpreter', versi: 'v0.8.0', kategori: 'Mesin Inti', status: 'Rencana' },
+  { fase: 7, nama: 'Parser (Penganalisis Sintaksis & AST)', versi: 'v0.7.0', kategori: 'Mesin Inti', status: 'Selesai' },
+  { fase: 8, nama: 'Interpreter', versi: 'v0.8.0', kategori: 'Mesin Inti', status: 'Berikutnya' },
   { fase: 9, nama: 'Variabel & Tipe Data', versi: 'v0.9.0', kategori: 'Mesin Inti', status: 'Rencana' },
   { fase: 10, nama: 'Operator', versi: 'v0.10.0', kategori: 'Mesin Inti', status: 'Rencana' },
   { fase: 11, nama: 'Percabangan', versi: 'v0.11.0', kategori: 'Mesin Inti', status: 'Rencana' },
