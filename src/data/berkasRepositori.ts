@@ -8,6 +8,48 @@ export interface BerkasRepo {
 }
 
 export const BERKAS_REPOSITORI: BerkasRepo[] = [
+  // --- FASE 6: IMPLEMENTASI LEXER INTI ---
+  {
+    jalur: 'src/lexer/lexer.ts',
+    nama: 'lexer.ts',
+    kategori: 'Mesin Pemindai Karakter',
+    bahasa: 'javascript',
+    ukuran: 7520,
+    konten: `// Lexer Resmi Bahasa NUSANTARA (Phase 6)`
+  },
+  {
+    jalur: 'src/lexer/jenisToken.ts',
+    nama: 'jenisToken.ts',
+    kategori: 'Taksonomi Token Leksikal',
+    bahasa: 'javascript',
+    ukuran: 3620,
+    konten: `// Taksonomi Jenis Token Bahasa NUSANTARA`
+  },
+  {
+    jalur: 'src/lexer/tokenStream.ts',
+    nama: 'tokenStream.ts',
+    kategori: 'Abstraksi Aliran Token',
+    bahasa: 'javascript',
+    ukuran: 1850,
+    konten: `// TokenStream untuk Parser Phase 7`
+  },
+  {
+    jalur: 'docs/pengembang/lexer.md',
+    nama: 'lexer.md',
+    kategori: 'Dokumentasi Teknis Lexer',
+    bahasa: 'markdown',
+    ukuran: 3450,
+    konten: `# Arsitektur & Dokumentasi Teknis Lexer NUSANTARA`
+  },
+  {
+    jalur: 'pengujian/lexer/uji_lexer.ts',
+    nama: 'uji_lexer.ts',
+    kategori: 'Rangkaian 21 Uji Lexer',
+    bahasa: 'javascript',
+    ukuran: 8900,
+    konten: `// Pengujian Komprehensif Lexer Bahasa NUSANTARA`
+  },
+
   // --- FASE 5: BUKU PANDUAN & DOKUMENTASI AWAL (docs/) ---
   {
     jalur: 'docs/README.md',
@@ -15,15 +57,7 @@ export const BERKAS_REPOSITORI: BerkasRepo[] = [
     kategori: 'Pusat Buku Panduan',
     bahasa: 'markdown',
     ukuran: 2450,
-    konten: `# Dokumentasi Resmi Bahasa Pemrograman NUSANTARA
-
-Pusat dokumentasi dan buku panduan resmi:
-1. Pengenalan Bahasa
-2. Panduan Pemula (Tutorial)
-3. Referensi Bahasa Formal
-4. Panduan Pengembang
-5. Panduan Kontribusi
-6. Glosarium Istilah Komputasi`
+    konten: `# Dokumentasi Resmi Bahasa Pemrograman NUSANTARA`
   },
   {
     jalur: 'docs/panduan/program-pertama.md',
@@ -31,83 +65,7 @@ Pusat dokumentasi dan buku panduan resmi:
     kategori: 'Tutorial: Halo Dunia',
     bahasa: 'markdown',
     ukuran: 1540,
-    konten: `# Menulis Program Pertama: "Halo Dunia!"
-
-program Halo
-
-mulai
-    tampilkan("Halo Dunia!")
-selesai
-
-(Catatan: Contoh ini menunjukkan rancangan sintaks resmi dan belum dapat dijalankan sebelum alat eksekusi NUSANTARA tersedia).`
-  },
-  {
-    jalur: 'docs/panduan/struktur-program.md',
-    nama: 'struktur-program.md',
-    kategori: 'Tutorial: Struktur Dasar',
-    bahasa: 'markdown',
-    ukuran: 1480,
-    konten: `# Struktur Program Dasar NUSANTARA
-
-Aturan Pokok:
-- Satu berkas memuat satu program utama.
-- Blok eksekusi diawali kata kunci 'mulai' dan diakhiri 'selesai'.
-- Pemisah pernyataan menggunakan ganti baris (newline).`
-  },
-  {
-    jalur: 'docs/panduan/variabel-dan-tipe-data.md',
-    nama: 'variabel-dan-tipe-data.md',
-    kategori: 'Tutorial: Variabel & Tipe',
-    bahasa: 'markdown',
-    ukuran: 1930,
-    konten: `# Variabel & Tipe Data Dasar
-
-Dua gaya deklarasi sah:
-1. Ringkas: nama : teks = "Ahmad"
-2. Eksplisit: variabel nama : teks = "Ahmad"
-Konstanta: tetap PHI : desimal = 3.14159`
-  },
-  {
-    jalur: 'docs/panduan/percabangan.md',
-    nama: 'percabangan.md',
-    kategori: 'Tutorial: Percabangan',
-    bahasa: 'markdown',
-    ukuran: 1443,
-    konten: `# Percabangan Kondisional (jika)
-
-jika nilai >= 75 maka
-    tampilkan("Lulus")
-selain
-    tampilkan("Remedial")
-akhir`
-  },
-  {
-    jalur: 'docs/panduan/perulangan.md',
-    nama: 'perulangan.md',
-    kategori: 'Tutorial: Perulangan',
-    bahasa: 'markdown',
-    ukuran: 1632,
-    konten: `# Perulangan Iteratif (untuk & selama)
-
-untuk angka dari 1 sampai 5 lakukan
-    tampilkan(angka)
-akhir
-
-(Batas akhir 'sampai' bersifat inklusif).`
-  },
-  {
-    jalur: 'docs/panduan/fungsi.md',
-    nama: 'fungsi.md',
-    kategori: 'Tutorial: Fungsi Modular',
-    bahasa: 'markdown',
-    ukuran: 1268,
-    konten: `# Fungsi & Subrutin Modular
-
-fungsi tambah(a : bilangan, b : bilangan) : bilangan
-
-mulai
-    kembalikan a + b
-selesai`
+    konten: `# Menulis Program Pertama: "Halo Dunia!"`
   },
   {
     jalur: 'docs/glosarium.md',
@@ -115,16 +73,7 @@ selesai`
     kategori: 'Glosarium 26 Istilah',
     bahasa: 'markdown',
     ukuran: 3453,
-    konten: `# Glosarium Istilah Pemrograman NUSANTARA
-
-26 Istilah Komputasi Inggris - Indonesia:
-- Abstract Syntax Tree -> Pohon Sintaksis Abstrak
-- Assignment -> Penugasan
-- Compiler -> Kompilator
-- Lexer -> Penganalisis Leksikal
-- Parser -> Penganalisis Sintaksis
-- Immutable -> Tak Terubahkan / Kekal
-- Short-circuit -> Evaluasi Hubung Singkat`
+    konten: `# Glosarium Istilah Pemrograman NUSANTARA`
   },
 
   // --- FASE 4: SPESIFIKASI SINTAKS EBNF ---
@@ -137,28 +86,12 @@ selesai`
     konten: `# Tata Bahasa Formal EBNF Bahasa NUSANTARA (ISO/IEC 14977)`
   },
   {
-    jalur: 'dokumentasi/TOKEN.md',
-    nama: 'TOKEN.md',
-    kategori: 'Spesifikasi Token Leksikal',
-    bahasa: 'markdown',
-    ukuran: 3507,
-    konten: `# Spesifikasi Token Leksikal Bahasa NUSANTARA`
-  },
-  {
     jalur: 'dokumentasi/PRIORITAS-OPERATOR.md',
     nama: 'PRIORITAS-OPERATOR.md',
     kategori: 'Tabel Presedensi 8 Tingkat',
     bahasa: 'markdown',
     ukuran: 2097,
     konten: `# Tabel Prioritas & Presedensi Operator Resmi Bahasa NUSANTARA`
-  },
-  {
-    jalur: 'pengujian/spesifikasi/kasus-tidak-valid.md',
-    nama: 'kasus-tidak-valid.md',
-    kategori: '15 Kasus Negatif EBNF',
-    bahasa: 'markdown',
-    ukuran: 7781,
-    konten: `# Kasus Uji Sintaksis Tidak Valid (Minimal 15 Kasus)`
   },
 
   // --- FASE 3: LISENSI & TATA KELOLA ---
@@ -178,14 +111,6 @@ selesai`
     ukuran: 3593,
     konten: `# Tata Kelola Proyek & Komunitas NUSANTARA (5 Peran)`
   },
-  {
-    jalur: 'KEAMANAN.md',
-    nama: 'KEAMANAN.md',
-    kategori: 'Kebijakan Keamanan',
-    bahasa: 'markdown',
-    ukuran: 2825,
-    konten: `# Kebijakan Keamanan Proyek NUSANTARA`
-  },
 
   // --- BERKAS ROOT & CONTOH ---
   {
@@ -193,23 +118,23 @@ selesai`
     nama: 'README.md',
     kategori: 'Dokumentasi Utama',
     bahasa: 'markdown',
-    ukuran: 5410,
-    konten: `# NUSANTARA (Phase 5: Dokumentasi Awal & Buku Panduan - v0.5.0)`
+    ukuran: 5610,
+    konten: `# NUSANTARA (Phase 6: Lexer Selesai - v0.6.0)`
   },
   {
     jalur: 'PERUBAHAN.md',
     nama: 'PERUBAHAN.md',
     kategori: 'Catatan Rilis (Changelog)',
     bahasa: 'markdown',
-    ukuran: 5210,
-    konten: `# Catatan Perubahan NUSANTARA (v0.5.0, v0.4.0, v0.3.0, v0.2.0, v0.1.0)`
+    ukuran: 6510,
+    konten: `# Catatan Perubahan NUSANTARA (v0.6.0, v0.5.0, v0.4.0, v0.3.0, v0.2.0, v0.1.0)`
   },
   {
     jalur: 'ROADMAP.md',
     nama: 'ROADMAP.md',
     kategori: 'Peta Jalan 36 Fase',
     bahasa: 'markdown',
-    ukuran: 8410,
+    ukuran: 8550,
     konten: `# Peta Jalan Pengembangan (ROADMAP) Bahasa Pemrograman NUSANTARA`
   },
   {
@@ -279,22 +204,14 @@ export const DAFTAR_KATA_KUNCI_PHASE2 = [
   { kw: 'hapus', status: 'RANCANGAN', arti: 'Dealokasi memori manual' },
 ];
 
-export const DAFTAR_TIPE_DATA = [
-  'teks', 'bilangan', 'desimal', 'logika', 'karakter', 'daftar', 'peta', 'tanggal', 'waktu', 'kosong'
-];
-
-export const DAFTAR_OPERATOR = [
-  'dan', 'atau', 'tidak'
-];
-
 export const DAFTAR_FASE_ROADMAP = [
   { fase: 1, nama: 'Identitas & Fondasi', versi: 'v0.1.0', kategori: 'Fondasi', status: 'Selesai' },
   { fase: 2, nama: 'Konstitusi Bahasa', versi: 'v0.2.0', kategori: 'Fondasi', status: 'Selesai' },
   { fase: 3, nama: 'Lisensi & Tata Kelola', versi: 'v0.3.0', kategori: 'Fondasi', status: 'Selesai' },
   { fase: 4, nama: 'Spesifikasi Sintaks (EBNF)', versi: 'v0.4.0', kategori: 'Fondasi', status: 'Selesai' },
   { fase: 5, nama: 'Dokumentasi Awal & Panduan', versi: 'v0.5.0', kategori: 'Fondasi', status: 'Selesai' },
-  { fase: 6, nama: 'Lexer (Penganalisis Leksikal)', versi: 'v0.6.0', kategori: 'Mesin Inti', status: 'Berikutnya' },
-  { fase: 7, nama: 'Parser', versi: 'v0.7.0', kategori: 'Mesin Inti', status: 'Rencana' },
+  { fase: 6, nama: 'Lexer (Penganalisis Leksikal)', versi: 'v0.6.0', kategori: 'Mesin Inti', status: 'Selesai' },
+  { fase: 7, nama: 'Parser (Penganalisis Sintaksis & AST)', versi: 'v0.7.0', kategori: 'Mesin Inti', status: 'Berikutnya' },
   { fase: 8, nama: 'Interpreter', versi: 'v0.8.0', kategori: 'Mesin Inti', status: 'Rencana' },
   { fase: 9, nama: 'Variabel & Tipe Data', versi: 'v0.9.0', kategori: 'Mesin Inti', status: 'Rencana' },
   { fase: 10, nama: 'Operator', versi: 'v0.10.0', kategori: 'Mesin Inti', status: 'Rencana' },

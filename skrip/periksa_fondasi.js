@@ -1,6 +1,6 @@
 /**
  * Skrip Pemeriksaan Kepatuhan Repositori Bahasa NUSANTARA
- * Memvalidasi integritas seluruh berkas Phase 1, 2, 3, 4, dan Phase 5 (v0.5.0).
+ * Memvalidasi integritas seluruh berkas Phase 1, 2, 3, 4, 5, dan Phase 6 (v0.6.0).
  */
 
 import fs from 'node:fs';
@@ -13,14 +13,14 @@ const rootDir = path.resolve(__dirname, '..');
 
 const berkasWajib = [
   // --- TATA KELOLA & LISENSI UTAMA (Phase 3 & Root) ---
-  { berkas: 'README.md', kategori: 'Dokumentasi Utama', fase: 'Phase 1-5' },
+  { berkas: 'README.md', kategori: 'Dokumentasi Utama', fase: 'Phase 1-6' },
   { berkas: 'LISENSI', kategori: 'Teks Apache License 2.0', fase: 'Phase 3' },
   { berkas: 'TATA-KELOLA.md', kategori: 'Struktur 5 Peran Komunitas', fase: 'Phase 3' },
   { berkas: 'KEAMANAN.md', kategori: 'Kebijakan Keamanan', fase: 'Phase 3' },
   { berkas: 'KONTRIBUSI.md', kategori: 'Panduan Kontribusi 10 Langkah', fase: 'Phase 1-3' },
   { berkas: 'KODE-ETIK.md', kategori: 'Kode Etik Komunitas', fase: 'Phase 1-3' },
-  { berkas: 'PERUBAHAN.md', kategori: 'Catatan Rilis (Changelog)', fase: 'Phase 1-5' },
-  { berkas: 'ROADMAP.md', kategori: 'Peta Jalan 36 Fase', fase: 'Phase 1-5' },
+  { berkas: 'PERUBAHAN.md', kategori: 'Catatan Rilis (Changelog)', fase: 'Phase 1-6' },
+  { berkas: 'ROADMAP.md', kategori: 'Peta Jalan 36 Fase', fase: 'Phase 1-6' },
   { berkas: '.gitignore', kategori: 'Konfigurasi Git', fase: 'Phase 1' },
 
   // --- TEMPLAT GITHUB (Phase 3) ---
@@ -30,7 +30,20 @@ const berkasWajib = [
   { berkas: '.github/ISSUE_TEMPLATE/pertanyaan.md', kategori: 'Templat Diskusi & Tanya', fase: 'Phase 3' },
   { berkas: '.github/PULL_REQUEST_TEMPLATE.md', kategori: 'Templat Pull Request', fase: 'Phase 3' },
 
-  // --- PUSAT DOKUMENTASI & PANDUAN (Phase 5 Baru: docs/) ---
+  // --- IMPLEMENTASI MODUL LEXER NYATA (Phase 6 Baru) ---
+  { berkas: 'src/lexer/posisi.ts', kategori: 'Pelacak Koordinat Karakter', fase: 'Phase 6' },
+  { berkas: 'src/lexer/jenisToken.ts', kategori: 'Taksonomi Token Leksikal', fase: 'Phase 6' },
+  { berkas: 'src/lexer/keyword.ts', kategori: 'Tabel Kata Kunci Resmi', fase: 'Phase 6' },
+  { berkas: 'src/lexer/galat.ts', kategori: 'Pelaporan Galat Diagnostik', fase: 'Phase 6' },
+  { berkas: 'src/lexer/lexer.ts', kategori: 'Mesin Pemindai Karakter', fase: 'Phase 6' },
+  { berkas: 'src/lexer/tokenStream.ts', kategori: 'Abstraksi Aliran Token', fase: 'Phase 6' },
+  { berkas: 'src/lexer/index.ts', kategori: 'Ekspor Terpadu Lexer', fase: 'Phase 6' },
+  { berkas: 'src/parser/README.md', kategori: 'Placeholder Arsitektur Parser', fase: 'Phase 6' },
+  { berkas: 'docs/pengembang/lexer.md', kategori: 'Dokumentasi Teknis Lexer', fase: 'Phase 6' },
+  { berkas: 'pengujian/lexer/uji_lexer.ts', kategori: 'Rangkaian 21 Uji Lexer', fase: 'Phase 6' },
+  { berkas: 'pengujian/lexer/README.md', kategori: 'Panduan Eksekusi Uji Lexer', fase: 'Phase 6' },
+
+  // --- PUSAT DOKUMENTASI & PANDUAN (Phase 5: docs/) ---
   { berkas: 'docs/README.md', kategori: 'Pusat Buku Panduan', fase: 'Phase 5' },
   { berkas: 'docs/indeks.md', kategori: 'Indeks Lengkap Topik', fase: 'Phase 5' },
   { berkas: 'docs/pengenalan/apa-itu-nusantara.md', kategori: 'Pengenalan Bahasa', fase: 'Phase 5' },
@@ -130,8 +143,8 @@ const berkasWajib = [
 ];
 
 console.log('=============================================================================');
-console.log('PEMERIKSAAN KEPATUHAN SPESIFIKASI & DOKUMENTASI BAHASA NUSANTARA');
-console.log('Target Milestone: Phase 5 — Dokumentasi Awal & Buku Panduan (v0.5.0)');
+console.log('PEMERIKSAAN KEPATUHAN SPESIFIKASI & IMPLEMENTASI BAHASA NUSANTARA');
+console.log('Target Milestone: Phase 6 — Lexer (Penganalisis Leksikal) (v0.6.0)');
 console.log('=============================================================================\n');
 
 let jumlahLulus = 0;
@@ -154,8 +167,8 @@ console.log(`Hasil Evaluasi: ${jumlahLulus} berkas LULUS, ${jumlahGagal} berkas 
 console.log('-----------------------------------------------------------------------------');
 
 if (jumlahGagal === 0) {
-  console.log('STATUS: SELURUH DOKUMENTASI, SPESIFIKASI, DAN TATA BAHASA LENGKAP & TERUJI.');
-  console.log('Repositori siap untuk milestone v0.5.0 (docs: add initial Indonesian language documentation).');
+  console.log('STATUS: SELURUH DOKUMENTASI, SPESIFIKASI, DAN MODUL LEXER LENGKAP & TERUJI.');
+  console.log('Repositori siap untuk milestone v0.6.0 (feat: implement nusantara lexer).');
   process.exit(0);
 } else {
   console.error('STATUS: TERDAPAT BERKAS RESMI YANG HILANG. PERIKSA KEMBALI SEBELUM COMMIT.');

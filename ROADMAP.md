@@ -14,9 +14,9 @@ Setiap fase merupakan pencapaian rekayasa piranti lunak (*engineering milestone*
 | **Phase 2** | Konstitusi Bahasa | `v0.2.0` | **Selesai** |
 | **Phase 3** | Lisensi & Tata Kelola | `v0.3.0` | **Selesai** |
 | **Phase 4** | Spesifikasi Sintaks (EBNF Formal) | `v0.4.0` | **Selesai** |
-| **Phase 5** | **Dokumentasi Awal & Buku Panduan** | `v0.5.0` | **Selesai (Fase Saat Ini)** |
-| **Phase 6** | Lexer (Penganalisis Leksikal) | `v0.6.0` | Direncanakan Berikutnya |
-| **Phase 7** | Parser (Penganalisis Sintaksis) | `v0.7.0` | Direncanakan |
+| **Phase 5** | Dokumentasi Awal & Buku Panduan | `v0.5.0` | **Selesai** |
+| **Phase 6** | **Lexer (Penganalisis Leksikal)** | `v0.6.0` | **Selesai (Fase Saat Ini)** |
+| **Phase 7** | Parser (Penganalisis Sintaksis & AST) | `v0.7.0` | Direncanakan Berikutnya |
 | **Phase 8** | Interpreter (Penerjemah Eksekusi AST) | `v0.8.0` | Direncanakan |
 | **Phase 9** | Variabel & Tipe Data | `v0.9.0` | Direncanakan |
 | **Phase 10** | Operator & Ekspresi | `v0.10.0` | Direncanakan |
@@ -59,8 +59,8 @@ Setiap fase merupakan pencapaian rekayasa piranti lunak (*engineering milestone*
 - **Phase 5 — Dokumentasi Awal & Buku Panduan:** Pusat dokumentasi terstruktur `docs/`, panduan pemula bertahap, referensi leksikal, panduan pengembang, alur NIP, dan glosarium teknis Bahasa Indonesia. *(Selesai)*
 
 ### Blok B: Mesin Inti Kompilator (Phase 6 – 13)
-- **Phase 6 — Lexer:** Tokenisasi kode sumber `.nusantara`, pelacak nomor baris/kolom, penanganan literal Unicode. *(Fase Berikutnya)*
-- **Phase 7 — Parser:** Pembangun pohon sintaksis abstrak (AST) dengan pelaporan galat presisi (*syntax error recovery*).
+- **Phase 6 — Lexer (Penganalisis Leksikal):** Implementasi modul Lexer nyata, taksonomi Token, pelacakan baris/kolom, penanganan literal, operator longest match, TokenStream untuk konsumsi Parser, dan pengujian unit test 100% lulus. *(Selesai)*
+- **Phase 7 — Parser:** Pembangun pohon sintaksis abstrak (AST) dengan pelaporan galat presisi (*syntax error recovery*). *(Fase Berikutnya)*
 - **Phase 8 — Interpreter:** Mesin evaluasi AST langsung untuk keperluan pengujian logika awal tanpa harus kompilasi native.
 - **Phase 9 — Variabel & Tipe Data:** Tabel simbol (*symbol table*), inferensi tipe awal, penanganan konstanta `tetap`.
 - **Phase 10 — Operator:** Presedensi dan asosiatif operator aritmatika, perbandingan, dan logika (`dan`, `atau`, `tidak`).

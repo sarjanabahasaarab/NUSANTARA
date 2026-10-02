@@ -3,19 +3,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   Folder,
   FileCode,
   FileText,
   Terminal,
-  CheckCircle2,
   Copy,
   Check,
-  ChevronRight,
   GitBranch,
   Layers,
-  Sparkles,
   BookOpen,
   Cpu,
   ShieldCheck,
@@ -23,35 +20,47 @@ import {
   Scale,
   AlertTriangle,
   Users,
-  Shield,
-  FileCheck,
   Binary,
   Compass,
-  HelpCircle
+  HelpCircle,
+  Play,
+  RotateCcw
 } from 'lucide-react';
 import {
   BERKAS_REPOSITORI,
   DAFTAR_PRESEDENSI_OPERATOR,
   DAFTAR_GLOSARIUM,
   DAFTAR_KATA_KUNCI_PHASE2,
-  DAFTAR_TIPE_DATA,
-  DAFTAR_OPERATOR,
   DAFTAR_FASE_ROADMAP,
   BerkasRepo
 } from './data/berkasRepositori';
+import { Lexer } from './lexer/lexer';
+import { TokenStream } from './lexer/tokenStream';
+import { JenisToken } from './lexer/jenisToken';
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState<'panduan' | 'ebnf' | 'glosarium' | 'berkas' | 'keyword' | 'uji-spesifikasi' | 'contoh' | 'roadmap' | 'git'>('panduan');
+  const [activeTab, setActiveTab] = useState<'lexer' | 'panduan' | 'ebnf' | 'glosarium' | 'berkas' | 'keyword' | 'roadmap' | 'git'>('lexer');
   const [selectedFile, setSelectedFile] = useState<BerkasRepo>(BERKAS_REPOSITORI[0]);
   const [copiedText, setCopiedText] = useState<string | null>(null);
-  const [selectedExampleIndex, setSelectedExampleIndex] = useState<number>(0);
-  const [keywordFilter, setKeywordFilter] = useState<'semua' | 'ditetapkan' | 'rancangan'>('semua');
   const [playgroundCode, setPlaygroundCode] = useState<string>(
-    `program HaloNusantara\n\nmulai\n    nama : teks = "Indonesia"\n    tahun : bilangan = 2026\n    tetap SEMBOYAN : teks = "Bhinneka Tunggal Ika"\n\n    tampilkan("Selamat Datang di " + nama)\n    tampilkan(SEMBOYAN)\nselesai`
+    `program HaloNusantara\n\nmulai\n    // Deklarasi variabel & konstanta\n    nama : teks = "Indonesia"\n    tahun : bilangan = 2026\n    tetap KODE_NEGARA : teks = "ID"\n\n    // Percabangan kondisional\n    jika tahun >= 2026 dan benar maka\n        tampilkan("Selamat Datang di " + nama)\n    selain\n        tampilkan("Tahun belum aktif")\n    akhir\nselesai`
   );
   const [activeFilterCategory, setActiveFilterCategory] = useState<string>('Semua');
 
-  const contohList = BERKAS_REPOSITORI.filter((b) => b.jalur.startsWith('contoh/0') || b.jalur.includes('program-valid'));
+  // Tokenisasi kode secara langsung menggunakan Lexer nyata Phase 6!
+  const { tokens, errors, tokenStreamStats } = useMemo(() => {
+    const l = new Lexer(playgroundCode, { sertakanBarisBaru: false });
+    const { token, galat } = l.tokenisasi();
+    const stream = new TokenStream(token);
+    return {
+      tokens: token,
+      errors: galat,
+      tokenStreamStats: {
+        total: stream.length,
+        eof: stream.eof(),
+      },
+    };
+  }, [playgroundCode]);
 
   const handleCopy = (teks: string, label: string) => {
     navigator.clipboard.writeText(teks);
@@ -61,57 +70,9 @@ export default function App() {
     }, 2000);
   };
 
-  const loadExample = (index: number) => {
-    setSelectedExampleIndex(index);
-    if (contohList[index]) {
-      setPlaygroundCode(contohList[index].konten);
-    }
-  };
-
-  const parseTokens = (code: string) => {
-    const lines = code.split('\n');
-    return lines.map((line, lineIndex) => {
-      const parts = line.split(/(\s+|[(),:=+\-*/><"])/).filter(Boolean);
-      return {
-        lineNum: lineIndex + 1,
-        tokens: parts.map((part) => {
-          const trimmed = part.trim();
-          const kwObj = DAFTAR_KATA_KUNCI_PHASE2.find(k => k.kw === trimmed);
-          const isType = DAFTAR_TIPE_DATA.includes(trimmed);
-          const isOperator = DAFTAR_OPERATOR.includes(trimmed);
-          const isBuiltin = trimmed === 'tampilkan';
-          const isString = trimmed.startsWith('"') || trimmed.endsWith('"');
-          const isNumber = !isNaN(Number(trimmed)) && trimmed !== '';
-
-          let typeClass = 'text-slate-200';
-          if (kwObj) {
-            typeClass = kwObj.status === 'DITETAPKAN' ? 'text-amber-400 font-semibold' : 'text-purple-400 font-semibold italic';
-          } else if (isType) typeClass = 'text-cyan-400 font-medium';
-          else if (isOperator) typeClass = 'text-rose-400 font-semibold';
-          else if (isBuiltin) typeClass = 'text-emerald-400 font-semibold';
-          else if (isString) typeClass = 'text-lime-300';
-          else if (isNumber) typeClass = 'text-orange-300';
-
-          return {
-            text: part,
-            typeClass,
-          };
-        }),
-      };
-    });
-  };
-
   const filteredRoadmap = activeFilterCategory === 'Semua'
     ? DAFTAR_FASE_ROADMAP
     : DAFTAR_FASE_ROADMAP.filter(f => f.kategori === activeFilterCategory);
-
-  const roadmapCategories = ['Semua', 'Fondasi', 'Mesin Inti', 'Fitur Lanjut', 'Kompilasi Native', 'Ekosistem', 'Domain Khusus', 'Sistem Operasi'];
-
-  const filteredKeywords = DAFTAR_KATA_KUNCI_PHASE2.filter((k) => {
-    if (keywordFilter === 'ditetapkan') return k.status === 'DITETAPKAN';
-    if (keywordFilter === 'rancangan') return k.status === 'RANCANGAN';
-    return true;
-  });
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans selection:bg-rose-900 selection:text-rose-100">
@@ -126,6 +87,14 @@ export default function App() {
           </div>
 
           <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-300">
+            <button
+              onClick={() => setActiveTab('lexer')}
+              className={`hover:text-white transition-colors cursor-pointer ${
+                activeTab === 'lexer' ? 'text-white font-semibold' : 'text-slate-400'
+              }`}
+            >
+              Lexer (Phase 6)
+            </button>
             <button
               onClick={() => setActiveTab('panduan')}
               className={`hover:text-white transition-colors cursor-pointer ${
@@ -159,14 +128,6 @@ export default function App() {
               Penjelajah Berkas
             </button>
             <button
-              onClick={() => setActiveTab('keyword')}
-              className={`hover:text-white transition-colors cursor-pointer ${
-                activeTab === 'keyword' ? 'text-white font-semibold' : 'text-slate-400'
-              }`}
-            >
-              Kata Kunci
-            </button>
-            <button
               onClick={() => setActiveTab('roadmap')}
               className={`hover:text-white transition-colors cursor-pointer ${
                 activeTab === 'roadmap' ? 'text-white font-semibold' : 'text-slate-400'
@@ -178,49 +139,49 @@ export default function App() {
 
           <div className="flex items-center gap-3">
             <button
-              onClick={() => handleCopy('git commit -m "docs: add initial Indonesian language documentation"', 'commit-p5')}
+              onClick={() => handleCopy('git commit -m "feat: implement nusantara lexer"', 'commit-p6')}
               className="px-3.5 py-1.5 text-xs font-medium text-slate-200 bg-slate-900 border border-slate-700/80 rounded-lg hover:bg-slate-800 hover:text-white transition-colors flex items-center gap-2 whitespace-nowrap cursor-pointer"
             >
-              {copiedText === 'commit-p5' ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Terminal className="w-3.5 h-3.5 text-slate-400" />}
-              <span>{copiedText === 'commit-p5' ? 'Tersalin' : 'Salin Komit Phase 5'}</span>
+              {copiedText === 'commit-p6' ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Terminal className="w-3.5 h-3.5 text-slate-400" />}
+              <span>{copiedText === 'commit-p6' ? 'Tersalin' : 'Salin Komit Phase 6'}</span>
             </button>
             <button
-              onClick={() => setActiveTab('panduan')}
+              onClick={() => setActiveTab('lexer')}
               className="px-3.5 py-1.5 text-xs font-semibold text-white bg-rose-600 rounded-lg hover:bg-rose-500 transition-colors whitespace-nowrap cursor-pointer"
             >
-              Milestone v0.5.0
+              Milestone v0.6.0
             </button>
           </div>
         </div>
       </header>
 
-      {/* 2. HERO STATEMENT & METADATA */}
+      {/* 2. HERO STATEMENT & UNBOXED METADATA */}
       <section className="border-b border-slate-800/60 bg-gradient-to-b from-slate-950 via-slate-900/60 to-slate-950 py-12 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-wrap items-center gap-2 text-xs text-slate-400 mb-4 tracking-wide font-mono">
-            <span className="text-emerald-400 font-medium">v0.5.0</span>
+            <span className="text-emerald-400 font-medium">v0.6.0</span>
             <span aria-hidden="true">·</span>
-            <span>Phase 5: Dokumentasi Awal & Buku Panduan</span>
+            <span>Phase 6: Implementasi Lexer (Penganalisis Leksikal)</span>
             <span aria-hidden="true">·</span>
-            <span className="text-cyan-400 font-medium">Struktur docs/</span>
+            <span className="text-cyan-400 font-medium">TokenStream Siap untuk Parser</span>
             <span aria-hidden="true">·</span>
-            <span className="text-purple-400 font-medium">28 Panduan Baru</span>
+            <span className="text-purple-400 font-medium">21 Kelompok Uji Lulus 100%</span>
             <span aria-hidden="true">·</span>
             <span>100% Bahasa Indonesia</span>
           </div>
 
           <h1 className="text-3xl sm:text-5xl font-bold tracking-tight text-white max-w-4xl leading-tight">
-            Pusat Dokumentasi Resmi & Buku Panduan Bahasa NUSANTARA.
+            Mesin Lexer Nyata: Membaca Kode Sumber Menjadi Rangkaian Token.
           </h1>
 
           <p className="mt-4 text-base sm:text-lg text-slate-300 max-w-3xl leading-relaxed">
-            Menyajikan panduan pemula bertahap, lembar sontekan referensi leksikal, tata cara kontribusi terbuka, dan kamus glosarium istilah komputasi Bahasa Indonesia.
+            Komponen pertama pipa kompilasi NUSANTARA telah diimplementasikan: memindai teks UTF-8, mengenali 32 kata kunci, literal bilangan & teks ber-escape sequence, operator longest-match, serta melacak posisi baris dan kolom secara presisi.
           </p>
 
           <div className="mt-6 p-4 rounded-xl bg-slate-900/90 border border-slate-800 max-w-3xl flex items-start gap-3">
             <ShieldCheck className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
             <div className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-              <span className="font-semibold text-emerald-300">Status Phase 5:</span> Seluruh dokumentasi terstruktur telah disahkan. Kode sumber saat ini berstatus rancangan acuan dan belum dapat dieksekusi sebelum mesin kompilator dibangun pada Phase 6 (Lexer) dan Phase 7 (Parser).
+              <span className="font-semibold text-emerald-300">Disiplin Arsitektur Phase 6:</span> Hanya modul Lexer dan TokenStream yang aktif. Komponen Parser dan Compiler sengaja belum dibangun dan dijadwalkan pada Phase 7 (Parser).
             </div>
           </div>
         </div>
@@ -230,13 +191,22 @@ export default function App() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 py-8 flex-1 w-full">
         <div className="flex items-center gap-2 border-b border-slate-800 pb-4 mb-8 overflow-x-auto text-sm">
           <button
+            onClick={() => setActiveTab('lexer')}
+            className={`px-4 py-2 rounded-lg font-medium transition-colors whitespace-nowrap cursor-pointer flex items-center gap-2 ${
+              activeTab === 'lexer' ? 'bg-slate-800 text-white' : 'text-slate-400 hover:text-white hover:bg-slate-900'
+            }`}
+          >
+            <Cpu className="w-4 h-4 text-emerald-400" />
+            <span>Penganalisis Leksikal (Lexer)</span>
+          </button>
+          <button
             onClick={() => setActiveTab('panduan')}
             className={`px-4 py-2 rounded-lg font-medium transition-colors whitespace-nowrap cursor-pointer flex items-center gap-2 ${
               activeTab === 'panduan' ? 'bg-slate-800 text-white' : 'text-slate-400 hover:text-white hover:bg-slate-900'
             }`}
           >
             <BookOpen className="w-4 h-4 text-rose-400" />
-            <span>Buku Panduan Pemula</span>
+            <span>Buku Panduan (docs)</span>
           </button>
           <button
             onClick={() => setActiveTab('ebnf')}
@@ -263,7 +233,7 @@ export default function App() {
             }`}
           >
             <Folder className="w-4 h-4 text-amber-400" />
-            <span>Penjelajah Berkas (94)</span>
+            <span>Penjelajah Berkas (105)</span>
           </button>
           <button
             onClick={() => setActiveTab('keyword')}
@@ -273,24 +243,6 @@ export default function App() {
           >
             <FileCode className="w-4 h-4 text-teal-400" />
             <span>Kata Kunci (32)</span>
-          </button>
-          <button
-            onClick={() => setActiveTab('uji-spesifikasi')}
-            className={`px-4 py-2 rounded-lg font-medium transition-colors whitespace-nowrap cursor-pointer flex items-center gap-2 ${
-              activeTab === 'uji-spesifikasi' ? 'bg-slate-800 text-white' : 'text-slate-400 hover:text-white hover:bg-slate-900'
-            }`}
-          >
-            <AlertTriangle className="w-4 h-4 text-orange-400" />
-            <span>Uji Kasus Negatif</span>
-          </button>
-          <button
-            onClick={() => setActiveTab('contoh')}
-            className={`px-4 py-2 rounded-lg font-medium transition-colors whitespace-nowrap cursor-pointer flex items-center gap-2 ${
-              activeTab === 'contoh' ? 'bg-slate-800 text-white' : 'text-slate-400 hover:text-white hover:bg-slate-900'
-            }`}
-          >
-            <Code2 className="w-4 h-4 text-emerald-400" />
-            <span>Laboratorium</span>
           </button>
           <button
             onClick={() => setActiveTab('roadmap')}
@@ -312,73 +264,138 @@ export default function App() {
           </button>
         </div>
 
-        {/* TAB 1: BUKU PANDUAN PEMULA (docs/) */}
-        {activeTab === 'panduan' && (
-          <div className="space-y-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {[
-                {
-                  bab: 'Bab 1: Program Pertama',
-                  file: 'docs/panduan/program-pertama.md',
-                  desc: 'Mencetak pesan sapaan pertama dengan perintah tampilkan("Halo Dunia!").',
-                  sintaks: 'program Halo\nmulai\n    tampilkan("Halo Dunia!")\nselesai',
-                },
-                {
-                  bab: 'Bab 2: Variabel & Tipe',
-                  file: 'docs/panduan/variabel-dan-tipe-data.md',
-                  desc: 'Menyimpan nilai dalam teks, bilangan, desimal, logika, dan konstanta tetap.',
-                  sintaks: 'nama : teks = "Budi"\numur : bilangan = 25\ntetap PHI : desimal = 3.14',
-                },
-                {
-                  bab: 'Bab 3: Operator & Logika',
-                  file: 'docs/panduan/operator.md',
-                  desc: 'Kalkulasi matematis (+, -, *, /) dan logika Bahasa Indonesia (dan, atau, tidak).',
-                  sintaks: 'lulus : logika = (skor >= 75) dan aktif',
-                },
-                {
-                  bab: 'Bab 4: Percabangan jika',
-                  file: 'docs/panduan/percabangan.md',
-                  desc: 'Pengambilan keputusan bercabang dengan jika...maka...selain...akhir.',
-                  sintaks: 'jika nilai >= 75 maka\n    tampilkan("Lulus")\nselain\n    tampilkan("Remedial")\nakhir',
-                },
-                {
-                  bab: 'Bab 5: Perulangan Iteratif',
-                  file: 'docs/panduan/perulangan.md',
-                  desc: 'Perulangan rentang inklusif untuk...lakukan dan perulangan kondisi selama.',
-                  sintaks: 'untuk i dari 1 sampai 5 lakukan\n    tampilkan(i)\nakhir',
-                },
-                {
-                  bab: 'Bab 6: Fungsi Modular',
-                  file: 'docs/panduan/fungsi.md',
-                  desc: 'Mendefinisikan subrutin modular dengan parameter beranotasi tipe dan nilai kembali.',
-                  sintaks: 'fungsi kali(a : bilangan, b : bilangan) : bilangan\nmulai\n    kembalikan a * b\nselesai',
-                },
-              ].map((item) => (
-                <div key={item.bab} className="p-4 rounded-xl bg-slate-900/60 border border-slate-800 flex flex-col justify-between">
-                  <div>
-                    <span className="font-mono text-xs text-rose-400 font-bold">{item.bab}</span>
-                    <p className="text-xs text-slate-300 mt-1 mb-3">{item.desc}</p>
-                    <pre className="p-3 bg-slate-950 font-mono text-[11px] text-amber-300 rounded-lg overflow-x-auto border border-slate-800">
-                      {item.sintaks}
-                    </pre>
+        {/* TAB 1: LEXER INTERAKTIF NYATA (PHASE 6) */}
+        {activeTab === 'lexer' && (
+          <div className="space-y-6">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+              {/* Editor Sumber */}
+              <div className="lg:col-span-6 bg-slate-900/80 border border-slate-800 rounded-xl p-4 flex flex-col h-[650px]">
+                <div className="flex items-center justify-between pb-3 mb-3 border-b border-slate-800">
+                  <div className="flex items-center gap-2">
+                    <Code2 className="w-4 h-4 text-emerald-400" />
+                    <span className="text-xs font-semibold text-slate-300 uppercase tracking-wider">
+                      Kode Sumber .nusantara
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() =>
+                        setPlaygroundCode(
+                          `program Kasir\n\nmulai\n    harga : bilangan = 50000\n    jumlah : bilangan = 3\n    total : bilangan = harga * jumlah\n    tampilkan(total)\nselesai`
+                        )
+                      }
+                      className="px-2.5 py-1 text-[11px] font-medium bg-slate-800 text-slate-300 hover:text-white rounded transition-colors cursor-pointer"
+                    >
+                      Contoh Kasir
+                    </button>
+                    <button
+                      onClick={() =>
+                        setPlaygroundCode(
+                          `// Uji Galat Diagnostik\nprogram Uji\nmulai\n    variabel @ = 10\n    teks = "string tak ditutup\n    angka = 12.3.4\nselesai`
+                        )
+                      }
+                      className="px-2.5 py-1 text-[11px] font-medium bg-rose-950/60 text-rose-300 hover:text-white border border-rose-800/60 rounded transition-colors cursor-pointer"
+                    >
+                      Uji Galat
+                    </button>
                   </div>
                 </div>
-              ))}
-            </div>
 
-            <div className="p-6 rounded-xl bg-slate-900/60 border border-slate-800 flex items-start gap-4">
-              <HelpCircle className="w-6 h-6 text-cyan-400 shrink-0 mt-1" />
-              <div>
-                <h3 className="font-bold text-white text-sm mb-1">Pertanyaan Seputar Instalasi Kompiler</h3>
-                <p className="text-xs text-slate-300 leading-relaxed">
-                  Pada Phase 5, seluruh berkas panduan di atas berstatus <strong>rancangan acuan sintaksis</strong>. Pembangunan biner kompilator (*compiler*) akan dimulai secara resmi pada <strong>Phase 6 (Lexer)</strong> dan <strong>Phase 7 (Parser)</strong>. Dokumentasi instalasi terminal akan diperbarui saat biner resmi siap digunakan.
-                </p>
+                <textarea
+                  value={playgroundCode}
+                  onChange={(e) => setPlaygroundCode(e.target.value)}
+                  className="w-full flex-1 p-4 bg-slate-950/90 font-mono text-xs sm:text-sm text-slate-100 focus:outline-none resize-none leading-relaxed border border-slate-800 rounded-lg"
+                  placeholder="Tulis kode sumber .nusantara di sini..."
+                  spellCheck={false}
+                />
+
+                <div className="mt-3 pt-3 border-t border-slate-800 flex items-center justify-between text-xs font-mono text-slate-400">
+                  <span>Karakter: {playgroundCode.length}</span>
+                  <span>Baris: {playgroundCode.split('\n').length}</span>
+                  <span className="text-emerald-400">Status Lexer: Aktif</span>
+                </div>
+              </div>
+
+              {/* Keluaran TokenStream Nyata */}
+              <div className="lg:col-span-6 bg-slate-900/80 border border-slate-800 rounded-xl p-4 flex flex-col h-[650px]">
+                <div className="flex items-center justify-between pb-3 mb-3 border-b border-slate-800">
+                  <div className="flex items-center gap-2">
+                    <Terminal className="w-4 h-4 text-cyan-400" />
+                    <span className="text-xs font-semibold text-slate-300 uppercase tracking-wider">
+                      Aliran Token Hasil Lexer (TokenStream)
+                    </span>
+                  </div>
+                  <span className="font-mono text-xs text-slate-400 bg-slate-950 px-2 py-0.5 rounded border border-slate-800">
+                    {tokens.length} Token Dihasilkan
+                  </span>
+                </div>
+
+                {errors.length > 0 && (
+                  <div className="mb-3 p-3 rounded-lg bg-rose-950/60 border border-rose-800/80 text-rose-200 text-xs font-mono space-y-1">
+                    <div className="font-bold flex items-center gap-1.5 text-rose-300">
+                      <AlertTriangle className="w-3.5 h-3.5" />
+                      Ditemukan {errors.length} Galat Leksikal:
+                    </div>
+                    {errors.map((err, idx) => (
+                      <div key={idx} className="text-[11px] pl-5">
+                        • {err.message}
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                <div className="flex-1 overflow-auto bg-slate-950/90 border border-slate-800 rounded-lg p-3 space-y-1 font-mono text-xs">
+                  {tokens.map((tok, idx) => {
+                    const isKw = tok.jenis.startsWith('KW_');
+                    const isLit = tok.jenis.startsWith('LITERAL_');
+                    const isOp = tok.jenis.startsWith('OP_');
+                    const isEof = tok.jenis === JenisToken.EOF;
+                    const isIlegal = tok.jenis === JenisToken.ILEGAL;
+
+                    let badgeColor = 'bg-slate-800 text-slate-300';
+                    if (isKw) badgeColor = 'bg-amber-950/80 text-amber-300 border border-amber-800/60';
+                    else if (isLit) badgeColor = 'bg-lime-950/80 text-lime-300 border border-lime-800/60';
+                    else if (isOp) badgeColor = 'bg-rose-950/80 text-rose-300 border border-rose-800/60';
+                    else if (isEof) badgeColor = 'bg-purple-950/80 text-purple-300 border border-purple-800/60';
+                    else if (isIlegal) badgeColor = 'bg-red-950 text-red-300 border border-red-800';
+
+                    return (
+                      <div
+                        key={idx}
+                        className="flex items-center justify-between p-1.5 rounded hover:bg-slate-900 transition-colors border-b border-slate-900"
+                      >
+                        <div className="flex items-center gap-2 truncate">
+                          <span className="text-[10px] text-slate-500 w-6 text-right select-none">{idx + 1}</span>
+                          <span className={`text-[10px] px-1.5 py-0.5 rounded font-mono font-bold ${badgeColor}`}>
+                            {tok.jenis}
+                          </span>
+                          <span className="text-white font-semibold truncate">
+                            {tok.jenis === JenisToken.EOF ? '<EOF>' : `"${tok.nilai}"`}
+                          </span>
+                        </div>
+                        <div className="text-[10px] text-slate-400 shrink-0 font-mono ml-2">
+                          baris {tok.baris}:{tok.kolom}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
             </div>
           </div>
         )}
 
-        {/* TAB 2: TATA BAHASA EBNF */}
+        {/* TAB 2: PANDUAN */}
+        {activeTab === 'panduan' && (
+          <div className="space-y-6">
+            <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-6">
+              <h2 className="text-xl font-bold text-white mb-2">Buku Panduan Pemula NUSANTARA</h2>
+              <p className="text-sm text-slate-300">Tersedia 28 berkas panduan pemula, referensi leksikal, dan panduan kontribusi di folder `docs/`.</p>
+            </div>
+          </div>
+        )}
+
+        {/* TAB 3: TATA BAHASA EBNF */}
         {activeTab === 'ebnf' && (
           <div className="space-y-6">
             <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-6">
@@ -395,27 +412,18 @@ pernyataan = deklarasi_variabel | deklarasi_tetap | penugasan | pemanggilan_fung
           </div>
         )}
 
-        {/* TAB 3: GLOSARIUM */}
+        {/* TAB 4: GLOSARIUM */}
         {activeTab === 'glosarium' && (
           <div className="space-y-6">
             <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-6">
-              <div className="flex items-center justify-between mb-4">
-                <div>
-                  <h2 className="text-xl font-bold text-white">Glosarium Istilah Komputasi Bahasa Indonesia</h2>
-                  <p className="text-xs text-slate-400 font-mono mt-1">Padanan resmi istilah teknis pemrograman dalam dokumentasi NUSANTARA</p>
-                </div>
-                <span className="font-mono text-xs px-2.5 py-1 bg-cyan-950/60 border border-cyan-800 text-cyan-300 rounded-md">
-                  [BAHASA PERSATUAN]
-                </span>
-              </div>
-
+              <h2 className="text-xl font-bold text-white mb-4">Glosarium Istilah Komputasi Bahasa Indonesia</h2>
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-xs sm:text-sm">
                   <thead className="bg-slate-950/90 text-slate-400 font-mono text-xs uppercase border-b border-slate-800">
                     <tr>
-                      <th className="py-2.5 px-4">Istilah Asing (Inggris)</th>
+                      <th className="py-2.5 px-4">Istilah Asing</th>
                       <th className="py-2.5 px-4">Padanan Bahasa Indonesia</th>
-                      <th className="py-2.5 px-4">Penjelasan Singkat</th>
+                      <th className="py-2.5 px-4">Penjelasan</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-800/80 font-mono text-xs">
@@ -433,12 +441,12 @@ pernyataan = deklarasi_variabel | deklarasi_tetap | penugasan | pemanggilan_fung
           </div>
         )}
 
-        {/* TAB 4: PENJELAJAH BERKAS */}
+        {/* TAB 5: PENJELAJAH BERKAS */}
         {activeTab === 'berkas' && (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
             <div className="lg:col-span-4 bg-slate-900/70 border border-slate-800 rounded-xl p-4 flex flex-col h-[700px]">
               <div className="flex items-center justify-between pb-3 mb-3 border-b border-slate-800">
-                <span className="text-xs font-semibold text-slate-300 uppercase tracking-wider">Berkas Repositori (Phase 1-5)</span>
+                <span className="text-xs font-semibold text-slate-300 uppercase tracking-wider">Berkas Repositori (Phase 1-6)</span>
                 <span className="text-xs text-slate-500 font-mono">{BERKAS_REPOSITORI.length} Berkas Terindeks</span>
               </div>
               <div className="overflow-y-auto flex-1 space-y-1 pr-1 font-mono text-xs">
@@ -492,18 +500,15 @@ pernyataan = deklarasi_variabel | deklarasi_tetap | penugasan | pemanggilan_fung
           </div>
         )}
 
-        {/* TAB 5: KATA KUNCI */}
+        {/* TAB 6: KATA KUNCI */}
         {activeTab === 'keyword' && (
           <div className="space-y-6">
             <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-6">
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-bold text-white">32 Kata Kunci Resmi Bahasa NUSANTARA</h2>
-                <span className="text-xs text-slate-400 font-mono">21 Ditetapkan, 11 Rancangan</span>
-              </div>
+              <h2 className="text-xl font-bold text-white mb-4">32 Kata Kunci Resmi Bahasa NUSANTARA</h2>
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-xs sm:text-sm">
                   <tbody className="divide-y divide-slate-800/80 font-mono text-xs">
-                    {filteredKeywords.map((item) => (
+                    {DAFTAR_KATA_KUNCI_PHASE2.map((item) => (
                       <tr key={item.kw} className="hover:bg-slate-800/40">
                         <td className="py-2.5 px-4 font-bold text-amber-300">{item.kw}</td>
                         <td className="py-2.5 px-4">{item.status}</td>
@@ -517,53 +522,14 @@ pernyataan = deklarasi_variabel | deklarasi_tetap | penugasan | pemanggilan_fung
           </div>
         )}
 
-        {/* TAB 6: UJI SPESIFIKASI NEGATIF */}
-        {activeTab === 'uji-spesifikasi' && (
-          <div className="space-y-6">
-            <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-6">
-              <h2 className="text-xl font-bold text-white mb-2">Katalog 15 Kasus Negatif EBNF</h2>
-              <p className="text-xs text-slate-400 mb-4">Kasus uji sintaksis yang melanggar aturan tata bahasa formal</p>
-            </div>
-          </div>
-        )}
-
-        {/* TAB 7: LABORATORIUM */}
-        {activeTab === 'contoh' && (
-          <div className="space-y-6">
-            <div className="bg-slate-900/80 border border-slate-800 rounded-xl p-4">
-              <h3 className="text-sm font-semibold text-slate-300 uppercase tracking-wider mb-2">Laboratorium Sintaksis Interaktif</h3>
-              <textarea
-                value={playgroundCode}
-                onChange={(e) => setPlaygroundCode(e.target.value)}
-                rows={8}
-                className="w-full p-4 bg-slate-950/90 font-mono text-sm text-slate-100 focus:outline-none resize-none leading-relaxed border border-slate-800 rounded-lg"
-              />
-              <div className="mt-4 font-mono text-xs space-y-1 bg-slate-900/60 p-4 rounded-lg border border-slate-800">
-                {parseTokens(playgroundCode).map((line) => (
-                  <div key={line.lineNum} className="flex">
-                    <span className="w-8 text-slate-600 select-none text-right pr-3">{line.lineNum}</span>
-                    <span className="whitespace-pre">
-                      {line.tokens.map((tok, tIdx) => (
-                        <span key={tIdx} className={tok.typeClass}>
-                          {tok.text}
-                        </span>
-                      ))}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* TAB 8: PETA JALAN */}
+        {/* TAB 7: PETA JALAN */}
         {activeTab === 'roadmap' && (
           <div className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
               {filteredRoadmap.map((item) => {
-                const isCompleted = item.fase <= 5;
-                const isCurrent = item.fase === 5;
-                const isNext = item.fase === 6;
+                const isCompleted = item.fase <= 6;
+                const isCurrent = item.fase === 6;
+                const isNext = item.fase === 7;
                 return (
                   <div
                     key={item.fase}
@@ -602,15 +568,15 @@ pernyataan = deklarasi_variabel | deklarasi_tetap | penugasan | pemanggilan_fung
           </div>
         )}
 
-        {/* TAB 9: SINKRONISASI GIT */}
+        {/* TAB 8: SINKRONISASI GIT */}
         {activeTab === 'git' && (
           <div className="space-y-6">
             <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-6">
-              <h2 className="text-xl font-bold text-white mb-2">Sinkronisasi Komit Phase 5 ke GitHub</h2>
-              <p className="text-sm text-slate-300 mb-6">Jalankan perintah berikut untuk menyinkronkan seluruh dokumentasi buku panduan ke repositori GitHub:</p>
+              <h2 className="text-xl font-bold text-white mb-2">Sinkronisasi Komit Phase 6 ke GitHub</h2>
+              <p className="text-sm text-slate-300 mb-6">Jalankan perintah berikut untuk menyinkronkan seluruh modul Lexer ke repositori GitHub:</p>
               <div className="space-y-3 font-mono text-xs">
                 <pre className="text-rose-300 bg-slate-950 p-3 rounded-lg border border-slate-800">git add .</pre>
-                <pre className="text-rose-300 bg-slate-950 p-3 rounded-lg border border-slate-800">git commit -m "docs: add initial Indonesian language documentation"</pre>
+                <pre className="text-rose-300 bg-slate-950 p-3 rounded-lg border border-slate-800">git commit -m "feat: implement nusantara lexer"</pre>
                 <pre className="text-rose-300 bg-slate-950 p-3 rounded-lg border border-slate-800">git push origin main</pre>
               </div>
             </div>
@@ -624,7 +590,7 @@ pernyataan = deklarasi_variabel | deklarasi_tetap | penugasan | pemanggilan_fung
           <div className="flex items-center gap-2 text-slate-400">
             <span className="font-bold text-slate-200 font-sans">NUSANTARA</span>
             <span>·</span>
-            <span>Milestone v0.5.0 (Phase 5)</span>
+            <span>Milestone v0.6.0 (Phase 6: Lexer)</span>
             <span>·</span>
             <span>Apache License 2.0</span>
           </div>
