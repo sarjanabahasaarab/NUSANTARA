@@ -58,13 +58,39 @@ export class Parser {
         if (this.cocok(JenisToken.KW_PROGRAM)) {
           const idTok = this.harapkan(JenisToken.IDENTIFIER, 'nama program setelah kata kunci program');
           namaProgram = idTok.nilai;
-          this.harapkan(JenisToken.KW_MULAI, "kata kunci 'mulai' untuk membuka blok program");
 
+          if (this.periksa(JenisToken.KW_MULAI)) {
+            const mulaiTok = this.stream.next();
+            while (!this.periksa(JenisToken.KW_SELESAI) && !this.stream.eof()) {
+              const stmt = this.parsePernyataan();
+              if (stmt) tubuhUtama.push(stmt);
+            }
+            if (this.stream.eof()) {
+              const g = new GalatParser(
+                JenisGalatParser.BLOK_TIDAK_DITUTUP,
+                "Blok utama program belum ditutup dengan kata kunci 'selesai'.",
+                mulaiTok
+              );
+              this.catatGalat(g);
+              throw g;
+            }
+            this.harapkan(JenisToken.KW_SELESAI, "kata kunci 'selesai' untuk menutup blok program");
+          }
+        } else if (this.periksa(JenisToken.KW_MULAI)) {
+          const mulaiTok = this.stream.next();
           while (!this.periksa(JenisToken.KW_SELESAI) && !this.stream.eof()) {
             const stmt = this.parsePernyataan();
             if (stmt) tubuhUtama.push(stmt);
           }
-
+          if (this.stream.eof()) {
+            const g = new GalatParser(
+              JenisGalatParser.BLOK_TIDAK_DITUTUP,
+              "Blok utama program belum ditutup dengan kata kunci 'selesai'.",
+              mulaiTok
+            );
+            this.catatGalat(g);
+            throw g;
+          }
           this.harapkan(JenisToken.KW_SELESAI, "kata kunci 'selesai' untuk menutup blok program");
         } else if (this.periksa(JenisToken.KW_FUNGSI)) {
           const fn = this.parseDeklarasiFungsi();
@@ -104,12 +130,21 @@ export class Parser {
 
   public parseDeklarasiFungsi(): NodeDeklarasiFungsi {
     const fnTok = this.harapkan(JenisToken.KW_FUNGSI, 'kata kunci fungsi');
-    const namaTok = this.harapkan(JenisToken.IDENTIFIER, 'nama fungsi');
+    const namaTok = this.harapkan(JenisToken.IDENTIFIER, 'nama fungsi setelah kata kunci fungsi');
     this.harapkan(JenisToken.KURUNG_BUKA, "'(' setelah nama fungsi");
 
     const parameter: NodeParameterFungsi[] = [];
     if (!this.periksa(JenisToken.KURUNG_TUTUP)) {
       do {
+        if (this.periksa(JenisToken.KURUNG_TUTUP)) {
+          const g = new GalatParser(
+            JenisGalatParser.TOKEN_TAK_TERDUGA,
+            "Tanda koma berlebih di akhir daftar parameter fungsi.",
+            this.stream.current()
+          );
+          this.catatGalat(g);
+          throw g;
+        }
         const paramNama = this.harapkan(JenisToken.IDENTIFIER, 'nama parameter fungsi');
         this.harapkan(JenisToken.TITIK_DUA, "':' setelah nama parameter");
         const paramTipe = this.harapkanNamaTipe();
@@ -130,11 +165,20 @@ export class Parser {
       tipeKembalian = retTok.nilai;
     }
 
-    this.harapkan(JenisToken.KW_MULAI, "kata kunci 'mulai' untuk membuka tubuh fungsi");
+    const mulaiTok = this.harapkan(JenisToken.KW_MULAI, "kata kunci 'mulai' untuk membuka tubuh fungsi");
     const tubuh: PernyataanAST[] = [];
     while (!this.periksa(JenisToken.KW_SELESAI) && !this.stream.eof()) {
       const stmt = this.parsePernyataan();
       if (stmt) tubuh.push(stmt);
+    }
+    if (this.stream.eof()) {
+      const g = new GalatParser(
+        JenisGalatParser.BLOK_TIDAK_DITUTUP,
+        `Blok fungsi '${namaTok.nilai}' belum ditutup dengan kata kunci 'selesai'.`,
+        mulaiTok
+      );
+      this.catatGalat(g);
+      throw g;
     }
     const akhirTok = this.harapkan(JenisToken.KW_SELESAI, "kata kunci 'selesai' untuk menutup fungsi");
 
@@ -158,6 +202,12 @@ export class Parser {
 
       if (this.cocok(JenisToken.KW_TETAP)) {
         return this.parseDeklarasiTetap(current);
+      }
+
+      if (this.periksa(JenisToken.KW_FUNGSI)) {
+        const g = new GalatParser(JenisGalatParser.TOKEN_TAK_TERDUGA, "Deklarasi fungsi hanya diperbolehkan di tingkat teratas berkas program.", current);
+        this.catatGalat(g);
+        throw g;
       }
 
       if (this.cocok(JenisToken.KW_JIKA)) {

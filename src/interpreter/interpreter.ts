@@ -490,6 +490,16 @@ export class Interpreter {
   ): NilaiRuntime {
     const fnDeklarasi = fungsi.deklarasi;
 
+    // Batas kedalaman pemanggilan rekursif (Stack Overflow Protection)
+    if (this.tumpukanPanggilan.length > 500) {
+      throw new GalatRuntime(
+        JenisGalatRuntime.BATAS_ITERASI_TERLAMPAUI,
+        `Batas kedalaman pemanggilan fungsi rekursif terlampaui pada fungsi '${fnDeklarasi.nama}'.`,
+        nodePanggil.posisi.awal,
+        [...this.tumpukanPanggilan]
+      );
+    }
+
     // Periksa jumlah parameter vs argumen
     if (argumen.length !== fnDeklarasi.parameter.length) {
       throw new GalatRuntime(
@@ -504,6 +514,14 @@ export class Interpreter {
     const lingkunganFungsi = new Lingkungan(fungsi.lingkunganPenutup);
     for (let i = 0; i < fnDeklarasi.parameter.length; i++) {
       const p = fnDeklarasi.parameter[i];
+      if (p.tipeData && !apakahKompatibel(p.tipeData, argumen[i].jenis)) {
+        throw new GalatRuntime(
+          JenisGalatRuntime.OPERASI_TIPE_TIDAK_VALID,
+          `Parameter '${p.nama}' pada fungsi '${fnDeklarasi.nama}' membutuhkan ${p.tipeData}, tetapi menerima ${argumen[i].jenis}.`,
+          nodePanggil.posisi.awal,
+          [...this.tumpukanPanggilan]
+        );
+      }
       lingkunganFungsi.definisikan(p.nama, argumen[i], false, p.tipeData);
     }
 
@@ -518,16 +536,34 @@ export class Interpreter {
       for (const stmt of fnDeklarasi.tubuh) {
         this.eksekusiPernyataan(stmt);
       }
+      if (fnDeklarasi.tipeKembalian && fnDeklarasi.tipeKembalian !== 'kosong') {
+        throw new GalatRuntime(
+          JenisGalatRuntime.OPERASI_TIPE_TIDAK_VALID,
+          `Fungsi '${fnDeklarasi.nama}' harus mengembalikan ${fnDeklarasi.tipeKembalian}, tetapi tidak mengembalikan nilai.`,
+          nodePanggil.posisi.awal,
+          [...this.tumpukanPanggilan]
+        );
+      }
       return buatKosong();
     } catch (e: any) {
       if (e instanceof SinyalKembalikan) {
-        if (fnDeklarasi.tipeKembalian && !apakahKompatibel(fnDeklarasi.tipeKembalian, e.nilai.jenis)) {
-          throw new GalatRuntime(
-            JenisGalatRuntime.OPERASI_TIPE_TIDAK_VALID,
-            `Fungsi '${fnDeklarasi.nama}' harus mengembalikan nilai bertipe '${fnDeklarasi.tipeKembalian}', tetapi mengembalikan '${e.nilai.jenis}'.`,
-            nodePanggil.posisi.awal,
-            [...this.tumpukanPanggilan]
-          );
+        if (fnDeklarasi.tipeKembalian && fnDeklarasi.tipeKembalian !== 'kosong') {
+          if (e.nilai.jenis === JenisNilaiRuntime.KOSONG) {
+            throw new GalatRuntime(
+              JenisGalatRuntime.OPERASI_TIPE_TIDAK_VALID,
+              `Fungsi '${fnDeklarasi.nama}' harus mengembalikan ${fnDeklarasi.tipeKembalian}, tetapi tidak mengembalikan nilai.`,
+              nodePanggil.posisi.awal,
+              [...this.tumpukanPanggilan]
+            );
+          }
+          if (!apakahKompatibel(fnDeklarasi.tipeKembalian, e.nilai.jenis)) {
+            throw new GalatRuntime(
+              JenisGalatRuntime.OPERASI_TIPE_TIDAK_VALID,
+              `Fungsi '${fnDeklarasi.nama}' harus mengembalikan nilai bertipe '${fnDeklarasi.tipeKembalian}', tetapi mengembalikan '${e.nilai.jenis}'.`,
+              nodePanggil.posisi.awal,
+              [...this.tumpukanPanggilan]
+            );
+          }
         }
         return e.nilai;
       }

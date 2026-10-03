@@ -21,9 +21,9 @@ Setiap fase merupakan pencapaian rekayasa piranti lunak (*engineering milestone*
 | **Phase 9** | Variabel & Tipe Data Lanjutan | `v0.9.0` | **Selesai** |
 | **Phase 10** | Operator & Evaluasi Presedensi | `v0.10.0` | **Selesai** |
 | **Phase 11** | Percabangan Kondisional Lanjutan | `v0.11.0` | **Selesai** |
-| **Phase 12** | **Perulangan Iteratif Lanjutan** | `v0.12.0` | **Selesai (Fase Saat Ini)** |
-| **Phase 13** | Fungsi & Prosedur Lanjutan | `v0.13.0` | Direncanakan Berikutnya |
-| **Phase 14** | Struktur Data (Daftar & Peta) | `v0.14.0` | Direncanakan |
+| **Phase 12** | Perulangan Iteratif Lanjutan | `v0.12.0` | **Selesai** |
+| **Phase 13** | **Fungsi & Prosedur Lanjutan** | `v0.13.0` | **Selesai (Fase Saat Ini)** |
+| **Phase 14** | Struktur Data (Daftar & Peta) | `v0.14.0` | Direncanakan Berikutnya |
 | **Phase 15** | Modul & Ruang Nama (*Namespace*) | `v0.15.0` | Direncanakan |
 | **Phase 16** | Kelas & Objek (OOP) | `v0.16.0` | Direncanakan |
 | **Phase 17** | Pewarisan & Antarmuka (*Interface*) | `v0.17.0` | Direncanakan |
@@ -59,6 +59,7 @@ Type System ✓ (Phase 9 - Selesai: Sistem Tipe & Type Checker)
 Operators   ✓ (Phase 10 - Selesai: 8 Tingkat Presedensi & Evaluasi Hubung Singkat)
 Branching   ✓ (Phase 11 - Selesai: jika, maka, selain, akhir)
 Loops       ✓ (Phase 12 - Selesai: selama, untuk, hentikan, lanjutkan)
+Functions   ✓ (Phase 13 - Selesai: fungsi, parameter, kembalikan, rekursi)
 Compiler    — (Direncanakan di Phase 22)
 Native EXE  — (Direncanakan di Phase 23)
 ```

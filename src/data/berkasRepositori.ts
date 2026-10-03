@@ -8,6 +8,32 @@ export interface BerkasRepo {
 }
 
 export const BERKAS_REPOSITORI: BerkasRepo[] = [
+  // --- FASE 13: SISTEM FUNGSI & PROSEDUR ---
+  {
+    jalur: 'docs/referensi/fungsi.md',
+    nama: 'fungsi.md',
+    kategori: 'Referensi Sintaks Fungsi',
+    bahasa: 'markdown',
+    ukuran: 4350,
+    konten: `# Referensi Sintaks: Sistem Fungsi Bahasa NUSANTARA\n\nPedoman resmi deklarasi fungsi, parameter terikat, nilai kembalian, cakupan leksikal, dan rekursi.`
+  },
+  {
+    jalur: 'docs/pengembang/fungsi.md',
+    nama: 'fungsi.md (Pengembang)',
+    kategori: 'Dokumentasi Teknis Fungsi',
+    bahasa: 'markdown',
+    ukuran: 4100,
+    konten: `# Arsitektur & Dokumentasi Teknis Sistem Fungsi NUSANTARA\n\nPenjelasan integrasi saluran pipa kompilasi untuk deklarasi, type checking, dan runtime stack frame.`
+  },
+  {
+    jalur: 'pengujian/fungsi/uji_fungsi.ts',
+    nama: 'uji_fungsi.ts',
+    kategori: '28 Pengujian Fungsi',
+    bahasa: 'javascript',
+    ukuran: 14900,
+    konten: `// Rangkaian 28 Uji Komprehensif Sistem Fungsi Bahasa NUSANTARA (Phase 13)`
+  },
+
   // --- FASE 12: SISTEM PERULANGAN ---
   {
     jalur: 'docs/referensi/perulangan.md',
@@ -320,8 +346,8 @@ export const DAFTAR_FASE_ROADMAP = [
   { fase: 10, nama: 'Operator & Ekspresi Lanjutan', versi: 'v0.10.0', kategori: 'Mesin Inti', status: 'Selesai' },
   { fase: 11, nama: 'Percabangan Lanjutan', versi: 'v0.11.0', kategori: 'Mesin Inti', status: 'Selesai' },
   { fase: 12, nama: 'Perulangan Lanjutan', versi: 'v0.12.0', kategori: 'Mesin Inti', status: 'Selesai' },
-  { fase: 13, nama: 'Fungsi Lanjutan', versi: 'v0.13.0', kategori: 'Mesin Inti', status: 'Berikutnya' },
-  { fase: 14, nama: 'Struktur Data (Daftar & Peta)', versi: 'v0.14.0', kategori: 'Fitur Lanjut', status: 'Rencana' },
+  { fase: 13, nama: 'Fungsi Lanjutan', versi: 'v0.13.0', kategori: 'Mesin Inti', status: 'Selesai' },
+  { fase: 14, nama: 'Struktur Data (Daftar & Peta)', versi: 'v0.14.0', kategori: 'Fitur Lanjut', status: 'Berikutnya' },
   { fase: 15, nama: 'Modul & Ruang Nama', versi: 'v0.15.0', kategori: 'Fitur Lanjut', status: 'Rencana' },
   { fase: 16, nama: 'Kelas & Objek (OOP)', versi: 'v0.16.0', kategori: 'Fitur Lanjut', status: 'Rencana' },
   { fase: 17, nama: 'Pewarisan & Antarmuka', versi: 'v0.17.0', kategori: 'Fitur Lanjut', status: 'Rencana' },

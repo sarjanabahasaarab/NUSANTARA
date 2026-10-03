@@ -101,7 +101,29 @@ export class PemeriksaTipe {
 
     // 1. Daftarkan tanda tangan seluruh deklarasi fungsi
     for (const fn of program.daftarFungsi) {
-      if (!apakahTipeSah(fn.tipeKembalian || NamaTipe.KOSONG)) {
+      if (fn.nama === 'tampilkan') {
+        this.daftarGalat.push(
+          new GalatTipe(
+            JenisGalatTipe.DEKLARASI_GANDA,
+            `Nama fungsi 'tampilkan' sudah digunakan oleh fungsi bawaan resmi NUSANTARA.`,
+            fn.posisi.awal
+          )
+        );
+        continue;
+      }
+
+      if (this.tabelFungsi.has(fn.nama)) {
+        this.daftarGalat.push(
+          new GalatTipe(
+            JenisGalatTipe.DEKLARASI_GANDA,
+            `Fungsi '${fn.nama}' dideklarasikan lebih dari satu kali.`,
+            fn.posisi.awal
+          )
+        );
+        continue;
+      }
+
+      if (fn.tipeKembalian && !apakahTipeSah(fn.tipeKembalian)) {
         this.daftarGalat.push(
           new GalatTipe(
             JenisGalatTipe.TIPE_TIDAK_DIKENAL,
@@ -111,8 +133,20 @@ export class PemeriksaTipe {
         );
       }
 
+      const paramSet = new Set<string>();
       const params: Array<{ nama: string; tipe: NamaTipe }> = [];
       for (const p of fn.parameter) {
+        if (paramSet.has(p.nama)) {
+          this.daftarGalat.push(
+            new GalatTipe(
+              JenisGalatTipe.DEKLARASI_GANDA,
+              `Parameter '${p.nama}' dideklarasikan ganda pada fungsi '${fn.nama}'.`,
+              p.posisi.awal
+            )
+          );
+        }
+        paramSet.add(p.nama);
+
         if (!apakahTipeSah(p.tipeData)) {
           this.daftarGalat.push(
             new GalatTipe(
@@ -153,8 +187,28 @@ export class PemeriksaTipe {
     return this.daftarGalat;
   }
 
+  private mempunyaiInstruksiKembalikan(pernyataan: PernyataanAST[]): boolean {
+    for (const st of pernyataan) {
+      if (st.jenis === JenisNodeAST.INSTRUKSI_KEMBALIKAN) return true;
+      if (st.jenis === JenisNodeAST.PERCABANGAN_JIKA) {
+        const j = st as NodePercabanganJika;
+        if (this.mempunyaiInstruksiKembalikan(j.cabangMaka)) return true;
+        if (j.cabangSelain && this.mempunyaiInstruksiKembalikan(j.cabangSelain)) return true;
+      }
+      if (st.jenis === JenisNodeAST.PERULANGAN_SELAMA) {
+        if (this.mempunyaiInstruksiKembalikan((st as NodePerulanganSelama).tubuh)) return true;
+      }
+      if (st.jenis === JenisNodeAST.PERULANGAN_UNTUK) {
+        if (this.mempunyaiInstruksiKembalikan((st as NodePerulanganUntuk).tubuh)) return true;
+      }
+    }
+    return false;
+  }
+
   private periksaDeklarasiFungsi(fn: NodeDeklarasiFungsi): void {
-    const infoFn = this.tabelFungsi.get(fn.nama)!;
+    const infoFn = this.tabelFungsi.get(fn.nama);
+    if (!infoFn) return;
+
     const simpanFungsiAktif = this.fungsiAktifSaatIni;
     this.fungsiAktifSaatIni = infoFn;
 
@@ -173,6 +227,18 @@ export class PemeriksaTipe {
 
       for (const st of fn.tubuh) {
         this.periksaPernyataan(st);
+      }
+
+      if (infoFn.tipeKembalian !== NamaTipe.KOSONG && !this.mempunyaiInstruksiKembalikan(fn.tubuh)) {
+        this.daftarGalat.push(
+          new GalatTipe(
+            JenisGalatTipe.KEMBALIAN_TIDAK_SESUAI,
+            `Fungsi '${fn.nama}' harus mengembalikan ${infoFn.tipeKembalian}, tetapi tidak mengembalikan nilai.`,
+            fn.posisi.awal,
+            infoFn.tipeKembalian,
+            NamaTipe.KOSONG
+          )
+        );
       }
     } catch (e: any) {
       if (e instanceof GalatTipe) {
@@ -396,19 +462,35 @@ export class PemeriksaTipe {
 
       case JenisNodeAST.INSTRUKSI_KEMBALIKAN: {
         const s = stmt as NodeInstruksiKembalikan;
-        const tipeAktual = s.nilai ? this.periksaEkspresi(s.nilai) : NamaTipe.KOSONG;
+        if (!this.fungsiAktifSaatIni) {
+          throw new GalatTipe(
+            JenisGalatTipe.KENDALI_DI_LUAR_KONTEKS,
+            "Instruksi 'kembalikan' hanya dapat digunakan di dalam blok fungsi.",
+            s.posisi.awal
+          );
+        }
 
-        if (this.fungsiAktifSaatIni) {
-          const tipeTarget = this.fungsiAktifSaatIni.tipeKembalian;
-          if (!apakahKompatibel(tipeTarget, tipeAktual)) {
-            throw new GalatTipe(
-              JenisGalatTipe.KEMBALIAN_TIDAK_SESUAI,
-              `Fungsi '${this.fungsiAktifSaatIni.nama}' harus mengembalikan tipe '${tipeTarget}', namun mengembalikan tipe '${tipeAktual}'.`,
-              s.posisi.awal,
-              tipeTarget,
-              tipeAktual
-            );
-          }
+        const tipeAktual = s.nilai ? this.periksaEkspresi(s.nilai) : NamaTipe.KOSONG;
+        const tipeTarget = this.fungsiAktifSaatIni.tipeKembalian;
+
+        if (tipeTarget !== NamaTipe.KOSONG && (!s.nilai || tipeAktual === NamaTipe.KOSONG)) {
+          throw new GalatTipe(
+            JenisGalatTipe.KEMBALIAN_TIDAK_SESUAI,
+            `Fungsi '${this.fungsiAktifSaatIni.nama}' harus mengembalikan ${tipeTarget}, tetapi tidak mengembalikan nilai.`,
+            s.posisi.awal,
+            tipeTarget,
+            NamaTipe.KOSONG
+          );
+        }
+
+        if (!apakahKompatibel(tipeTarget, tipeAktual)) {
+          throw new GalatTipe(
+            JenisGalatTipe.KEMBALIAN_TIDAK_SESUAI,
+            `Fungsi '${this.fungsiAktifSaatIni.nama}' harus mengembalikan tipe '${tipeTarget}', namun mengembalikan tipe '${tipeAktual}'.`,
+            s.posisi.awal,
+            tipeTarget,
+            tipeAktual
+          );
         }
         break;
       }
@@ -572,40 +654,44 @@ export class PemeriksaTipe {
         const c = expr as NodePemanggilanFungsi;
         const infoFn = this.tabelFungsi.get(c.namaFungsi);
 
-        if (infoFn) {
-          // Khusus fungsi bawaan tampilkan(...) yang variadik
-          if (c.namaFungsi === 'tampilkan') {
-            for (const arg of c.argumen) {
-              this.periksaEkspresi(arg);
-            }
-            return NamaTipe.KOSONG;
-          }
-
-          if (c.argumen.length !== infoFn.parameter.length) {
-            throw new GalatTipe(
-              JenisGalatTipe.ARGUMEN_TIDAK_SESUAI,
-              `Fungsi '${c.namaFungsi}' membutuhkan ${infoFn.parameter.length} argumen, namun menerima ${c.argumen.length}.`,
-              c.posisi.awal
-            );
-          }
-
-          for (let i = 0; i < c.argumen.length; i++) {
-            const tipeArg = this.periksaEkspresi(c.argumen[i]);
-            const param = infoFn.parameter[i];
-            if (!apakahKompatibel(param.tipe, tipeArg)) {
-              throw buatGalatKetidakcocokanTipe(
-                `Argumen ke-${i + 1} ('${param.nama}') pada pemanggilan '${c.namaFungsi}'`,
-                param.tipe,
-                tipeArg,
-                c.argumen[i].posisi.awal
-              );
-            }
-          }
-
-          return infoFn.tipeKembalian;
+        if (!infoFn) {
+          throw new GalatTipe(
+            JenisGalatTipe.FUNGSI_TIDAK_DITEMUKAN,
+            `Fungsi '${c.namaFungsi}' tidak ditemukan atau belum dideklarasikan.`,
+            c.posisi.awal
+          );
         }
 
-        return NamaTipe.APAPUN;
+        // Khusus fungsi bawaan tampilkan(...) yang variadik
+        if (c.namaFungsi === 'tampilkan') {
+          for (const arg of c.argumen) {
+            this.periksaEkspresi(arg);
+          }
+          return NamaTipe.KOSONG;
+        }
+
+        if (c.argumen.length !== infoFn.parameter.length) {
+          throw new GalatTipe(
+            JenisGalatTipe.ARGUMEN_TIDAK_SESUAI,
+            `Fungsi '${c.namaFungsi}' membutuhkan ${infoFn.parameter.length} argumen, tetapi menerima ${c.argumen.length}.`,
+            c.posisi.awal
+          );
+        }
+
+        for (let i = 0; i < c.argumen.length; i++) {
+          const tipeArg = this.periksaEkspresi(c.argumen[i]);
+          const param = infoFn.parameter[i];
+          if (!apakahKompatibel(param.tipe, tipeArg)) {
+            throw buatGalatKetidakcocokanTipe(
+              `Parameter '${param.nama}' pada pemanggilan '${c.namaFungsi}'`,
+              param.tipe,
+              tipeArg,
+              c.argumen[i].posisi.awal
+            );
+          }
+        }
+
+        return infoFn.tipeKembalian;
       }
     }
 

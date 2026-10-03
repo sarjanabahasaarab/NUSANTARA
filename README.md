@@ -2,8 +2,8 @@
 
 > **Bahasa Pemrograman 100% Bahasa Indonesia untuk Komputasi Modern, Terbuka, dan Berkelanjutan.**
 
-[![Status](https://img.shields.io/badge/status-fase_12:_perulangan_selesai-blue.svg)](ROADMAP.md)
-[![Versi](https://img.shields.io/badge/versi-v0.12.0-emerald.svg)](PERUBAHAN.md)
+[![Status](https://img.shields.io/badge/status-fase_13:_fungsi_selesai-blue.svg)](ROADMAP.md)
+[![Versi](https://img.shields.io/badge/versi-v0.13.0-emerald.svg)](PERUBAHAN.md)
 [![Lisensi](https://img.shields.io/badge/lisensi-Apache_2.0-blue.svg)](LISENSI)
 [![Tata Bahasa](https://img.shields.io/badge/grammar-EBNF_ISO--14977-purple.svg)](dokumentasi/GRAMMAR-EBNF.md)
 [![Lexer](https://img.shields.io/badge/lexer-lulus_100%25-teal.svg)](docs/pengembang/lexer.md)
@@ -12,6 +12,7 @@
 [![Type System](https://img.shields.io/badge/type_system-strict_&_safe-purple.svg)](docs/pengembang/type-system.md)
 [![Operator](https://img.shields.io/badge/operators-8_precedence_levels-orange.svg)](docs/pengembang/operator.md)
 [![Perulangan](https://img.shields.io/badge/loops-selama_&_untuk-emerald.svg)](docs/pengembang/perulangan.md)
+[![Fungsi](https://img.shields.io/badge/functions-fungsi_&_rekursi-indigo.svg)](docs/pengembang/fungsi.md)
 
 ---
 
@@ -23,7 +24,8 @@ NUSANTARA bukan sekadar penerjemah sintaksis bahasa asing, melainkan ikhtiar man
 
 - **Ekstensi Berkas Resmi:** `.nusantara`
 - **Lisensi:** [Apache License 2.0](LISENSI)
-- **Status Saat Ini:** **Phase 12: Sistem Perulangan Selesai (Milestone v0.12.0).**
+- **Status Saat Ini:** **Phase 13: Sistem Fungsi Selesai (Milestone v0.13.0).**
+- **Dokumentasi Fungsi:** [docs/pengembang/fungsi.md](docs/pengembang/fungsi.md) & [docs/referensi/fungsi.md](docs/referensi/fungsi.md)
 - **Dokumentasi Perulangan:** [docs/pengembang/perulangan.md](docs/pengembang/perulangan.md) & [docs/referensi/perulangan.md](docs/referensi/perulangan.md)
 - **Dokumentasi Percabangan:** [docs/pengembang/percabangan.md](docs/pengembang/percabangan.md) & [docs/referensi/percabangan.md](docs/referensi/percabangan.md)
 - **Dokumentasi Operator:** [docs/pengembang/operator.md](docs/pengembang/operator.md) & [docs/referensi/operator.md](docs/referensi/operator.md)

@@ -30,7 +30,13 @@ const berkasWajib = [
   { berkas: '.github/ISSUE_TEMPLATE/pertanyaan.md', kategori: 'Templat Diskusi & Tanya', fase: 'Phase 3' },
   { berkas: '.github/PULL_REQUEST_TEMPLATE.md', kategori: 'Templat Pull Request', fase: 'Phase 3' },
 
-  // --- IMPLEMENTASI & DOKUMENTASI SISTEM PERULANGAN (Phase 12 Baru) ---
+  // --- IMPLEMENTASI & DOKUMENTASI SISTEM FUNGSI (Phase 13 Baru) ---
+  { berkas: 'docs/referensi/fungsi.md', kategori: 'Panduan Referensi Fungsi', fase: 'Phase 13' },
+  { berkas: 'docs/pengembang/fungsi.md', kategori: 'Dokumentasi Teknis Fungsi', fase: 'Phase 13' },
+  { berkas: 'pengujian/fungsi/uji_fungsi.ts', kategori: 'Rangkaian 28 Uji Sistem Fungsi', fase: 'Phase 13' },
+  { berkas: 'pengujian/fungsi/README.md', kategori: 'Panduan Eksekusi Uji Fungsi', fase: 'Phase 13' },
+
+  // --- IMPLEMENTASI & DOKUMENTASI SISTEM PERULANGAN (Phase 12) ---
   { berkas: 'docs/referensi/perulangan.md', kategori: 'Panduan Referensi Perulangan', fase: 'Phase 12' },
   { berkas: 'docs/pengembang/perulangan.md', kategori: 'Dokumentasi Teknis Perulangan', fase: 'Phase 12' },
   { berkas: 'pengujian/perulangan/uji_perulangan.ts', kategori: 'Rangkaian 25 Uji Perulangan', fase: 'Phase 12' },
@@ -196,7 +202,7 @@ const berkasWajib = [
 
 console.log('=============================================================================');
 console.log('PEMERIKSAAN KEPATUHAN SPESIFIKASI & IMPLEMENTASI BAHASA NUSANTARA');
-console.log('Target Milestone: Phase 9 — Variabel & Tipe Data Lanjutan (v0.9.0)');
+console.log('Target Milestone: Phase 13 — Sistem Fungsi (v0.13.0)');
 console.log('=============================================================================\n');
 
 let jumlahLulus = 0;
@@ -219,8 +225,8 @@ console.log(`Hasil Evaluasi: ${jumlahLulus} berkas LULUS, ${jumlahGagal} berkas 
 console.log('-----------------------------------------------------------------------------');
 
 if (jumlahGagal === 0) {
-  console.log('STATUS: SELURUH DOKUMENTASI, SPESIFIKASI, LEXER, PARSER, INTERPRETER, TIPE, OPERATOR, PERCABANGAN, DAN PERULANGAN LENGKAP & TERUJI.');
-  console.log('Repositori siap untuk milestone v0.12.0 (feat: implement nusantara loops).');
+  console.log('STATUS: SELURUH DOKUMENTASI, SPESIFIKASI, LEXER, PARSER, INTERPRETER, TIPE, OPERATOR, PERCABANGAN, PERULANGAN, DAN SISTEM FUNGSI LENGKAP & TERUJI.');
+  console.log('Repositori siap untuk milestone v0.13.0 (feat: implement nusantara functions).');
   process.exit(0);
 } else {
   console.error('STATUS: TERDAPAT BERKAS RESMI YANG HILANG. PERIKSA KEMBALI SEBELUM COMMIT.');

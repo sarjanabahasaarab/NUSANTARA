@@ -4,6 +4,48 @@ Seluruh perubahan penting pada proyek bahasa pemrograman NUSANTARA dicatat dalam
 
 Format penomoran versi mengacu pada **Semantic Versioning** (`vMAJOR.MINOR.PATCH`). Pada masa pengembangan awal, versi minor mencerminkan tahapan fase roadmap (misal `v0.1.0` untuk Phase 1, `v0.2.0` untuk Phase 2, `v0.3.0` untuk Phase 3, `v0.4.0` untuk Phase 4, `v0.5.0` untuk Phase 5, `v0.6.0` untuk Phase 6, `v0.7.0` untuk Phase 7, `v0.8.0` untuk Phase 8, `v0.9.0` untuk Phase 9, `v0.10.0` untuk Phase 10).
 
+## [v0.13.0] — 2026-10-03
+### Phase 13: Sistem Fungsi & Prosedur NUSANTARA
+
+Fase ini meresmikan arsitektur sistem fungsi, prosedur, parameter, nilai kembali (`kembalikan`), lingkup variabel lokal leksikal, pemanggilan antar-fungsi, dan rekursi yang terintegrasi penuh di seluruh saluran pipa bahasa NUSANTARA.
+
+#### Ditambahkan:
+- **Konstruksi Fungsi Resmi:**
+  - `fungsi namaFungsi(param1 : tipe, param2 : tipe) : tipeHasil mulai ... selesai` untuk deklarasi fungsi dengan nilai kembali.
+  - Prosedur (fungsi tanpa anotasi tipe kembali atau bertipe `kosong`) yang dapat berjalan tanpa instruksi kembalikan.
+  - Fungsi tanpa parameter dengan pasangan kurung kosong `()`.
+- **Parameter & Evaluasi Argumen:**
+  - Penerimaan parameter jamak dipisahkan koma dengan tipe data terikat.
+  - Validasi jumlah dan kecocokan tipe argumen terhadap parameter secara statis di Type System dan runtime Interpreter.
+  - Deteksi dan pencegahan deklarasi parameter ganda (`DEKLARASI_GANDA`) pada fungsi yang sama.
+  - Proteksi terhadap konflik nama dengan fungsi bawaan resmi (`tampilkan`).
+- **Instruksi `kembalikan` & Nilai Kembali:**
+  - Pengembalian nilai ekspresi yang diverifikasi kesesuaian tipenya terhadap tipe hasil fungsi.
+  - Pengembalian nilai awal (*early return*) di dalam blok percabangan `jika` atau perulangan.
+  - Penegakan keharusan pengembalian nilai bagi fungsi non-kosong (`KEMBALIAN_TIDAK_SESUAI`).
+  - Penolakan instruksi `kembalikan` di luar tubuh fungsi (`KENDALI_DI_LUAR_KONTEKS`).
+- **Isolasi Lingkup & Pemanggilan Antar-Fungsi:**
+  - Parameter dan variabel lokal terisolasi dalam lingkungan fungsi dan dibersihkan setelah pemanggilan selesai (*no variable leaking*).
+  - Dukungan pembayangan (*shadowing*) variabel luar tanpa memodifikasi lingkungan luar.
+  - Pemanggilan fungsi di dalam argumen atau ekspresi aritmatika lain (*nested call expressions*).
+  - Pemanggilan rekursif dengan *stack frame* mandiri.
+  - Proteksi rekursi tak terbatas (*Stack Overflow Protection*) dengan batas kedalaman maksimal 500 tingkat pemanggilan (`BATAS_ITERASI_TERLAMPAUI`).
+- **Dokumentasi Sistem Fungsi:**
+  - `docs/referensi/fungsi.md`: Panduan referensi sintaksis resmi, parameter, pemanggilan, rekursi, dan contoh kode.
+  - `docs/pengembang/fungsi.md`: Arsitektur kompilator fungsi, representasi AST, pemeriksaan tipe, dan eksekusi runtime.
+- **Rangkaian Pengujian Sistem Fungsi (`pengujian/fungsi/`):**
+  - `pengujian/fungsi/uji_fungsi.ts`: 28 skenario pengujian komprehensif (Parser, Type System, Interpreter, Scope, Rekursi, Integrasi Pipeline - 100% Lulus).
+  - `pengujian/fungsi/README.md`: Panduan eksekusi dan verifikasi uji fungsi.
+
+#### Diubah:
+- `src/parser/parser.ts`: Memperkuat parser deklarasi fungsi di tingkat teratas, pencegahan trailing comma, dan pendeteksian blok fungsi tidak ditutup.
+- `src/tipe/pemeriksaTipe.ts`: Penegakan keunikan fungsi, parameter unik, proteksi nama built-in `tampilkan`, pemeriksaan kembalian wajib, dan validasi pemanggilan fungsi.
+- `src/interpreter/interpreter.ts`: Penambahan proteksi batas tumpukan rekursi (500 tumpukan) dan verifikasi tipe kembalian runtime.
+- `package.json`: Menambahkan skrip `"test:fungsi"` ke dalam perintah pengujian utama `"npm test"`.
+- `skrip/periksa_fondasi.js`: Menambahkan audit 4 berkas baru Phase 13 (total 149 berkas utuh).
+
+---
+
 ## [v0.12.0] — 2026-10-03
 ### Phase 12: Sistem Perulangan NUSANTARA
 
