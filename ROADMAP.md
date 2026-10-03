@@ -18,9 +18,9 @@ Setiap fase merupakan pencapaian rekayasa piranti lunak (*engineering milestone*
 | **Phase 6** | Lexer (Penganalisis Leksikal) | `v0.6.0` | **Selesai** |
 | **Phase 7** | Parser (Penganalisis Sintaksis & AST) | `v0.7.0` | **Selesai** |
 | **Phase 8** | Interpreter (Penerjemah Eksekusi AST) | `v0.8.0` | **Selesai** |
-| **Phase 9** | **Variabel & Tipe Data Lanjutan** | `v0.9.0` | **Selesai (Fase Saat Ini)** |
-| **Phase 10** | Operator & Ekspresi Lanjutan | `v0.10.0` | Direncanakan Berikutnya |
-| **Phase 11** | Percabangan Kondisional Lanjutan | `v0.11.0` | Direncanakan |
+| **Phase 9** | Variabel & Tipe Data Lanjutan | `v0.9.0` | **Selesai** |
+| **Phase 10** | **Operator & Evaluasi Presedensi** | `v0.10.0` | **Selesai (Fase Saat Ini)** |
+| **Phase 11** | Percabangan Kondisional Lanjutan | `v0.11.0` | Direncanakan Berikutnya |
 | **Phase 12** | Perulangan Iteratif Lanjutan | `v0.12.0` | Direncanakan |
 | **Phase 13** | Fungsi & Prosedur Lanjutan | `v0.13.0` | Direncanakan |
 | **Phase 14** | Struktur Data (Daftar & Peta) | `v0.14.0` | Direncanakan |
@@ -56,6 +56,7 @@ Lexer       ✓ (Phase 6 - Selesai)
 Parser      ✓ (Phase 7 - Selesai)
 Interpreter ✓ (Phase 8 - Selesai)
 Type System ✓ (Phase 9 - Selesai: Sistem Tipe & Type Checker)
+Operators   ✓ (Phase 10 - Selesai: 8 Tingkat Presedensi & Evaluasi Hubung Singkat)
 Compiler    — (Direncanakan di Phase 22)
 Native EXE  — (Direncanakan di Phase 23)
 ```

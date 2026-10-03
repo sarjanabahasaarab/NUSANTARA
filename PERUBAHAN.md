@@ -2,7 +2,38 @@
 
 Seluruh perubahan penting pada proyek bahasa pemrograman NUSANTARA dicatat dalam dokumen ini.
 
-Format penomoran versi mengacu pada **Semantic Versioning** (`vMAJOR.MINOR.PATCH`). Pada masa pengembangan awal, versi minor mencerminkan tahapan fase roadmap (misal `v0.1.0` untuk Phase 1, `v0.2.0` untuk Phase 2, `v0.3.0` untuk Phase 3, `v0.4.0` untuk Phase 4, `v0.5.0` untuk Phase 5, `v0.6.0` untuk Phase 6, `v0.7.0` untuk Phase 7, `v0.8.0` untuk Phase 8, `v0.9.0` untuk Phase 9).
+Format penomoran versi mengacu pada **Semantic Versioning** (`vMAJOR.MINOR.PATCH`). Pada masa pengembangan awal, versi minor mencerminkan tahapan fase roadmap (misal `v0.1.0` untuk Phase 1, `v0.2.0` untuk Phase 2, `v0.3.0` untuk Phase 3, `v0.4.0` untuk Phase 4, `v0.5.0` untuk Phase 5, `v0.6.0` untuk Phase 6, `v0.7.0` untuk Phase 7, `v0.8.0` untuk Phase 8, `v0.9.0` untuk Phase 9, `v0.10.0` untuk Phase 10).
+
+---
+
+## [v0.10.0] — 2026-10-02
+### Phase 10: Sistem Operator & Presedensi NUSANTARA
+
+Fase ini menghadirkan arsitektur operator terpadu yang konsisten, aman, dan selaras di seluruh saluran pipa (*Lexer -> Parser -> AST -> Type System -> Interpreter*).
+
+#### Ditambahkan:
+- **Modul Sistem Operator Terpusat (`src/operator/`):**
+  - `src/operator/jenisOperator.ts`: Taksonomi kategori operator, arah asosiativitas (*left-to-right* vs *right-to-left*), serta `TABEL_PRESEDENSI_OPERATOR` 8 tingkat resmi.
+  - `src/operator/evaluasi.ts`: Mesin evaluasi dan pemancar (*dispatch*) terpusat untuk operator unari (`-`, `tidak`) dan biner (`+`, `-`, `*`, `/`, `%`, `==`, `!=`, `<`, `>`, `<=`, `>=`, `dan`, `atau`).
+  - `src/operator/index.ts`: Ekspor terpadu sistem operator.
+- **Evaluasi Hubung Singkat (*Short-circuit Evaluation*):**
+  - `dan`: jika sisi kiri bernilai `salah`, sisi kanan dilewati dan tidak dievaluasi (mencegah efek samping / pemanggilan fungsi yang tidak perlu).
+  - `atau`: jika sisi kiri bernilai `benar`, sisi kanan dilewati dan tidak dievaluasi.
+- **Proteksi Runtime Terstruktur:**
+  - Pembagian dengan nol (`x / 0`) dan modulo dengan nol (`x % 0`) menghasilkan `GalatRuntime.PEMBAGIAN_NOL` dengan informasi baris dan kolom yang presisi tanpa menyebabkan crash aplikasi.
+- **Dokumentasi Sistem Operator:**
+  - `docs/referensi/operator.md`: Tabel 8 tingkat presedensi resmi, aturan tipe data, semantik hubung singkat, dan contoh program lengkap.
+  - `docs/pengembang/operator.md`: Dokumentasi teknis arsitektur saluran pipa operator, recursive descent parser, evaluasi short-circuit, dan integrasi sistem tipe.
+- **Rangkaian Pengujian Sistem Operator (`pengujian/operator/`):**
+  - `pengujian/operator/uji_operator.ts`: 21 pengujian mencakup aritmatika, perbandingan, logika, unari, presedensi, asosiativitas, tanda kurung, type checking operator, short-circuit, proteksi bagi/modulo nol, penolakan simbol ilegal, presisi lokasi galat, dan program integrasi penuh kasir toko.
+  - `pengujian/operator/README.md`: Panduan eksekusi pengujian operator.
+
+#### Diubah:
+- `src/tipe/kompatibilitas.ts`: Menambahkan fungsi `tentukanTipeOperasiUnari` dan menyelaraskan pemetaan tipe operasi.
+- `src/tipe/pemeriksaTipe.ts`: Menyempurnakan pesan diagnostik galat tipe pada operator logika dan unari dalam Bahasa Indonesia.
+- `src/interpreter/interpreter.ts`: Mendelegasikan evaluasi operator ke modul `src/operator/evaluasi.ts` guna menghilangkan duplikasi kode (*zero logic duplication*).
+- `package.json`: Menambahkan skrip `"test:operator"` ke dalam pengujian utama `"npm test"`.
+- `skrip/periksa_fondasi.js`: Menambahkan audit 6 berkas baru Phase 10 (total 137 berkas utuh).
 
 ---
 

@@ -1,6 +1,6 @@
 /**
  * Skrip Pemeriksaan Kepatuhan Repositori Bahasa NUSANTARA
- * Memvalidasi integritas seluruh berkas Phase 1, 2, 3, 4, 5, 6, 7, 8, dan Phase 9 (v0.9.0).
+ * Memvalidasi integritas seluruh berkas Phase 1, 2, 3, 4, 5, 6, 7, 8, 9, dan Phase 10 (v0.10.0).
  */
 
 import fs from 'node:fs';
@@ -13,14 +13,14 @@ const rootDir = path.resolve(__dirname, '..');
 
 const berkasWajib = [
   // --- TATA KELOLA & LISENSI UTAMA (Phase 3 & Root) ---
-  { berkas: 'README.md', kategori: 'Dokumentasi Utama', fase: 'Phase 1-9' },
+  { berkas: 'README.md', kategori: 'Dokumentasi Utama', fase: 'Phase 1-10' },
   { berkas: 'LISENSI', kategori: 'Teks Apache License 2.0', fase: 'Phase 3' },
   { berkas: 'TATA-KELOLA.md', kategori: 'Struktur 5 Peran Komunitas', fase: 'Phase 3' },
   { berkas: 'KEAMANAN.md', kategori: 'Kebijakan Keamanan', fase: 'Phase 3' },
   { berkas: 'KONTRIBUSI.md', kategori: 'Panduan Kontribusi 10 Langkah', fase: 'Phase 1-3' },
   { berkas: 'KODE-ETIK.md', kategori: 'Kode Etik Komunitas', fase: 'Phase 1-3' },
-  { berkas: 'PERUBAHAN.md', kategori: 'Catatan Rilis (Changelog)', fase: 'Phase 1-9' },
-  { berkas: 'ROADMAP.md', kategori: 'Peta Jalan 36 Fase', fase: 'Phase 1-9' },
+  { berkas: 'PERUBAHAN.md', kategori: 'Catatan Rilis (Changelog)', fase: 'Phase 1-10' },
+  { berkas: 'ROADMAP.md', kategori: 'Peta Jalan 36 Fase', fase: 'Phase 1-10' },
   { berkas: '.gitignore', kategori: 'Konfigurasi Git', fase: 'Phase 1' },
 
   // --- TEMPLAT GITHUB (Phase 3) ---
@@ -29,6 +29,14 @@ const berkasWajib = [
   { berkas: '.github/ISSUE_TEMPLATE/dokumentasi.md', kategori: 'Templat Isu Dokumentasi', fase: 'Phase 3' },
   { berkas: '.github/ISSUE_TEMPLATE/pertanyaan.md', kategori: 'Templat Diskusi & Tanya', fase: 'Phase 3' },
   { berkas: '.github/PULL_REQUEST_TEMPLATE.md', kategori: 'Templat Pull Request', fase: 'Phase 3' },
+
+  // --- IMPLEMENTASI MODUL SISTEM OPERATOR (Phase 10 Baru) ---
+  { berkas: 'src/operator/jenisOperator.ts', kategori: 'Taksonomi & Presedensi 8 Tingkat', fase: 'Phase 10' },
+  { berkas: 'src/operator/evaluasi.ts', kategori: 'Mesin Evaluasi & Dispatch Operator', fase: 'Phase 10' },
+  { berkas: 'src/operator/index.ts', kategori: 'Ekspor Terpadu Sistem Operator', fase: 'Phase 10' },
+  { berkas: 'docs/pengembang/operator.md', kategori: 'Dokumentasi Teknis Sistem Operator', fase: 'Phase 10' },
+  { berkas: 'pengujian/operator/uji_operator.ts', kategori: 'Rangkaian 21 Uji Sistem Operator', fase: 'Phase 10' },
+  { berkas: 'pengujian/operator/README.md', kategori: 'Panduan Eksekusi Uji Operator', fase: 'Phase 10' },
 
   // --- IMPLEMENTASI MODUL SISTEM TIPE DATA & TYPE CHECKER (Phase 9 Baru) ---
   { berkas: 'src/tipe/jenisTipe.ts', kategori: 'Definisi Tipe & Taksonomi Resmi', fase: 'Phase 9' },
@@ -199,8 +207,8 @@ console.log(`Hasil Evaluasi: ${jumlahLulus} berkas LULUS, ${jumlahGagal} berkas 
 console.log('-----------------------------------------------------------------------------');
 
 if (jumlahGagal === 0) {
-  console.log('STATUS: SELURUH DOKUMENTASI, SPESIFIKASI, LEXER, PARSER, INTERPRETER, DAN SISTEM TIPE LENGKAP & TERUJI.');
-  console.log('Repositori siap untuk milestone v0.9.0 (feat: strengthen nusantara type system).');
+  console.log('STATUS: SELURUH DOKUMENTASI, SPESIFIKASI, LEXER, PARSER, INTERPRETER, TIPE, DAN OPERATOR LENGKAP & TERUJI.');
+  console.log('Repositori siap untuk milestone v0.10.0 (feat: implement nusantara operators).');
   process.exit(0);
 } else {
   console.error('STATUS: TERDAPAT BERKAS RESMI YANG HILANG. PERIKSA KEMBALI SEBELUM COMMIT.');

@@ -13,7 +13,8 @@
     "test:parser": "tsx pengujian/parser/uji_parser.ts",
     "test:interpreter": "tsx pengujian/interpreter/uji_interpreter.ts",
     "test:tipe": "tsx pengujian/tipe/uji_tipe.ts",
-    "test": "node skrip/periksa_fondasi.js && tsx pengujian/lexer/uji_lexer.ts && tsx pengujian/parser/uji_parser.ts && tsx pengujian/interpreter/uji_interpreter.ts && tsx pengujian/tipe/uji_tipe.ts"
+    "test:operator": "tsx pengujian/operator/uji_operator.ts",
+    "test": "node skrip/periksa_fondasi.js && tsx pengujian/lexer/uji_lexer.ts && tsx pengujian/parser/uji_parser.ts && tsx pengujian/interpreter/uji_interpreter.ts && tsx pengujian/tipe/uji_tipe.ts && tsx pengujian/operator/uji_operator.ts"
   },
   "dependencies": {
     "@google/genai": "^2.4.0",

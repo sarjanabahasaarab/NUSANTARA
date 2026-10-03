@@ -436,7 +436,7 @@ export class PemeriksaTipe {
           }
           throw new GalatTipe(
             JenisGalatTipe.OPERATOR_TIDAK_DIDUKUNG,
-            `Operator unari '-' tidak dapat digunakan pada tipe '${tipeArg}'.`,
+            `Operator unari '-' membutuhkan operan bertipe bilangan atau desimal, tetapi ditemukan '${tipeArg}'.`,
             u.posisi.awal
           );
         }
@@ -447,7 +447,7 @@ export class PemeriksaTipe {
           }
           throw new GalatTipe(
             JenisGalatTipe.OPERATOR_TIDAK_DIDUKUNG,
-            `Operator unari 'tidak' hanya dapat digunakan pada tipe logika, bukan '${tipeArg}'.`,
+            `Operator unari 'tidak' membutuhkan operan bertipe logika, tetapi ditemukan '${tipeArg}'.`,
             u.posisi.awal
           );
         }
@@ -465,6 +465,13 @@ export class PemeriksaTipe {
 
         const hasilOperasi = tentukanTipeOperasiBiner(b.operator, tipeKiri, tipeKanan);
         if (!hasilOperasi) {
+          if (b.operator === 'dan' || b.operator === 'atau') {
+            throw new GalatTipe(
+              JenisGalatTipe.OPERATOR_TIDAK_DIDUKUNG,
+              `Operator '${b.operator}' membutuhkan operan bertipe logika, tetapi ditemukan '${tipeKiri}' dan '${tipeKanan}'.`,
+              b.posisi.awal
+            );
+          }
           throw new GalatTipe(
             JenisGalatTipe.OPERATOR_TIDAK_DIDUKUNG,
             `Operasi '${b.operator}' tidak didukung antara tipe '${tipeKiri}' dan '${tipeKanan}'.`,

@@ -113,3 +113,30 @@ export function tentukanTipeOperasiBiner(
 
   return null; // Operasi tidak diizinkan / tidak kompatibel
 }
+
+/**
+ * Menentukan tipe hasil dari operasi unari berdasarkan tipe operan (Phase 10).
+ */
+export function tentukanTipeOperasiUnari(
+  operator: string,
+  tipeArgumen: NamaTipe
+): NamaTipe | null {
+  if (tipeArgumen === NamaTipe.APAPUN) {
+    return NamaTipe.APAPUN;
+  }
+
+  // Operator unari '-' (negasi tanda angka)
+  if (operator === '-') {
+    if (tipeArgumen === NamaTipe.BILANGAN) return NamaTipe.BILANGAN;
+    if (tipeArgumen === NamaTipe.DESIMAL) return NamaTipe.DESIMAL;
+    return null;
+  }
+
+  // Operator unari 'tidak' (negasi logika)
+  if (operator === 'tidak') {
+    if (tipeArgumen === NamaTipe.LOGIKA) return NamaTipe.LOGIKA;
+    return null;
+  }
+
+  return null;
+}

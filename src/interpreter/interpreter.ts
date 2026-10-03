@@ -44,6 +44,7 @@ import { OutputWriter, PenulisOutputBuffer, PenulisOutputKonsol } from './output
 import { SinyalHentikan, SinyalLanjutkan, SinyalKembalikan } from './sinyal';
 import { PemeriksaTipe } from '../tipe/pemeriksaTipe';
 import { apakahKompatibel } from '../tipe/kompatibilitas';
+import { evaluasiOperasiUnari, evaluasiOperasiBiner } from '../operator/evaluasi';
 
 /**
  * Mesin Interpreter Resmi Bahasa NUSANTARA (Phase 8).
@@ -357,34 +358,7 @@ export class Interpreter {
       case JenisNodeAST.EKSPRESI_UNARI: {
         const u = expr as NodeEkspresiUnari;
         const arg = this.evaluasiEkspresi(u.argumen);
-
-        if (u.operator === '-') {
-          if (arg.jenis === JenisNilaiRuntime.BILANGAN) {
-            return buatBilangan(-arg.nilai);
-          }
-          if (arg.jenis === JenisNilaiRuntime.DESIMAL) {
-            return buatDesimal(-arg.nilai);
-          }
-          throw new GalatRuntime(
-            JenisGalatRuntime.OPERASI_TIPE_TIDAK_VALID,
-            `Operator unari '-' hanya dapat digunakan pada bilangan atau desimal, bukan ${arg.jenis}.`,
-            u.posisi.awal,
-            [...this.tumpukanPanggilan]
-          );
-        }
-
-        if (u.operator === 'tidak') {
-          if (arg.jenis === JenisNilaiRuntime.LOGIKA) {
-            return buatLogika(!arg.nilai);
-          }
-          throw new GalatRuntime(
-            JenisGalatRuntime.OPERASI_TIPE_TIDAK_VALID,
-            `Operator 'tidak' hanya dapat digunakan pada nilai logika (benar/salah), bukan ${arg.jenis}.`,
-            u.posisi.awal,
-            [...this.tumpukanPanggilan]
-          );
-        }
-        break;
+        return evaluasiOperasiUnari(u.operator, arg, u.posisi.awal, [...this.tumpukanPanggilan]);
       }
 
       case JenisNodeAST.EKSPRESI_BINER: {
@@ -481,147 +455,7 @@ export class Interpreter {
     kanan: NilaiRuntime,
     posisi?: any
   ): NilaiRuntime {
-    // 1. Operasi Penjumlahan & Penggabungan Teks
-    if (op === '+') {
-      if (kiri.jenis === JenisNilaiRuntime.TEKS || kanan.jenis === JenisNilaiRuntime.TEKS) {
-        return buatTeks(formatNilaiTeks(kiri) + formatNilaiTeks(kanan));
-      }
-      if (kiri.jenis === JenisNilaiRuntime.BILANGAN && kanan.jenis === JenisNilaiRuntime.BILANGAN) {
-        return buatBilangan(kiri.nilai + kanan.nilai);
-      }
-      if (
-        (kiri.jenis === JenisNilaiRuntime.BILANGAN || kiri.jenis === JenisNilaiRuntime.DESIMAL) &&
-        (kanan.jenis === JenisNilaiRuntime.BILANGAN || kanan.jenis === JenisNilaiRuntime.DESIMAL)
-      ) {
-        return buatDesimal(kiri.nilai + kanan.nilai);
-      }
-    }
-
-    // 2. Operasi Pengurangan
-    if (op === '-') {
-      if (kiri.jenis === JenisNilaiRuntime.BILANGAN && kanan.jenis === JenisNilaiRuntime.BILANGAN) {
-        return buatBilangan(kiri.nilai - kanan.nilai);
-      }
-      if (
-        (kiri.jenis === JenisNilaiRuntime.BILANGAN || kiri.jenis === JenisNilaiRuntime.DESIMAL) &&
-        (kanan.jenis === JenisNilaiRuntime.BILANGAN || kanan.jenis === JenisNilaiRuntime.DESIMAL)
-      ) {
-        return buatDesimal(kiri.nilai - kanan.nilai);
-      }
-    }
-
-    // 3. Operasi Perkalian
-    if (op === '*') {
-      if (kiri.jenis === JenisNilaiRuntime.BILANGAN && kanan.jenis === JenisNilaiRuntime.BILANGAN) {
-        return buatBilangan(kiri.nilai * kanan.nilai);
-      }
-      if (
-        (kiri.jenis === JenisNilaiRuntime.BILANGAN || kiri.jenis === JenisNilaiRuntime.DESIMAL) &&
-        (kanan.jenis === JenisNilaiRuntime.BILANGAN || kanan.jenis === JenisNilaiRuntime.DESIMAL)
-      ) {
-        return buatDesimal(kiri.nilai * kanan.nilai);
-      }
-    }
-
-    // 4. Operasi Pembagian (dengan Proteksi Pembagian dengan Nol)
-    if (op === '/') {
-      if (
-        (kiri.jenis === JenisNilaiRuntime.BILANGAN || kiri.jenis === JenisNilaiRuntime.DESIMAL) &&
-        (kanan.jenis === JenisNilaiRuntime.BILANGAN || kanan.jenis === JenisNilaiRuntime.DESIMAL)
-      ) {
-        if (kanan.nilai === 0) {
-          throw new GalatRuntime(
-            JenisGalatRuntime.PEMBAGIAN_NOL,
-            'Pembagian dengan nol tidak diperbolehkan.',
-            posisi,
-            [...this.tumpukanPanggilan]
-          );
-        }
-        return buatDesimal(kiri.nilai / kanan.nilai);
-      }
-    }
-
-    // 5. Operasi Modulo (Sisa Bagi)
-    if (op === '%') {
-      if (kiri.jenis === JenisNilaiRuntime.BILANGAN && kanan.jenis === JenisNilaiRuntime.BILANGAN) {
-        if (kanan.nilai === 0) {
-          throw new GalatRuntime(
-            JenisGalatRuntime.PEMBAGIAN_NOL,
-            'Operasi modulo dengan nol tidak diperbolehkan.',
-            posisi,
-            [...this.tumpukanPanggilan]
-          );
-        }
-        return buatBilangan(kiri.nilai % kanan.nilai);
-      }
-    }
-
-    // 6. Operasi Perbandingan Kesetaraan (==, !=)
-    if (op === '==') {
-      if (kiri.jenis !== kanan.jenis) {
-        // Toleransi kesetaraan angka bilangan vs desimal: 5 == 5.0 bernilai benar
-        if (
-          (kiri.jenis === JenisNilaiRuntime.BILANGAN || kiri.jenis === JenisNilaiRuntime.DESIMAL) &&
-          (kanan.jenis === JenisNilaiRuntime.BILANGAN || kanan.jenis === JenisNilaiRuntime.DESIMAL)
-        ) {
-          return buatLogika(kiri.nilai === kanan.nilai);
-        }
-        return buatLogika(false);
-      }
-      return buatLogika((kiri as any).nilai === (kanan as any).nilai);
-    }
-
-    if (op === '!=') {
-      if (kiri.jenis !== kanan.jenis) {
-        if (
-          (kiri.jenis === JenisNilaiRuntime.BILANGAN || kiri.jenis === JenisNilaiRuntime.DESIMAL) &&
-          (kanan.jenis === JenisNilaiRuntime.BILANGAN || kanan.jenis === JenisNilaiRuntime.DESIMAL)
-        ) {
-          return buatLogika(kiri.nilai !== kanan.nilai);
-        }
-        return buatLogika(true);
-      }
-      return buatLogika((kiri as any).nilai !== (kanan as any).nilai);
-    }
-
-    // 7. Operasi Perbandingan Relasional (<, <=, >, >=)
-    if (op === '<' || op === '<=' || op === '>' || op === '>=') {
-      if (
-        (kiri.jenis === JenisNilaiRuntime.BILANGAN || kiri.jenis === JenisNilaiRuntime.DESIMAL) &&
-        (kanan.jenis === JenisNilaiRuntime.BILANGAN || kanan.jenis === JenisNilaiRuntime.DESIMAL)
-      ) {
-        switch (op) {
-          case '<':
-            return buatLogika(kiri.nilai < kanan.nilai);
-          case '<=':
-            return buatLogika(kiri.nilai <= kanan.nilai);
-          case '>':
-            return buatLogika(kiri.nilai > kanan.nilai);
-          case '>=':
-            return buatLogika(kiri.nilai >= kanan.nilai);
-        }
-      }
-
-      if (kiri.jenis === JenisNilaiRuntime.TEKS && kanan.jenis === JenisNilaiRuntime.TEKS) {
-        switch (op) {
-          case '<':
-            return buatLogika(kiri.nilai < kanan.nilai);
-          case '<=':
-            return buatLogika(kiri.nilai <= kanan.nilai);
-          case '>':
-            return buatLogika(kiri.nilai > kanan.nilai);
-          case '>=':
-            return buatLogika(kiri.nilai >= kanan.nilai);
-        }
-      }
-    }
-
-    throw new GalatRuntime(
-      JenisGalatRuntime.OPERASI_TIPE_TIDAK_VALID,
-      `Operasi '${op}' tidak dapat digunakan pada tipe ${kiri.jenis} dan ${kanan.jenis}.`,
-      posisi,
-      [...this.tumpukanPanggilan]
-    );
+    return evaluasiOperasiBiner(op, kiri, kanan, posisi, [...this.tumpukanPanggilan]);
   }
 
   private panggilFungsiPengguna(

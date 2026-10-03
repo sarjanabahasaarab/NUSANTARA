@@ -2,14 +2,15 @@
 
 > **Bahasa Pemrograman 100% Bahasa Indonesia untuk Komputasi Modern, Terbuka, dan Berkelanjutan.**
 
-[![Status](https://img.shields.io/badge/status-fase_9:_sistem_tipe_selesai-blue.svg)](ROADMAP.md)
-[![Versi](https://img.shields.io/badge/versi-v0.9.0-emerald.svg)](PERUBAHAN.md)
+[![Status](https://img.shields.io/badge/status-fase_10:_operator_selesai-blue.svg)](ROADMAP.md)
+[![Versi](https://img.shields.io/badge/versi-v0.10.0-emerald.svg)](PERUBAHAN.md)
 [![Lisensi](https://img.shields.io/badge/lisensi-Apache_2.0-blue.svg)](LISENSI)
 [![Tata Bahasa](https://img.shields.io/badge/grammar-EBNF_ISO--14977-purple.svg)](dokumentasi/GRAMMAR-EBNF.md)
 [![Lexer](https://img.shields.io/badge/lexer-lulus_100%25-teal.svg)](docs/pengembang/lexer.md)
 [![Parser](https://img.shields.io/badge/parser-lulus_100%25-cyan.svg)](docs/pengembang/parser.md)
 [![Interpreter](https://img.shields.io/badge/interpreter-eksekusi_nyata-green.svg)](docs/pengembang/interpreter.md)
 [![Type System](https://img.shields.io/badge/type_system-strict_&_safe-purple.svg)](docs/pengembang/type-system.md)
+[![Operator](https://img.shields.io/badge/operators-8_precedence_levels-orange.svg)](docs/pengembang/operator.md)
 
 ---
 
@@ -21,7 +22,8 @@ NUSANTARA bukan sekadar penerjemah sintaksis bahasa asing, melainkan ikhtiar man
 
 - **Ekstensi Berkas Resmi:** `.nusantara`
 - **Lisensi:** [Apache License 2.0](LISENSI)
-- **Status Saat Ini:** **Phase 9: Variabel & Tipe Data Lanjutan Selesai (Milestone v0.9.0).**
+- **Status Saat Ini:** **Phase 10: Sistem Operator & Presedensi Selesai (Milestone v0.10.0).**
+- **Dokumentasi Operator:** [docs/pengembang/operator.md](docs/pengembang/operator.md) & [docs/referensi/operator.md](docs/referensi/operator.md)
 - **Dokumentasi Sistem Tipe:** [docs/pengembang/type-system.md](docs/pengembang/type-system.md)
 - **Dokumentasi Interpreter:** [docs/pengembang/interpreter.md](docs/pengembang/interpreter.md)
 - **Dokumentasi Parser:** [docs/pengembang/parser.md](docs/pengembang/parser.md)
@@ -57,6 +59,11 @@ Source Code (.nusantara)
          ▼
  ┌───────────────┐
  │ Type Checker  │  <-- [SELESAI DI PHASE 9 (v0.9.0)]
+ └───────────────┘
+         │
+         ▼
+ ┌───────────────┐
+ │   Operator    │  <-- [SELESAI DI PHASE 10 (v0.10.0)]
  └───────────────┘
          │
          ▼

@@ -22,7 +22,8 @@ import {
   Compass,
   Network,
   Play,
-  CheckCircle2
+  CheckCircle2,
+  Calculator
 } from 'lucide-react';
 import {
   BERKAS_REPOSITORI,
@@ -39,13 +40,14 @@ import { ASTPrinter } from './parser/astPrinter';
 import { Interpreter } from './interpreter/interpreter';
 import { PenulisOutputBuffer } from './interpreter/outputWriter';
 import { PemeriksaTipe } from './tipe/pemeriksaTipe';
+import { TABEL_PRESEDENSI_OPERATOR } from './operator/jenisOperator';
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState<'tipe' | 'interpreter' | 'parser' | 'lexer' | 'panduan' | 'ebnf' | 'glosarium' | 'berkas' | 'roadmap' | 'git'>('tipe');
+  const [activeTab, setActiveTab] = useState<'operator' | 'tipe' | 'interpreter' | 'parser' | 'lexer' | 'panduan' | 'ebnf' | 'glosarium' | 'berkas' | 'roadmap' | 'git'>('operator');
   const [selectedFile, setSelectedFile] = useState<BerkasRepo>(BERKAS_REPOSITORI[0]);
   const [copiedText, setCopiedText] = useState<string | null>(null);
   const [playgroundCode, setPlaygroundCode] = useState<string>(
-    `fungsi hitungLuas(panjang : bilangan, lebar : bilangan) : bilangan\nmulai\n    kembalikan panjang * lebar\nselesai\n\nprogram TokoNusantara\nmulai\n    // 1. Variabel bertipe terverifikasi\n    p : bilangan = 10\n    l : bilangan = 5\n    luas : bilangan = hitungLuas(p, l)\n    tetap KODE_TOKO : teks = "NUS-001"\n    aktif : logika = benar\n\n    // 2. Cetak luaran program\n    tampilkan("Kode Toko:", KODE_TOKO)\n    tampilkan("Luas Area:", luas, "m2")\n    tampilkan("Status Aktif:", aktif)\nselesai`
+    `program DemonstrasiOperator\nmulai\n    a : bilangan = 10\n    b : bilangan = 3\n\n    // 1. Aritmatika & Presedensi\n    tampilkan("Hasil Aritmatika:", a + b * 2)\n    tampilkan("Hasil Kurung:    ", (a + b) * 2)\n    tampilkan("Sisa Bagi %:     ", a % b)\n\n    // 2. Perbandingan & Logika\n    lulus : logika = (a >= 10) dan (b < 5)\n    tampilkan("Status Kelulusan:", lulus)\n\n    // 3. Hubung Singkat\n    tampilkan("Hubung Singkat:  ", benar atau (10 / 0 == 0))\nselesai`
   );
   const [activeFilterCategory, setActiveFilterCategory] = useState<string>('Semua');
 
@@ -126,6 +128,14 @@ export default function App() {
           </div>
 
           <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-300">
+            <button
+              onClick={() => setActiveTab('operator')}
+              className={`hover:text-white transition-colors cursor-pointer ${
+                activeTab === 'operator' ? 'text-amber-400 font-semibold' : 'text-slate-400'
+              }`}
+            >
+              Operator (Phase 10)
+            </button>
             <button
               onClick={() => setActiveTab('tipe')}
               className={`hover:text-white transition-colors cursor-pointer ${
@@ -218,17 +228,17 @@ export default function App() {
           </div>
 
           <h1 className="text-3xl sm:text-5xl font-bold tracking-tight text-white max-w-4xl leading-tight">
-            Sistem Variabel & Tipe Data: Keamanan Semantik dan Pemeriksa Tipe Statis.
+            Sistem Operator & Presedensi: Aritmatika, Perbandingan, Logika & Hubung Singkat.
           </h1>
 
           <p className="mt-4 text-base sm:text-lg text-slate-300 max-w-3xl leading-relaxed">
-            Sistem tipe data NUSANTARA diperkuat dengan pengetikan statis aman, validasi inisialisasi dan penugasan, analisis lingkup (lexical scope & shadowing), proteksi nilai tetap, serta verifikasi parameter dan kembalian fungsi.
+            Bahasa pemrograman NUSANTARA kini memiliki sistem operator lengkap dengan 8 tingkat hierarki presedensi resmi, asosiativitas teruji, evaluasi hubung singkat (short-circuit), dan proteksi runtime terstruktur.
           </p>
 
           <div className="mt-6 p-4 rounded-xl bg-slate-900/90 border border-slate-800 max-w-3xl flex items-start gap-3">
             <ShieldCheck className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
             <div className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-              <span className="font-semibold text-emerald-300">Integritas Saluran Pipa Phase 9:</span> Kode sumber melewati Lexer ➔ Parser ➔ Type Checker ➔ Interpreter secara mulus dengan validasi semantik sebelum eksekusi.
+              <span className="font-semibold text-emerald-300">Integritas Saluran Pipa Phase 10:</span> Kode sumber melewati Lexer ➔ Parser ➔ Type Checker ➔ Operator Dispatch ➔ Interpreter secara mulus dengan presedensi presisi dan penanganan runtime error yang aman.
             </div>
           </div>
         </div>
@@ -237,6 +247,15 @@ export default function App() {
       {/* 3. MAIN CONTENT AREA */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 py-8 flex-1 w-full">
         <div className="flex items-center gap-2 border-b border-slate-800 pb-4 mb-8 overflow-x-auto text-sm">
+          <button
+            onClick={() => setActiveTab('operator')}
+            className={`px-4 py-2 rounded-lg font-medium transition-colors whitespace-nowrap cursor-pointer flex items-center gap-2 ${
+              activeTab === 'operator' ? 'bg-amber-950 text-amber-200 border border-amber-700/60' : 'text-slate-400 hover:text-white hover:bg-slate-900'
+            }`}
+          >
+            <Calculator className="w-4 h-4 text-amber-400" />
+            <span>Operator (Phase 10)</span>
+          </button>
           <button
             onClick={() => setActiveTab('tipe')}
             className={`px-4 py-2 rounded-lg font-medium transition-colors whitespace-nowrap cursor-pointer flex items-center gap-2 ${
@@ -289,7 +308,7 @@ export default function App() {
             }`}
           >
             <Folder className="w-4 h-4 text-amber-400" />
-            <span>Penjelajah Berkas (131)</span>
+            <span>Penjelajah Berkas (137)</span>
           </button>
           <button
             onClick={() => setActiveTab('roadmap')}

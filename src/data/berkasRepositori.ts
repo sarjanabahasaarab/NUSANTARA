@@ -8,6 +8,48 @@ export interface BerkasRepo {
 }
 
 export const BERKAS_REPOSITORI: BerkasRepo[] = [
+  // --- FASE 10: SISTEM OPERATOR & PRESEDENSI ---
+  {
+    jalur: 'src/operator/jenisOperator.ts',
+    nama: 'jenisOperator.ts',
+    kategori: 'Taksonomi & Presedensi 8 Tingkat',
+    bahasa: 'javascript',
+    ukuran: 3600,
+    konten: `// Taksonomi dan Tabel Presedensi 8 Tingkat Resmi NUSANTARA (Phase 10)`
+  },
+  {
+    jalur: 'src/operator/evaluasi.ts',
+    nama: 'evaluasi.ts',
+    kategori: 'Mesin Evaluasi & Dispatch Operator',
+    bahasa: 'javascript',
+    ukuran: 6800,
+    konten: `// Mesin Evaluasi Terpusat untuk Operator Unari & Biner (Phase 10)`
+  },
+  {
+    jalur: 'docs/referensi/operator.md',
+    nama: 'operator.md',
+    kategori: 'Referensi Presedensi & Asosiativitas',
+    bahasa: 'markdown',
+    ukuran: 5400,
+    konten: `# Referensi Resmi Sistem Operator Bahasa NUSANTARA`
+  },
+  {
+    jalur: 'docs/pengembang/operator.md',
+    nama: 'operator.md (Pengembang)',
+    kategori: 'Dokumentasi Teknis Operator',
+    bahasa: 'markdown',
+    ukuran: 4800,
+    konten: `# Arsitektur & Dokumentasi Teknis Sistem Operator NUSANTARA`
+  },
+  {
+    jalur: 'pengujian/operator/uji_operator.ts',
+    nama: 'uji_operator.ts',
+    kategori: '21 Pengujian Sistem Operator',
+    bahasa: 'javascript',
+    ukuran: 13500,
+    konten: `// Rangkaian 21 Uji Komprehensif Sistem Operator (Phase 10)`
+  },
+
   // --- FASE 9: SISTEM TIPE DATA & TYPE CHECKER ---
   {
     jalur: 'src/tipe/pemeriksaTipe.ts',
