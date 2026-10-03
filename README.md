@@ -22,7 +22,8 @@ NUSANTARA bukan sekadar penerjemah sintaksis bahasa asing, melainkan ikhtiar man
 
 - **Ekstensi Berkas Resmi:** `.nusantara`
 - **Lisensi:** [Apache License 2.0](LISENSI)
-- **Status Saat Ini:** **Phase 10: Sistem Operator & Presedensi Selesai (Milestone v0.10.0).**
+- **Status Saat Ini:** **Phase 11: Percabangan Kondisional Selesai (Milestone v0.11.0).**
+- **Dokumentasi Percabangan:** [docs/pengembang/percabangan.md](docs/pengembang/percabangan.md) & [docs/referensi/percabangan.md](docs/referensi/percabangan.md)
 - **Dokumentasi Operator:** [docs/pengembang/operator.md](docs/pengembang/operator.md) & [docs/referensi/operator.md](docs/referensi/operator.md)
 - **Dokumentasi Sistem Tipe:** [docs/pengembang/type-system.md](docs/pengembang/type-system.md)
 - **Dokumentasi Interpreter:** [docs/pengembang/interpreter.md](docs/pengembang/interpreter.md)
@@ -64,6 +65,11 @@ Source Code (.nusantara)
          ▼
  ┌───────────────┐
  │   Operator    │  <-- [SELESAI DI PHASE 10 (v0.10.0)]
+ └───────────────┘
+         │
+         ▼
+ ┌───────────────┐
+ │  Percabangan  │  <-- [SELESAI DI PHASE 11 (v0.11.0)]
  └───────────────┘
          │
          ▼

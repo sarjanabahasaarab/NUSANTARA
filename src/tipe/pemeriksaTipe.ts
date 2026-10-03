@@ -269,13 +269,15 @@ export class PemeriksaTipe {
 
       case JenisNodeAST.PERCABANGAN_JIKA: {
         const s = stmt as NodePercabanganJika;
+        this.validasiVariabelKondisi(s.kondisi);
         const tipeKondisi = this.periksaEkspresi(s.kondisi);
         if (tipeKondisi !== NamaTipe.LOGIKA && tipeKondisi !== NamaTipe.APAPUN) {
-          throw buatGalatKetidakcocokanTipe(
-            "Kondisi percabangan 'jika'",
+          throw new GalatTipe(
+            JenisGalatTipe.KETIDAKCOCOKAN_TIPE,
+            `Kondisi percabangan 'jika' harus menghasilkan nilai logika, tetapi ditemukan '${tipeKondisi}'.`,
+            s.kondisi.posisi.awal,
             NamaTipe.LOGIKA,
-            tipeKondisi,
-            s.kondisi.posisi.awal
+            tipeKondisi
           );
         }
 
@@ -379,6 +381,46 @@ export class PemeriksaTipe {
             this.periksaPernyataan(st);
           }
         });
+        break;
+      }
+    }
+  }
+
+  private validasiVariabelKondisi(expr: EkspresiAST): void {
+    switch (expr.jenis) {
+      case JenisNodeAST.PENGIDENTIFIKASI: {
+        const id = expr as NodePengidentifikasi;
+        const simbol = this.lingkupSaatIni.ambil(id.nama);
+        if (!simbol) {
+          throw new GalatTipe(
+            JenisGalatTipe.VARIABEL_BELUM_DIDEKLARASIKAN,
+            `Variabel '${id.nama}' pada kondisi percabangan belum dideklarasikan.`,
+            id.posisi.awal
+          );
+        }
+        break;
+      }
+      case JenisNodeAST.EKSPRESI_BINER: {
+        const b = expr as NodeEkspresiBiner;
+        this.validasiVariabelKondisi(b.kiri);
+        this.validasiVariabelKondisi(b.kanan);
+        break;
+      }
+      case JenisNodeAST.EKSPRESI_UNARI: {
+        const u = expr as NodeEkspresiUnari;
+        this.validasiVariabelKondisi(u.argumen);
+        break;
+      }
+      case JenisNodeAST.EKSPRESI_PENGELOMPOKAN: {
+        const p = expr as NodeEkspresiPengelompokan;
+        this.validasiVariabelKondisi(p.ekspresi);
+        break;
+      }
+      case JenisNodeAST.PEMANGGILAN_FUNGSI: {
+        const fn = expr as NodePemanggilanFungsi;
+        for (const arg of fn.argumen) {
+          this.validasiVariabelKondisi(arg);
+        }
         break;
       }
     }

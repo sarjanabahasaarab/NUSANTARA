@@ -30,7 +30,13 @@ const berkasWajib = [
   { berkas: '.github/ISSUE_TEMPLATE/pertanyaan.md', kategori: 'Templat Diskusi & Tanya', fase: 'Phase 3' },
   { berkas: '.github/PULL_REQUEST_TEMPLATE.md', kategori: 'Templat Pull Request', fase: 'Phase 3' },
 
-  // --- IMPLEMENTASI MODUL SISTEM OPERATOR (Phase 10 Baru) ---
+  // --- IMPLEMENTASI & DOKUMENTASI PERCABANGAN (Phase 11 Baru) ---
+  { berkas: 'docs/referensi/percabangan.md', kategori: 'Panduan Referensi Percabangan', fase: 'Phase 11' },
+  { berkas: 'docs/pengembang/percabangan.md', kategori: 'Dokumentasi Teknis Percabangan', fase: 'Phase 11' },
+  { berkas: 'pengujian/percabangan/uji_percabangan.ts', kategori: 'Rangkaian 24 Uji Percabangan', fase: 'Phase 11' },
+  { berkas: 'pengujian/percabangan/README.md', kategori: 'Panduan Eksekusi Uji Percabangan', fase: 'Phase 11' },
+
+  // --- IMPLEMENTASI MODUL SISTEM OPERATOR (Phase 10) ---
   { berkas: 'src/operator/jenisOperator.ts', kategori: 'Taksonomi & Presedensi 8 Tingkat', fase: 'Phase 10' },
   { berkas: 'src/operator/evaluasi.ts', kategori: 'Mesin Evaluasi & Dispatch Operator', fase: 'Phase 10' },
   { berkas: 'src/operator/index.ts', kategori: 'Ekspor Terpadu Sistem Operator', fase: 'Phase 10' },
@@ -207,8 +213,8 @@ console.log(`Hasil Evaluasi: ${jumlahLulus} berkas LULUS, ${jumlahGagal} berkas 
 console.log('-----------------------------------------------------------------------------');
 
 if (jumlahGagal === 0) {
-  console.log('STATUS: SELURUH DOKUMENTASI, SPESIFIKASI, LEXER, PARSER, INTERPRETER, TIPE, DAN OPERATOR LENGKAP & TERUJI.');
-  console.log('Repositori siap untuk milestone v0.10.0 (feat: implement nusantara operators).');
+  console.log('STATUS: SELURUH DOKUMENTASI, SPESIFIKASI, LEXER, PARSER, INTERPRETER, TIPE, OPERATOR, DAN PERCABANGAN LENGKAP & TERUJI.');
+  console.log('Repositori siap untuk milestone v0.11.0 (feat: implement nusantara conditional branching).');
   process.exit(0);
 } else {
   console.error('STATUS: TERDAPAT BERKAS RESMI YANG HILANG. PERIKSA KEMBALI SEBELUM COMMIT.');

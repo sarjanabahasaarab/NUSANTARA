@@ -47,7 +47,7 @@ export default function App() {
   const [selectedFile, setSelectedFile] = useState<BerkasRepo>(BERKAS_REPOSITORI[0]);
   const [copiedText, setCopiedText] = useState<string | null>(null);
   const [playgroundCode, setPlaygroundCode] = useState<string>(
-    `program DemonstrasiOperator\nmulai\n    a : bilangan = 10\n    b : bilangan = 3\n\n    // 1. Aritmatika & Presedensi\n    tampilkan("Hasil Aritmatika:", a + b * 2)\n    tampilkan("Hasil Kurung:    ", (a + b) * 2)\n    tampilkan("Sisa Bagi %:     ", a % b)\n\n    // 2. Perbandingan & Logika\n    lulus : logika = (a >= 10) dan (b < 5)\n    tampilkan("Status Kelulusan:", lulus)\n\n    // 3. Hubung Singkat\n    tampilkan("Hubung Singkat:  ", benar atau (10 / 0 == 0))\nselesai`
+    `program DemonstrasiPercabangan\nmulai\n    nilai : bilangan = 85\n    kehadiran : logika = benar\n\n    // 1. Percabangan Bersarang (Nested Branching)\n    jika nilai >= 75 dan kehadiran maka\n        jika nilai >= 90 maka\n            tampilkan("Hasil: Lulus dengan Predikat A (Istimewa)")\n        selain\n            tampilkan("Hasil: Lulus dengan Predikat B (Baik)")\n        akhir\n    selain\n        tampilkan("Hasil: Belum Memenuhi Kriteria")\n    akhir\nselesai`
   );
   const [activeFilterCategory, setActiveFilterCategory] = useState<string>('Semua');
 
@@ -203,10 +203,10 @@ export default function App() {
               <span>{copiedText === 'commit-p9' ? 'Tersalin' : 'Salin Komit Phase 9'}</span>
             </button>
             <button
-              onClick={() => setActiveTab('tipe')}
+              onClick={() => setActiveTab('operator')}
               className="px-3.5 py-1.5 text-xs font-semibold text-white bg-purple-600 rounded-lg hover:bg-purple-500 transition-colors whitespace-nowrap cursor-pointer"
             >
-              Milestone v0.9.0
+              Milestone v0.11.0
             </button>
           </div>
         </div>
@@ -216,23 +216,23 @@ export default function App() {
       <section className="border-b border-slate-800/60 bg-gradient-to-b from-slate-950 via-slate-900/60 to-slate-950 py-12 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-wrap items-center gap-2 text-xs text-slate-400 mb-4 tracking-wide font-mono">
-            <span className="text-emerald-400 font-medium">v0.9.0</span>
+            <span className="text-emerald-400 font-medium">v0.11.0</span>
             <span aria-hidden="true">·</span>
-            <span>Phase 9: Variabel & Tipe Data Lanjutan</span>
+            <span>Phase 11: Percabangan Kondisional</span>
             <span aria-hidden="true">·</span>
-            <span className="text-purple-400 font-medium">Strict & Type-Safe</span>
+            <span className="text-purple-400 font-medium">jika · maka · selain · akhir</span>
             <span aria-hidden="true">·</span>
-            <span className="text-cyan-400 font-medium">12 Uji Sistem Tipe Lulus 100%</span>
+            <span className="text-cyan-400 font-medium">105 Total Uji Lulus 100%</span>
             <span aria-hidden="true">·</span>
             <span>100% Bahasa Indonesia</span>
           </div>
 
           <h1 className="text-3xl sm:text-5xl font-bold tracking-tight text-white max-w-4xl leading-tight">
-            Sistem Operator & Presedensi: Aritmatika, Perbandingan, Logika & Hubung Singkat.
+            Percabangan Kondisional NUSANTARA: jika, maka, selain, akhir.
           </h1>
 
           <p className="mt-4 text-base sm:text-lg text-slate-300 max-w-3xl leading-relaxed">
-            Bahasa pemrograman NUSANTARA kini memiliki sistem operator lengkap dengan 8 tingkat hierarki presedensi resmi, asosiativitas teruji, evaluasi hubung singkat (short-circuit), dan proteksi runtime terstruktur.
+            Bahasa pemrograman NUSANTARA kini mendukung pengambilan keputusan terstruktur dengan validasi ketat sistem tipe logika, percabangan bertingkat (nested branching), isolasi lingkup leksikal, dan perlindungan runtime penuh.
           </p>
 
           <div className="mt-6 p-4 rounded-xl bg-slate-900/90 border border-slate-800 max-w-3xl flex items-start gap-3">

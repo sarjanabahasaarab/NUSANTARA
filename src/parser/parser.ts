@@ -19,7 +19,7 @@ import {
   NodeDeklarasiFungsi,
   NodeParameterFungsi,
 } from './ast';
-import { GalatParser, buatGalatTokenTakTerduga } from './galat';
+import { GalatParser, JenisGalatParser, buatGalatTokenTakTerduga } from './galat';
 
 /**
  * Parser Sintaksis Resmi Bahasa NUSANTARA (Phase 7).
@@ -164,6 +164,18 @@ export class Parser {
         return this.parsePercabanganJika(current);
       }
 
+      if (this.cocok(JenisToken.KW_SELAIN)) {
+        const g = new GalatParser(JenisGalatParser.TOKEN_TAK_TERDUGA, "Kata kunci 'selain' tidak pada tempatnya di luar percabangan 'jika'.", current);
+        this.catatGalat(g);
+        throw g;
+      }
+
+      if (this.cocok(JenisToken.KW_AKHIR)) {
+        const g = new GalatParser(JenisGalatParser.TOKEN_TAK_TERDUGA, "Kata kunci 'akhir' tidak pada tempatnya tanpa blok pembuka yang sesuai.", current);
+        this.catatGalat(g);
+        throw g;
+      }
+
       if (this.cocok(JenisToken.KW_SELAMA)) {
         return this.parsePerulanganSelama(current);
       }
@@ -283,6 +295,12 @@ export class Parser {
   }
 
   private parsePercabanganJika(tokenAwal: Token): NodePercabanganJika {
+    if (this.periksa(JenisToken.KW_MAKA)) {
+      const g = new GalatParser(JenisGalatParser.EKSPRESI_TIDAK_LENGKAP, "Kondisi percabangan 'jika' tidak boleh kosong.", this.stream.current());
+      this.catatGalat(g);
+      throw g;
+    }
+
     const kondisi = this.parseEkspresi();
     this.harapkan(JenisToken.KW_MAKA, "kata kunci 'maka' setelah kondisi jika");
 
@@ -292,6 +310,15 @@ export class Parser {
       !this.periksa(JenisToken.KW_AKHIR) &&
       !this.stream.eof()
     ) {
+      if (this.periksa(JenisToken.KW_SELESAI)) {
+        const g = new GalatParser(
+          JenisGalatParser.BLOK_TIDAK_DITUTUP,
+          "Blok percabangan 'jika' belum ditutup. Diharapkan kata kunci 'akhir' sebelum 'selesai'.",
+          this.stream.current()
+        );
+        this.catatGalat(g);
+        throw g;
+      }
       const stmt = this.parsePernyataan();
       if (stmt) cabangMaka.push(stmt);
     }
@@ -300,9 +327,24 @@ export class Parser {
     if (this.cocok(JenisToken.KW_SELAIN)) {
       cabangSelain = [];
       while (!this.periksa(JenisToken.KW_AKHIR) && !this.stream.eof()) {
+        if (this.periksa(JenisToken.KW_SELESAI)) {
+          const g = new GalatParser(
+            JenisGalatParser.BLOK_TIDAK_DITUTUP,
+            "Blok percabangan 'jika' belum ditutup. Diharapkan kata kunci 'akhir' sebelum 'selesai'.",
+            this.stream.current()
+          );
+          this.catatGalat(g);
+          throw g;
+        }
         const stmt = this.parsePernyataan();
         if (stmt) cabangSelain.push(stmt);
       }
+    }
+
+    if (this.stream.eof()) {
+      const g = new GalatParser(JenisGalatParser.BLOK_TIDAK_DITUTUP, "Blok percabangan 'jika' belum ditutup dengan 'akhir'.", tokenAwal);
+      this.catatGalat(g);
+      throw g;
     }
 
     const akhirTok = this.harapkan(JenisToken.KW_AKHIR, "kata kunci 'akhir' untuk menutup percabangan jika");

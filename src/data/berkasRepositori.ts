@@ -8,6 +8,32 @@ export interface BerkasRepo {
 }
 
 export const BERKAS_REPOSITORI: BerkasRepo[] = [
+  // --- FASE 11: PERCABANGAN KONDISIONAL ---
+  {
+    jalur: 'docs/referensi/percabangan.md',
+    nama: 'percabangan.md',
+    kategori: 'Referensi Sintaks Percabangan',
+    bahasa: 'markdown',
+    ukuran: 4200,
+    konten: `# Referensi Sintaks: Percabangan Kondisional (jika)\n\nPedoman resmi penggunaan jika ... maka ... selain ... akhir.`
+  },
+  {
+    jalur: 'docs/pengembang/percabangan.md',
+    nama: 'percabangan.md (Pengembang)',
+    kategori: 'Dokumentasi Teknis Percabangan',
+    bahasa: 'markdown',
+    ukuran: 3900,
+    konten: `# Arsitektur & Dokumentasi Teknis Percabangan NUSANTARA\n\nPenjelasan integrasi saluran pipa kompilasi untuk percabangan.`
+  },
+  {
+    jalur: 'pengujian/percabangan/uji_percabangan.ts',
+    nama: 'uji_percabangan.ts',
+    kategori: '24 Pengujian Percabangan',
+    bahasa: 'javascript',
+    ukuran: 9800,
+    konten: `// Rangkaian 24 Uji Komprehensif Percabangan Bahasa NUSANTARA (Phase 11)`
+  },
+
   // --- FASE 10: SISTEM OPERATOR & PRESEDENSI ---
   {
     jalur: 'src/operator/jenisOperator.ts',

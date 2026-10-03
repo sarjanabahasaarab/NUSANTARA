@@ -4,6 +4,41 @@ Seluruh perubahan penting pada proyek bahasa pemrograman NUSANTARA dicatat dalam
 
 Format penomoran versi mengacu pada **Semantic Versioning** (`vMAJOR.MINOR.PATCH`). Pada masa pengembangan awal, versi minor mencerminkan tahapan fase roadmap (misal `v0.1.0` untuk Phase 1, `v0.2.0` untuk Phase 2, `v0.3.0` untuk Phase 3, `v0.4.0` untuk Phase 4, `v0.5.0` untuk Phase 5, `v0.6.0` untuk Phase 6, `v0.7.0` untuk Phase 7, `v0.8.0` untuk Phase 8, `v0.9.0` untuk Phase 9, `v0.10.0` untuk Phase 10).
 
+## [v0.11.0] — 2026-10-03
+### Phase 11: Percabangan Kondisional NUSANTARA
+
+Fase ini menghadirkan kemampuan pengambilan keputusan (*conditional branching*) melalui pasangan leksikal resmi bahasa Indonesia `jika` ... `maka` ... `selain` ... `akhir` yang terintegrasi penuh di seluruh saluran pipa kompilasi dan interpretasi.
+
+#### Ditambahkan:
+- **Konstruksi Percabangan Resmi:**
+  - `jika kondisi maka ... akhir` untuk percabangan satu arah.
+  - `jika kondisi maka ... selain ... akhir` untuk percabangan dua arah.
+  - Dukungan percabangan bertingkat (*nested branching*) di dalam blok `maka` maupun `selain` dengan pembatas penutup `akhir` yang berpasangan deterministik.
+- **Validasi Ketat Sistem Tipe (Type System):**
+  - Kondisi percabangan wajib menghasilkan tipe data `logika` (`benar` / `salah`).
+  - Penolakan tipe `bilangan`, `teks`, dan `desimal` dengan pesan kesalahan tipe bahasa Indonesia presisi.
+  - Deteksi dan pencegahan penggunaan variabel yang belum dideklarasikan pada ekspresi kondisi percabangan (`VARIABEL_BELUM_DIDEKLARASIKAN`).
+- **Isolasi Lingkup & Mutasi Terkendali (Scoping):**
+  - Deklarasi variabel baru di dalam blok percabangan terisolasi secara leksikal (*block scope*).
+  - Penugasan ulang ke variabel luar berhasil memutasi nilai variabel lingkungan induk.
+- **Diagnostik Sintaksis Parser Ramah Pengembang:**
+  - Penolakan kondisi kosong sebelum kata kunci `maka`.
+  - Penolakan blok percabangan yang tidak ditutup dengan `akhir` sebelum akhir dokumen atau penutup program `selesai`.
+  - Penolakan kemunculan kata kunci `selain` atau `akhir` di luar konteks percabangan.
+- **Dokumentasi Percabangan:**
+  - `docs/referensi/percabangan.md`: Panduan referensi sintaks, tabel aturan tipe, contoh bersarang, dan katalog kesalahan umum.
+  - `docs/pengembang/percabangan.md`: Dokumentasi teknis arsitektur saluran pipa, recursive descent parser, node AST, sistem tipe, dan interpreter.
+- **Rangkaian Pengujian Percabangan (`pengujian/percabangan/`):**
+  - `pengujian/percabangan/uji_percabangan.ts`: 24 skenario pengujian komprehensif (100% Lulus).
+  - `pengujian/percabangan/README.md`: Panduan eksekusi pengujian percabangan.
+
+#### Diubah:
+- `src/tipe/galatTipe.ts`: Menambahkan enum `JenisGalatTipe.VARIABEL_BELUM_DIDEKLARASIKAN`.
+- `src/tipe/pemeriksaTipe.ts`: Menambahkan validasi variabel dan penguatan validasi tipe kondisi `jika`.
+- `src/parser/parser.ts`: Memperkuat penanganan kesalahan sintaksis kondisi kosong, pasangan penutup `akhir`, dan token nyasar.
+- `package.json`: Menambahkan skrip `"test:percabangan"` ke dalam perintah pengujian utama `"npm test"`.
+- `skrip/periksa_fondasi.js`: Menambahkan audit 4 berkas baru Phase 11 (total 141 berkas utuh).
+
 ---
 
 ## [v0.10.0] — 2026-10-02
