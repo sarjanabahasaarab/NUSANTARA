@@ -30,7 +30,13 @@ const berkasWajib = [
   { berkas: '.github/ISSUE_TEMPLATE/pertanyaan.md', kategori: 'Templat Diskusi & Tanya', fase: 'Phase 3' },
   { berkas: '.github/PULL_REQUEST_TEMPLATE.md', kategori: 'Templat Pull Request', fase: 'Phase 3' },
 
-  // --- IMPLEMENTASI & DOKUMENTASI PERCABANGAN (Phase 11 Baru) ---
+  // --- IMPLEMENTASI & DOKUMENTASI SISTEM PERULANGAN (Phase 12 Baru) ---
+  { berkas: 'docs/referensi/perulangan.md', kategori: 'Panduan Referensi Perulangan', fase: 'Phase 12' },
+  { berkas: 'docs/pengembang/perulangan.md', kategori: 'Dokumentasi Teknis Perulangan', fase: 'Phase 12' },
+  { berkas: 'pengujian/perulangan/uji_perulangan.ts', kategori: 'Rangkaian 25 Uji Perulangan', fase: 'Phase 12' },
+  { berkas: 'pengujian/perulangan/README.md', kategori: 'Panduan Eksekusi Uji Perulangan', fase: 'Phase 12' },
+
+  // --- IMPLEMENTASI & DOKUMENTASI PERCABANGAN (Phase 11) ---
   { berkas: 'docs/referensi/percabangan.md', kategori: 'Panduan Referensi Percabangan', fase: 'Phase 11' },
   { berkas: 'docs/pengembang/percabangan.md', kategori: 'Dokumentasi Teknis Percabangan', fase: 'Phase 11' },
   { berkas: 'pengujian/percabangan/uji_percabangan.ts', kategori: 'Rangkaian 24 Uji Percabangan', fase: 'Phase 11' },
@@ -213,8 +219,8 @@ console.log(`Hasil Evaluasi: ${jumlahLulus} berkas LULUS, ${jumlahGagal} berkas 
 console.log('-----------------------------------------------------------------------------');
 
 if (jumlahGagal === 0) {
-  console.log('STATUS: SELURUH DOKUMENTASI, SPESIFIKASI, LEXER, PARSER, INTERPRETER, TIPE, OPERATOR, DAN PERCABANGAN LENGKAP & TERUJI.');
-  console.log('Repositori siap untuk milestone v0.11.0 (feat: implement nusantara conditional branching).');
+  console.log('STATUS: SELURUH DOKUMENTASI, SPESIFIKASI, LEXER, PARSER, INTERPRETER, TIPE, OPERATOR, PERCABANGAN, DAN PERULANGAN LENGKAP & TERUJI.');
+  console.log('Repositori siap untuk milestone v0.12.0 (feat: implement nusantara loops).');
   process.exit(0);
 } else {
   console.error('STATUS: TERDAPAT BERKAS RESMI YANG HILANG. PERIKSA KEMBALI SEBELUM COMMIT.');

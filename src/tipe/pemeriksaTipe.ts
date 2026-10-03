@@ -15,6 +15,8 @@ import {
   NodePerulanganSelama,
   NodePerulanganUntuk,
   NodeInstruksiKembalikan,
+  NodeInstruksiHentikan,
+  NodeInstruksiLanjutkan,
   NodePernyataanEkspresi,
   NodeDeklarasiFungsi,
   NodeLiteral,
@@ -77,6 +79,7 @@ export class PemeriksaTipe {
   private readonly tabelFungsi = new Map<string, InfoFungsi>();
   private readonly daftarGalat: GalatTipe[] = [];
   private fungsiAktifSaatIni?: InfoFungsi;
+  private kedalamanPerulangan: number = 0;
 
   constructor() {
     this.lingkupSaatIni = new LingkupTipe();
@@ -94,6 +97,7 @@ export class PemeriksaTipe {
 
   public periksa(program: NodeProgram): GalatTipe[] {
     this.daftarGalat.length = 0;
+    this.kedalamanPerulangan = 0;
 
     // 1. Daftarkan tanda tangan seluruh deklarasi fungsi
     for (const fn of program.daftarFungsi) {
@@ -297,43 +301,54 @@ export class PemeriksaTipe {
 
       case JenisNodeAST.PERULANGAN_SELAMA: {
         const s = stmt as NodePerulanganSelama;
+        this.validasiVariabelKondisi(s.kondisi);
         const tipeKondisi = this.periksaEkspresi(s.kondisi);
         if (tipeKondisi !== NamaTipe.LOGIKA && tipeKondisi !== NamaTipe.APAPUN) {
-          throw buatGalatKetidakcocokanTipe(
-            "Kondisi perulangan 'selama'",
+          throw new GalatTipe(
+            JenisGalatTipe.KETIDAKCOCOKAN_TIPE,
+            `Kondisi perulangan 'selama' harus menghasilkan nilai logika, tetapi ditemukan '${tipeKondisi}'.`,
+            s.kondisi.posisi.awal,
             NamaTipe.LOGIKA,
-            tipeKondisi,
-            s.kondisi.posisi.awal
+            tipeKondisi
           );
         }
 
         const lingkupLoop = new LingkupTipe(this.lingkupSaatIni);
-        this.jalankanDalamLingkup(lingkupLoop, () => {
-          for (const st of s.tubuh) this.periksaPernyataan(st);
-        });
+        this.kedalamanPerulangan++;
+        try {
+          this.jalankanDalamLingkup(lingkupLoop, () => {
+            for (const st of s.tubuh) this.periksaPernyataan(st);
+          });
+        } finally {
+          this.kedalamanPerulangan--;
+        }
         break;
       }
 
       case JenisNodeAST.PERULANGAN_UNTUK: {
         const s = stmt as NodePerulanganUntuk;
+        this.validasiVariabelKondisi(s.nilaiAwal);
+        this.validasiVariabelKondisi(s.nilaiAkhir);
         const tipeAwal = this.periksaEkspresi(s.nilaiAwal);
         const tipeAkhir = this.periksaEkspresi(s.nilaiAkhir);
 
         if (tipeAwal !== NamaTipe.BILANGAN && tipeAwal !== NamaTipe.APAPUN) {
-          throw buatGalatKetidakcocokanTipe(
-            "Batas awal perulangan 'untuk'",
+          throw new GalatTipe(
+            JenisGalatTipe.KETIDAKCOCOKAN_TIPE,
+            `Batas awal perulangan 'untuk' ('dari') harus bertipe bilangan bulat, tetapi ditemukan '${tipeAwal}'.`,
+            s.nilaiAwal.posisi.awal,
             NamaTipe.BILANGAN,
-            tipeAwal,
-            s.nilaiAwal.posisi.awal
+            tipeAwal
           );
         }
 
         if (tipeAkhir !== NamaTipe.BILANGAN && tipeAkhir !== NamaTipe.APAPUN) {
-          throw buatGalatKetidakcocokanTipe(
-            "Batas akhir perulangan 'untuk'",
+          throw new GalatTipe(
+            JenisGalatTipe.KETIDAKCOCOKAN_TIPE,
+            `Batas akhir perulangan 'untuk' ('sampai') harus bertipe bilangan bulat, tetapi ditemukan '${tipeAkhir}'.`,
+            s.nilaiAkhir.posisi.awal,
             NamaTipe.BILANGAN,
-            tipeAkhir,
-            s.nilaiAkhir.posisi.awal
+            tipeAkhir
           );
         }
 
@@ -344,9 +359,38 @@ export class PemeriksaTipe {
           tetap: false,
         });
 
-        this.jalankanDalamLingkup(lingkupUntuk, () => {
-          for (const st of s.tubuh) this.periksaPernyataan(st);
-        });
+        this.kedalamanPerulangan++;
+        try {
+          this.jalankanDalamLingkup(lingkupUntuk, () => {
+            for (const st of s.tubuh) this.periksaPernyataan(st);
+          });
+        } finally {
+          this.kedalamanPerulangan--;
+        }
+        break;
+      }
+
+      case JenisNodeAST.INSTRUKSI_HENTIKAN: {
+        const s = stmt as NodeInstruksiHentikan;
+        if (this.kedalamanPerulangan === 0) {
+          throw new GalatTipe(
+            JenisGalatTipe.KENDALI_DI_LUAR_KONTEKS,
+            "Instruksi 'hentikan' hanya dapat digunakan di dalam blok perulangan.",
+            s.posisi.awal
+          );
+        }
+        break;
+      }
+
+      case JenisNodeAST.INSTRUKSI_LANJUTKAN: {
+        const s = stmt as NodeInstruksiLanjutkan;
+        if (this.kedalamanPerulangan === 0) {
+          throw new GalatTipe(
+            JenisGalatTipe.KENDALI_DI_LUAR_KONTEKS,
+            "Instruksi 'lanjutkan' hanya dapat digunakan di dalam blok perulangan.",
+            s.posisi.awal
+          );
+        }
         break;
       }
 

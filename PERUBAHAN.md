@@ -4,6 +4,44 @@ Seluruh perubahan penting pada proyek bahasa pemrograman NUSANTARA dicatat dalam
 
 Format penomoran versi mengacu pada **Semantic Versioning** (`vMAJOR.MINOR.PATCH`). Pada masa pengembangan awal, versi minor mencerminkan tahapan fase roadmap (misal `v0.1.0` untuk Phase 1, `v0.2.0` untuk Phase 2, `v0.3.0` untuk Phase 3, `v0.4.0` untuk Phase 4, `v0.5.0` untuk Phase 5, `v0.6.0` untuk Phase 6, `v0.7.0` untuk Phase 7, `v0.8.0` untuk Phase 8, `v0.9.0` untuk Phase 9, `v0.10.0` untuk Phase 10).
 
+## [v0.12.0] — 2026-10-03
+### Phase 12: Sistem Perulangan NUSANTARA
+
+Fase ini meresmikan arsitektur sistem perulangan (*loops*) dan kendali aliran iterasi (`selama`, `untuk`, `dari`, `sampai`, `lakukan`, `hentikan`, `lanjutkan`, `akhir`) yang terintegrasi penuh di seluruh saluran pipa bahasa NUSANTARA.
+
+#### Ditambahkan:
+- **Konstruksi Perulangan Resmi:**
+  - `selama kondisi lakukan ... akhir` untuk perulangan bersyarat (*conditional while loop*).
+  - `untuk var dari awal sampai akhir lakukan ... akhir` untuk perulangan rentang berpenghitung (*counted range loop*) dengan batas akhir inklusif.
+  - Perilaku rentang kosong (*empty range* saat `awal > akhir`) yang dilewati 0 kali secara aman tanpa galat.
+- **Kendali Aliran Iterasi:**
+  - `hentikan` (*break*): Menghentikan paksa perulangan terdekat dan melompat ke baris setelah kata kunci `akhir`.
+  - `lanjutkan` (*continue*): Melompati sisa instruksi iterasi saat ini dan langsung menuju putaran berikutnya (tetap mengeksekusi increment variabel penghitung pada `untuk`).
+  - Penolakan instruksi `hentikan` dan `lanjutkan` di luar blok perulangan secara statis di Type System dan runtime Interpreter (`KENDALI_DI_LUAR_KONTEKS`).
+- **Dukungan Perulangan Bertingkat & Integrasi Percabangan:**
+  - Iterasi multi-dimensi (baris dan kolom) dengan state loop terisolasi.
+  - Penempatan percabangan `jika` di dalam perulangan dan perulangan di dalam cabang `jika` dengan batas `akhir` berpasangan presisi.
+- **Perlindungan Loop Tak Terbatas (*Infinite Loop Protection*):**
+  - Parameter konfigurasi `maksimalIterasiPerulangan` pada Interpreter.
+  - Runtime melempar `JenisGalatRuntime.BATAS_ITERASI_TERLAMPAUI` saat perulangan melebihi ambang batas keamanan yang ditentukan.
+- **Dokumentasi Sistem Perulangan:**
+  - `docs/referensi/perulangan.md`: Referensi sintaksis lengkap, aturan inklusivitas, rentang kosong, kendali aliran, dan contoh program.
+  - `docs/pengembang/perulangan.md`: Dokumentasi teknis saluran pipa, recursive descent parser, node AST, sistem tipe, dan sinyal runtime.
+- **Rangkaian Pengujian Sistem Perulangan (`pengujian/perulangan/`):**
+  - `pengujian/perulangan/uji_perulangan.ts`: 25 skenario pengujian unit, integrasi, AST, type checking, dan runtime infinite loop protection (100% Lulus).
+  - `pengujian/perulangan/README.md`: Panduan eksekusi pengujian perulangan.
+
+#### Diubah:
+- `src/interpreter/galat.ts`: Menambahkan enum `JenisGalatRuntime.BATAS_ITERASI_TERLAMPAUI`.
+- `src/interpreter/interpreter.ts`: Menambahkan opsi `maksimalIterasiPerulangan` dan penanganan rentang kosong pada `for`.
+- `src/tipe/galatTipe.ts`: Menambahkan enum `JenisGalatTipe.KENDALI_DI_LUAR_KONTEKS`.
+- `src/tipe/pemeriksaTipe.ts`: Menambahkan pelacakan `kedalamanPerulangan` untuk validasi `hentikan`/`lanjutkan`, serta validasi kondisi dan batas rentang.
+- `src/parser/parser.ts`: Memperkuat validasi sintaksis kondisi/rentang kosong, pencegahan kata kunci nyasar (`lakukan`, `dari`, `sampai`), dan blok tidak ditutup.
+- `package.json`: Menambahkan skrip `"test:perulangan"` ke dalam perintah pengujian utama `"npm test"`.
+- `skrip/periksa_fondasi.js`: Menambahkan audit 4 berkas baru Phase 12 (total 145 berkas utuh).
+
+---
+
 ## [v0.11.0] — 2026-10-03
 ### Phase 11: Percabangan Kondisional NUSANTARA
 

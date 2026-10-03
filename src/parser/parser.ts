@@ -176,6 +176,24 @@ export class Parser {
         throw g;
       }
 
+      if (this.cocok(JenisToken.KW_LAKUKAN)) {
+        const g = new GalatParser(JenisGalatParser.TOKEN_TAK_TERDUGA, "Kata kunci 'lakukan' tidak pada tempatnya di luar perulangan.", current);
+        this.catatGalat(g);
+        throw g;
+      }
+
+      if (this.cocok(JenisToken.KW_DARI)) {
+        const g = new GalatParser(JenisGalatParser.TOKEN_TAK_TERDUGA, "Kata kunci 'dari' tidak pada tempatnya di luar perulangan 'untuk'.", current);
+        this.catatGalat(g);
+        throw g;
+      }
+
+      if (this.cocok(JenisToken.KW_SAMPAI)) {
+        const g = new GalatParser(JenisGalatParser.TOKEN_TAK_TERDUGA, "Kata kunci 'sampai' tidak pada tempatnya di luar perulangan 'untuk'.", current);
+        this.catatGalat(g);
+        throw g;
+      }
+
       if (this.cocok(JenisToken.KW_SELAMA)) {
         return this.parsePerulanganSelama(current);
       }
@@ -359,13 +377,42 @@ export class Parser {
   }
 
   private parsePerulanganSelama(tokenAwal: Token): NodePerulanganSelama {
+    if (this.periksa(JenisToken.KW_LAKUKAN)) {
+      const g = new GalatParser(
+        JenisGalatParser.EKSPRESI_TIDAK_LENGKAP,
+        "Kondisi perulangan 'selama' tidak boleh kosong.",
+        this.stream.current()
+      );
+      this.catatGalat(g);
+      throw g;
+    }
+
     const kondisi = this.parseEkspresi();
     this.harapkan(JenisToken.KW_LAKUKAN, "kata kunci 'lakukan' setelah kondisi selama");
 
     const tubuh: PernyataanAST[] = [];
     while (!this.periksa(JenisToken.KW_AKHIR) && !this.stream.eof()) {
+      if (this.periksa(JenisToken.KW_SELESAI)) {
+        const g = new GalatParser(
+          JenisGalatParser.BLOK_TIDAK_DITUTUP,
+          "Blok perulangan 'selama' belum ditutup. Diharapkan kata kunci 'akhir' sebelum 'selesai'.",
+          this.stream.current()
+        );
+        this.catatGalat(g);
+        throw g;
+      }
       const stmt = this.parsePernyataan();
       if (stmt) tubuh.push(stmt);
+    }
+
+    if (this.stream.eof()) {
+      const g = new GalatParser(
+        JenisGalatParser.BLOK_TIDAK_DITUTUP,
+        "Blok perulangan 'selama' belum ditutup dengan 'akhir'.",
+        tokenAwal
+      );
+      this.catatGalat(g);
+      throw g;
     }
 
     const akhirTok = this.harapkan(JenisToken.KW_AKHIR, "kata kunci 'akhir' untuk menutup perulangan selama");
@@ -381,15 +428,54 @@ export class Parser {
   private parsePerulanganUntuk(tokenAwal: Token): NodePerulanganUntuk {
     const varTok = this.harapkan(JenisToken.IDENTIFIER, 'nama variabel perulangan untuk');
     this.harapkan(JenisToken.KW_DARI, "kata kunci 'dari' setelah variabel untuk");
+
+    if (this.periksa(JenisToken.KW_SAMPAI)) {
+      const g = new GalatParser(
+        JenisGalatParser.EKSPRESI_TIDAK_LENGKAP,
+        "Nilai awal perulangan 'untuk' tidak boleh kosong.",
+        this.stream.current()
+      );
+      this.catatGalat(g);
+      throw g;
+    }
     const nilaiAwal = this.parseEkspresi();
     this.harapkan(JenisToken.KW_SAMPAI, "kata kunci 'sampai' setelah batas awal untuk");
+
+    if (this.periksa(JenisToken.KW_LAKUKAN)) {
+      const g = new GalatParser(
+        JenisGalatParser.EKSPRESI_TIDAK_LENGKAP,
+        "Nilai batas akhir perulangan 'untuk' tidak boleh kosong.",
+        this.stream.current()
+      );
+      this.catatGalat(g);
+      throw g;
+    }
     const nilaiAkhir = this.parseEkspresi();
     this.harapkan(JenisToken.KW_LAKUKAN, "kata kunci 'lakukan' setelah batas akhir untuk");
 
     const tubuh: PernyataanAST[] = [];
     while (!this.periksa(JenisToken.KW_AKHIR) && !this.stream.eof()) {
+      if (this.periksa(JenisToken.KW_SELESAI)) {
+        const g = new GalatParser(
+          JenisGalatParser.BLOK_TIDAK_DITUTUP,
+          "Blok perulangan 'untuk' belum ditutup. Diharapkan kata kunci 'akhir' sebelum 'selesai'.",
+          this.stream.current()
+        );
+        this.catatGalat(g);
+        throw g;
+      }
       const stmt = this.parsePernyataan();
       if (stmt) tubuh.push(stmt);
+    }
+
+    if (this.stream.eof()) {
+      const g = new GalatParser(
+        JenisGalatParser.BLOK_TIDAK_DITUTUP,
+        "Blok perulangan 'untuk' belum ditutup dengan 'akhir'.",
+        tokenAwal
+      );
+      this.catatGalat(g);
+      throw g;
     }
 
     const akhirTok = this.harapkan(JenisToken.KW_AKHIR, "kata kunci 'akhir' untuk menutup perulangan untuk");

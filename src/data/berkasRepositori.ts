@@ -8,6 +8,32 @@ export interface BerkasRepo {
 }
 
 export const BERKAS_REPOSITORI: BerkasRepo[] = [
+  // --- FASE 12: SISTEM PERULANGAN ---
+  {
+    jalur: 'docs/referensi/perulangan.md',
+    nama: 'perulangan.md',
+    kategori: 'Referensi Sintaks Perulangan',
+    bahasa: 'markdown',
+    ukuran: 4800,
+    konten: `# Referensi Sintaks: Sistem Perulangan NUSANTARA\n\nPedoman resmi penggunaan selama, untuk, dari, sampai, lakukan, hentikan, lanjutkan, akhir.`
+  },
+  {
+    jalur: 'docs/pengembang/perulangan.md',
+    nama: 'perulangan.md (Pengembang)',
+    kategori: 'Dokumentasi Teknis Perulangan',
+    bahasa: 'markdown',
+    ukuran: 4400,
+    konten: `# Arsitektur & Dokumentasi Teknis Sistem Perulangan NUSANTARA\n\nPenjelasan integrasi saluran pipa kompilasi untuk perulangan.`
+  },
+  {
+    jalur: 'pengujian/perulangan/uji_perulangan.ts',
+    nama: 'uji_perulangan.ts',
+    kategori: '25 Pengujian Perulangan',
+    bahasa: 'javascript',
+    ukuran: 10500,
+    konten: `// Rangkaian 25 Uji Komprehensif Sistem Perulangan Bahasa NUSANTARA (Phase 12)`
+  },
+
   // --- FASE 11: PERCABANGAN KONDISIONAL ---
   {
     jalur: 'docs/referensi/percabangan.md',
@@ -291,10 +317,10 @@ export const DAFTAR_FASE_ROADMAP = [
   { fase: 7, nama: 'Parser (Penganalisis Sintaksis & AST)', versi: 'v0.7.0', kategori: 'Mesin Inti', status: 'Selesai' },
   { fase: 8, nama: 'Interpreter (Penerjemah Eksekusi AST)', versi: 'v0.8.0', kategori: 'Mesin Inti', status: 'Selesai' },
   { fase: 9, nama: 'Variabel & Tipe Data Lanjutan', versi: 'v0.9.0', kategori: 'Mesin Inti', status: 'Selesai' },
-  { fase: 10, nama: 'Operator & Ekspresi Lanjutan', versi: 'v0.10.0', kategori: 'Mesin Inti', status: 'Berikutnya' },
-  { fase: 11, nama: 'Percabangan Lanjutan', versi: 'v0.11.0', kategori: 'Mesin Inti', status: 'Rencana' },
-  { fase: 12, nama: 'Perulangan Lanjutan', versi: 'v0.12.0', kategori: 'Mesin Inti', status: 'Rencana' },
-  { fase: 13, nama: 'Fungsi Lanjutan', versi: 'v0.13.0', kategori: 'Mesin Inti', status: 'Rencana' },
+  { fase: 10, nama: 'Operator & Ekspresi Lanjutan', versi: 'v0.10.0', kategori: 'Mesin Inti', status: 'Selesai' },
+  { fase: 11, nama: 'Percabangan Lanjutan', versi: 'v0.11.0', kategori: 'Mesin Inti', status: 'Selesai' },
+  { fase: 12, nama: 'Perulangan Lanjutan', versi: 'v0.12.0', kategori: 'Mesin Inti', status: 'Selesai' },
+  { fase: 13, nama: 'Fungsi Lanjutan', versi: 'v0.13.0', kategori: 'Mesin Inti', status: 'Berikutnya' },
   { fase: 14, nama: 'Struktur Data (Daftar & Peta)', versi: 'v0.14.0', kategori: 'Fitur Lanjut', status: 'Rencana' },
   { fase: 15, nama: 'Modul & Ruang Nama', versi: 'v0.15.0', kategori: 'Fitur Lanjut', status: 'Rencana' },
   { fase: 16, nama: 'Kelas & Objek (OOP)', versi: 'v0.16.0', kategori: 'Fitur Lanjut', status: 'Rencana' },

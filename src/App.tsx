@@ -18,12 +18,12 @@ import {
   ShieldCheck,
   Code2,
   AlertTriangle,
-  Binary,
-  Compass,
   Network,
   Play,
   CheckCircle2,
-  Calculator
+  Calculator,
+  Repeat,
+  Split
 } from 'lucide-react';
 import {
   BERKAS_REPOSITORI,
@@ -40,14 +40,13 @@ import { ASTPrinter } from './parser/astPrinter';
 import { Interpreter } from './interpreter/interpreter';
 import { PenulisOutputBuffer } from './interpreter/outputWriter';
 import { PemeriksaTipe } from './tipe/pemeriksaTipe';
-import { TABEL_PRESEDENSI_OPERATOR } from './operator/jenisOperator';
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState<'operator' | 'tipe' | 'interpreter' | 'parser' | 'lexer' | 'panduan' | 'ebnf' | 'glosarium' | 'berkas' | 'roadmap' | 'git'>('operator');
+  const [activeTab, setActiveTab] = useState<'perulangan' | 'percabangan' | 'operator' | 'tipe' | 'ast' | 'token' | 'panduan' | 'berkas' | 'roadmap' | 'git'>('perulangan');
   const [selectedFile, setSelectedFile] = useState<BerkasRepo>(BERKAS_REPOSITORI[0]);
   const [copiedText, setCopiedText] = useState<string | null>(null);
   const [playgroundCode, setPlaygroundCode] = useState<string>(
-    `program DemonstrasiPercabangan\nmulai\n    nilai : bilangan = 85\n    kehadiran : logika = benar\n\n    // 1. Percabangan Bersarang (Nested Branching)\n    jika nilai >= 75 dan kehadiran maka\n        jika nilai >= 90 maka\n            tampilkan("Hasil: Lulus dengan Predikat A (Istimewa)")\n        selain\n            tampilkan("Hasil: Lulus dengan Predikat B (Baik)")\n        akhir\n    selain\n        tampilkan("Hasil: Belum Memenuhi Kriteria")\n    akhir\nselesai`
+    `program DemonstrasiPerulangan\nmulai\n    // 1. Perulangan Untuk (Rentang Inklusif)\n    tampilkan("--- Perulangan Untuk (1 sampai 5) ---")\n    untuk i dari 1 sampai 5 lakukan\n        jika i == 3 maka\n            tampilkan("Nilai i = 3: Lompati sisa iterasi")\n            lanjutkan\n        akhir\n        tampilkan("Iterasi ke-" + i)\n    akhir\n\n    // 2. Perulangan Selama (Kondisional dengan Hentikan)\n    tampilkan("--- Perulangan Selama ---")\n    angka : bilangan = 1\n    selama angka <= 10 lakukan\n        jika angka == 4 maka\n            tampilkan("Angka mencapai 4: Hentikan perulangan")\n            hentikan\n        akhir\n        tampilkan("Cacah: " + angka)\n        angka = angka + 1\n    akhir\n    tampilkan("Selesai eksekusi seluruh perulangan!")\nselesai`
   );
   const [activeFilterCategory, setActiveFilterCategory] = useState<string>('Semua');
 
@@ -58,7 +57,7 @@ export default function App() {
     return { tokens: token };
   }, [playgroundCode]);
 
-  // 2. Eksekusi Parser (Phase 7)
+  // 2. Eksekusi Parser (Phase 7 & 12)
   const { ast, astString, parserErrors } = useMemo(() => {
     try {
       const p = new Parser(playgroundCode);
@@ -78,14 +77,14 @@ export default function App() {
     }
   }, [playgroundCode]);
 
-  // 3. Eksekusi Type Checker (Phase 9)
+  // 3. Eksekusi Type Checker (Phase 9, 10, 11, 12)
   const { typeErrors } = useMemo(() => {
     if (!ast) return { typeErrors: [] };
     const checker = new PemeriksaTipe();
     return { typeErrors: checker.periksa(ast) };
   }, [ast]);
 
-  // 4. Eksekusi Interpreter (Phase 8)
+  // 4. Eksekusi Interpreter (Phase 8, 10, 11, 12)
   const { runOutput, runtimeError } = useMemo(() => {
     try {
       const buffer = new PenulisOutputBuffer();
@@ -125,120 +124,126 @@ export default function App() {
               <span className="w-3 h-3 rounded-full bg-rose-600 inline-block shadow-sm shadow-rose-500/50"></span>
               NUSANTARA
             </span>
+            <span className="hidden sm:inline text-xs font-mono px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800">
+              v0.12.0
+            </span>
           </div>
 
-          <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-300">
+          <nav className="hidden md:flex items-center gap-5 text-sm font-medium text-slate-300">
+            <button
+              onClick={() => setActiveTab('perulangan')}
+              className={`hover:text-white transition-colors cursor-pointer flex items-center gap-1.5 ${
+                activeTab === 'perulangan' ? 'text-emerald-400 font-semibold' : 'text-slate-400'
+              }`}
+            >
+              <Repeat className="w-4 h-4" />
+              Perulangan (Phase 12)
+            </button>
+            <button
+              onClick={() => setActiveTab('percabangan')}
+              className={`hover:text-white transition-colors cursor-pointer flex items-center gap-1.5 ${
+                activeTab === 'percabangan' ? 'text-cyan-400 font-semibold' : 'text-slate-400'
+              }`}
+            >
+              <Split className="w-4 h-4" />
+              Percabangan (Phase 11)
+            </button>
             <button
               onClick={() => setActiveTab('operator')}
-              className={`hover:text-white transition-colors cursor-pointer ${
+              className={`hover:text-white transition-colors cursor-pointer flex items-center gap-1.5 ${
                 activeTab === 'operator' ? 'text-amber-400 font-semibold' : 'text-slate-400'
               }`}
             >
+              <Calculator className="w-4 h-4" />
               Operator (Phase 10)
             </button>
             <button
               onClick={() => setActiveTab('tipe')}
-              className={`hover:text-white transition-colors cursor-pointer ${
+              className={`hover:text-white transition-colors cursor-pointer flex items-center gap-1.5 ${
                 activeTab === 'tipe' ? 'text-purple-400 font-semibold' : 'text-slate-400'
               }`}
             >
+              <CheckCircle2 className="w-4 h-4" />
               Sistem Tipe (Phase 9)
             </button>
             <button
-              onClick={() => setActiveTab('interpreter')}
-              className={`hover:text-white transition-colors cursor-pointer ${
-                activeTab === 'interpreter' ? 'text-emerald-400 font-semibold' : 'text-slate-400'
+              onClick={() => setActiveTab('ast')}
+              className={`hover:text-white transition-colors cursor-pointer flex items-center gap-1.5 ${
+                activeTab === 'ast' ? 'text-cyan-300 font-semibold' : 'text-slate-400'
               }`}
             >
-              Interpreter (Phase 8)
+              <Network className="w-4 h-4" />
+              Pohon AST
             </button>
             <button
-              onClick={() => setActiveTab('parser')}
-              className={`hover:text-white transition-colors cursor-pointer ${
-                activeTab === 'parser' ? 'text-white font-semibold' : 'text-slate-400'
+              onClick={() => setActiveTab('token')}
+              className={`hover:text-white transition-colors cursor-pointer flex items-center gap-1.5 ${
+                activeTab === 'token' ? 'text-teal-400 font-semibold' : 'text-slate-400'
               }`}
             >
-              Parser & AST
-            </button>
-            <button
-              onClick={() => setActiveTab('lexer')}
-              className={`hover:text-white transition-colors cursor-pointer ${
-                activeTab === 'lexer' ? 'text-white font-semibold' : 'text-slate-400'
-              }`}
-            >
-              Lexer
-            </button>
-            <button
-              onClick={() => setActiveTab('panduan')}
-              className={`hover:text-white transition-colors cursor-pointer ${
-                activeTab === 'panduan' ? 'text-white font-semibold' : 'text-slate-400'
-              }`}
-            >
-              Buku Panduan
+              <Cpu className="w-4 h-4" />
+              Token
             </button>
             <button
               onClick={() => setActiveTab('berkas')}
-              className={`hover:text-white transition-colors cursor-pointer ${
+              className={`hover:text-white transition-colors cursor-pointer flex items-center gap-1.5 ${
                 activeTab === 'berkas' ? 'text-white font-semibold' : 'text-slate-400'
               }`}
             >
-              Penjelajah Berkas
+              <Folder className="w-4 h-4" />
+              Berkas
             </button>
             <button
               onClick={() => setActiveTab('roadmap')}
-              className={`hover:text-white transition-colors cursor-pointer ${
+              className={`hover:text-white transition-colors cursor-pointer flex items-center gap-1.5 ${
                 activeTab === 'roadmap' ? 'text-white font-semibold' : 'text-slate-400'
               }`}
             >
-              Peta Jalan
+              <Layers className="w-4 h-4" />
+              Roadmap
             </button>
           </nav>
 
           <div className="flex items-center gap-3">
             <button
-              onClick={() => handleCopy('git commit -m "feat: strengthen nusantara type system"', 'commit-p9')}
+              onClick={() => handleCopy('git commit -m "feat: implement nusantara loops"', 'commit-p12')}
               className="px-3.5 py-1.5 text-xs font-medium text-slate-200 bg-slate-900 border border-slate-700/80 rounded-lg hover:bg-slate-800 hover:text-white transition-colors flex items-center gap-2 whitespace-nowrap cursor-pointer"
             >
-              {copiedText === 'commit-p9' ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Terminal className="w-3.5 h-3.5 text-slate-400" />}
-              <span>{copiedText === 'commit-p9' ? 'Tersalin' : 'Salin Komit Phase 9'}</span>
+              {copiedText === 'commit-p12' ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Terminal className="w-3.5 h-3.5 text-slate-400" />}
+              <span>{copiedText === 'commit-p12' ? 'Tersalin' : 'Salin Pesan Komit'}</span>
             </button>
-            <button
-              onClick={() => setActiveTab('operator')}
-              className="px-3.5 py-1.5 text-xs font-semibold text-white bg-purple-600 rounded-lg hover:bg-purple-500 transition-colors whitespace-nowrap cursor-pointer"
-            >
-              Milestone v0.11.0
-            </button>
+            <span className="px-3 py-1 text-xs font-semibold text-white bg-emerald-700/80 rounded-lg whitespace-nowrap border border-emerald-500/40">
+              v0.12.0
+            </span>
           </div>
         </div>
       </header>
 
       {/* 2. HERO STATEMENT & METADATA */}
-      <section className="border-b border-slate-800/60 bg-gradient-to-b from-slate-950 via-slate-900/60 to-slate-950 py-12 px-4 sm:px-6">
+      <section className="border-b border-slate-800/60 bg-gradient-to-b from-slate-950 via-slate-900/60 to-slate-950 py-10 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-wrap items-center gap-2 text-xs text-slate-400 mb-4 tracking-wide font-mono">
-            <span className="text-emerald-400 font-medium">v0.11.0</span>
+            <span className="text-emerald-400 font-bold bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-800">Milestone v0.12.0</span>
             <span aria-hidden="true">·</span>
-            <span>Phase 11: Percabangan Kondisional</span>
+            <span className="text-white font-medium">Phase 12: Sistem Perulangan NUSANTARA</span>
             <span aria-hidden="true">·</span>
-            <span className="text-purple-400 font-medium">jika · maka · selain · akhir</span>
+            <span className="text-emerald-300 font-mono">selama · untuk · dari · sampai · lakukan · hentikan · lanjutkan · akhir</span>
             <span aria-hidden="true">·</span>
-            <span className="text-cyan-400 font-medium">105 Total Uji Lulus 100%</span>
-            <span aria-hidden="true">·</span>
-            <span>100% Bahasa Indonesia</span>
+            <span className="text-cyan-400 font-semibold">145 Berkas Valid (100% Lulus)</span>
           </div>
 
-          <h1 className="text-3xl sm:text-5xl font-bold tracking-tight text-white max-w-4xl leading-tight">
-            Percabangan Kondisional NUSANTARA: jika, maka, selain, akhir.
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white max-w-4xl leading-tight">
+            Sistem Perulangan NUSANTARA: <span className="text-emerald-400 font-mono">selama</span> &amp; <span className="text-cyan-400 font-mono">untuk</span>.
           </h1>
 
           <p className="mt-4 text-base sm:text-lg text-slate-300 max-w-3xl leading-relaxed">
-            Bahasa pemrograman NUSANTARA kini mendukung pengambilan keputusan terstruktur dengan validasi ketat sistem tipe logika, percabangan bertingkat (nested branching), isolasi lingkup leksikal, dan perlindungan runtime penuh.
+            Bahasa pemrograman NUSANTARA mendukung iterasi berbasis rentang nilai inklusif (<code className="text-emerald-300 font-mono font-semibold">untuk ... dari ... sampai ... lakukan</code>) dan perulangan berbasis kondisi (<code className="text-emerald-300 font-mono font-semibold">selama ... lakukan</code>), dilengkapi kendali interupsi aliran (<code className="text-rose-300 font-mono">hentikan</code> &amp; <code className="text-amber-300 font-mono">lanjutkan</code>) serta proteksi loop tak terbatas.
           </p>
 
           <div className="mt-6 p-4 rounded-xl bg-slate-900/90 border border-slate-800 max-w-3xl flex items-start gap-3">
             <ShieldCheck className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
             <div className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-              <span className="font-semibold text-emerald-300">Integritas Saluran Pipa Phase 10:</span> Kode sumber melewati Lexer ➔ Parser ➔ Type Checker ➔ Operator Dispatch ➔ Interpreter secara mulus dengan presedensi presisi dan penanganan runtime error yang aman.
+              <span className="font-semibold text-emerald-300">Pipa Kompilasi Lengkap:</span> Kode sumber NUSANTARA melewati tahapan Lexer ➔ Parser (AST NodePerulanganUntuk &amp; NodePerulanganSelama) ➔ Pemeriksa Tipe (Validasi logika kondisi &amp; batas numerik rentang) ➔ Interpreter dengan manajemen tumpukan lingkup leksikal &amp; sinyal kendali aliran.
             </div>
           </div>
         </div>
@@ -246,51 +251,61 @@ export default function App() {
 
       {/* 3. MAIN CONTENT AREA */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 py-8 flex-1 w-full">
-        <div className="flex items-center gap-2 border-b border-slate-800 pb-4 mb-8 overflow-x-auto text-sm">
+        {/* Navigation Sub-Tabs */}
+        <div className="flex items-center gap-2 border-b border-slate-800 pb-4 mb-6 overflow-x-auto text-sm">
+          <button
+            onClick={() => setActiveTab('perulangan')}
+            className={`px-4 py-2 rounded-lg font-medium transition-colors whitespace-nowrap cursor-pointer flex items-center gap-2 ${
+              activeTab === 'perulangan' ? 'bg-emerald-950 text-emerald-200 border border-emerald-700/60 font-semibold' : 'text-slate-400 hover:text-white hover:bg-slate-900'
+            }`}
+          >
+            <Repeat className="w-4 h-4 text-emerald-400" />
+            <span>Perulangan (Phase 12)</span>
+          </button>
+          <button
+            onClick={() => setActiveTab('percabangan')}
+            className={`px-4 py-2 rounded-lg font-medium transition-colors whitespace-nowrap cursor-pointer flex items-center gap-2 ${
+              activeTab === 'percabangan' ? 'bg-cyan-950 text-cyan-200 border border-cyan-700/60 font-semibold' : 'text-slate-400 hover:text-white hover:bg-slate-900'
+            }`}
+          >
+            <Split className="w-4 h-4 text-cyan-400" />
+            <span>Percabangan (Phase 11)</span>
+          </button>
           <button
             onClick={() => setActiveTab('operator')}
             className={`px-4 py-2 rounded-lg font-medium transition-colors whitespace-nowrap cursor-pointer flex items-center gap-2 ${
-              activeTab === 'operator' ? 'bg-amber-950 text-amber-200 border border-amber-700/60' : 'text-slate-400 hover:text-white hover:bg-slate-900'
+              activeTab === 'operator' ? 'bg-amber-950 text-amber-200 border border-amber-700/60 font-semibold' : 'text-slate-400 hover:text-white hover:bg-slate-900'
             }`}
           >
             <Calculator className="w-4 h-4 text-amber-400" />
-            <span>Operator (Phase 10)</span>
+            <span>Tabel Operator (Phase 10)</span>
           </button>
           <button
             onClick={() => setActiveTab('tipe')}
             className={`px-4 py-2 rounded-lg font-medium transition-colors whitespace-nowrap cursor-pointer flex items-center gap-2 ${
-              activeTab === 'tipe' ? 'bg-purple-950 text-purple-200 border border-purple-700/60' : 'text-slate-400 hover:text-white hover:bg-slate-900'
+              activeTab === 'tipe' ? 'bg-purple-950 text-purple-200 border border-purple-700/60 font-semibold' : 'text-slate-400 hover:text-white hover:bg-slate-900'
             }`}
           >
             <CheckCircle2 className="w-4 h-4 text-purple-400" />
             <span>Sistem Tipe (Phase 9)</span>
           </button>
           <button
-            onClick={() => setActiveTab('interpreter')}
+            onClick={() => setActiveTab('ast')}
             className={`px-4 py-2 rounded-lg font-medium transition-colors whitespace-nowrap cursor-pointer flex items-center gap-2 ${
-              activeTab === 'interpreter' ? 'bg-emerald-950 text-emerald-200 border border-emerald-700/60' : 'text-slate-400 hover:text-white hover:bg-slate-900'
-            }`}
-          >
-            <Play className="w-4 h-4 text-emerald-400" />
-            <span>Eksekusi Interpreter</span>
-          </button>
-          <button
-            onClick={() => setActiveTab('parser')}
-            className={`px-4 py-2 rounded-lg font-medium transition-colors whitespace-nowrap cursor-pointer flex items-center gap-2 ${
-              activeTab === 'parser' ? 'bg-slate-800 text-white' : 'text-slate-400 hover:text-white hover:bg-slate-900'
+              activeTab === 'ast' ? 'bg-slate-800 text-white' : 'text-slate-400 hover:text-white hover:bg-slate-900'
             }`}
           >
             <Network className="w-4 h-4 text-cyan-400" />
             <span>Pohon AST</span>
           </button>
           <button
-            onClick={() => setActiveTab('lexer')}
+            onClick={() => setActiveTab('token')}
             className={`px-4 py-2 rounded-lg font-medium transition-colors whitespace-nowrap cursor-pointer flex items-center gap-2 ${
-              activeTab === 'lexer' ? 'bg-slate-800 text-white' : 'text-slate-400 hover:text-white hover:bg-slate-900'
+              activeTab === 'token' ? 'bg-slate-800 text-white' : 'text-slate-400 hover:text-white hover:bg-slate-900'
             }`}
           >
             <Cpu className="w-4 h-4 text-teal-400" />
-            <span>Token Lexer</span>
+            <span>Token Lexer ({tokens.length})</span>
           </button>
           <button
             onClick={() => setActiveTab('panduan')}
@@ -308,7 +323,7 @@ export default function App() {
             }`}
           >
             <Folder className="w-4 h-4 text-amber-400" />
-            <span>Penjelajah Berkas (137)</span>
+            <span>Berkas Repositori (145)</span>
           </button>
           <button
             onClick={() => setActiveTab('roadmap')}
@@ -319,50 +334,66 @@ export default function App() {
             <Layers className="w-4 h-4 text-purple-400" />
             <span>Peta Jalan 36 Fase</span>
           </button>
-          <button
-            onClick={() => setActiveTab('git')}
-            className={`px-4 py-2 rounded-lg font-medium transition-colors whitespace-nowrap cursor-pointer flex items-center gap-2 ${
-              activeTab === 'git' ? 'bg-slate-800 text-white' : 'text-slate-400 hover:text-white hover:bg-slate-900'
-            }`}
-          >
-            <GitBranch className="w-4 h-4 text-rose-400" />
-            <span>Sinkronisasi Git</span>
-          </button>
         </div>
 
-        {/* TAB 1: SISTEM TIPE DATA & TYPE CHECKER (PHASE 9) */}
-        {activeTab === 'tipe' && (
+        {/* TAB 1: PERULANGAN (PHASE 12 INTERACTIVE PLAYGROUND) */}
+        {(activeTab === 'perulangan' || activeTab === 'percabangan' || activeTab === 'tipe') && (
           <div className="space-y-6">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
               {/* Editor Kode Sumber */}
               <div className="lg:col-span-6 bg-slate-900/80 border border-slate-800 rounded-xl p-4 flex flex-col h-[700px]">
-                <div className="flex items-center justify-between pb-3 mb-3 border-b border-slate-800">
+                <div className="flex flex-wrap items-center justify-between pb-3 mb-3 border-b border-slate-800 gap-2">
                   <div className="flex items-center gap-2">
-                    <Code2 className="w-4 h-4 text-purple-400" />
+                    <Code2 className="w-4 h-4 text-emerald-400" />
                     <span className="text-xs font-semibold text-slate-300 uppercase tracking-wider">
-                      Editor Uji Tipe .nusantara
+                      Editor Interaktif .nusantara
                     </span>
                   </div>
-                  <div className="flex items-center gap-2">
+
+                  {/* Preset Buttons */}
+                  <div className="flex flex-wrap items-center gap-1.5">
                     <button
                       onClick={() =>
                         setPlaygroundCode(
-                          `program UjiSalahTipe\n\nmulai\n    // Inisialisasi tidak cocok\n    umur : bilangan = "tiga puluh"\n    tampilkan(umur)\nselesai`
+                          `program PerulanganUntuk\nmulai\n    // Perulangan untuk dengan rentang nilai inklusif\n    untuk angka dari 1 sampai 5 lakukan\n        tampilkan("Iterasi: " + angka)\n    akhir\nselesai`
                         )
                       }
-                      className="px-2.5 py-1 text-[11px] font-medium bg-rose-950/60 text-rose-300 hover:text-white border border-rose-800/60 rounded transition-colors cursor-pointer"
+                      className="px-2 py-1 text-[11px] font-medium bg-emerald-950/70 text-emerald-300 hover:text-white border border-emerald-800/60 rounded transition-colors cursor-pointer"
                     >
-                      Uji Salah Tipe
+                      Untuk (Range)
                     </button>
+
                     <button
                       onClick={() =>
                         setPlaygroundCode(
-                          `program UjiMutasiTetap\n\nmulai\n    tetap KODE_POS : bilangan = 12345\n    KODE_POS = 54321\nselesai`
+                          `program PerulanganSelama\nmulai\n    // Perulangan selama dengan kondisi logika\n    angka : bilangan = 1\n    selama angka <= 5 lakukan\n        tampilkan("Angka sekarang: " + angka)\n        angka = angka + 1\n    akhir\nselesai`
                         )
                       }
-                      className="px-2.5 py-1 text-[11px] font-medium bg-amber-950/60 text-amber-300 hover:text-white border border-amber-800/60 rounded transition-colors cursor-pointer"
+                      className="px-2 py-1 text-[11px] font-medium bg-cyan-950/70 text-cyan-300 hover:text-white border border-cyan-800/60 rounded transition-colors cursor-pointer"
                     >
-                      Uji Konstanta Tetap
+                      Selama (While)
+                    </button>
+
+                    <button
+                      onClick={() =>
+                        setPlaygroundCode(
+                          `program DemonstrasiHentikanLanjutkan\nmulai\n    untuk i dari 1 sampai 6 lakukan\n        jika i == 3 maka\n            tampilkan("Iterasi ke-3: Lompati instruksi berikut")\n            lanjutkan\n        akhir\n        jika i == 5 maka\n            tampilkan("Iterasi ke-5: Hentikan loop sekarang")\n            hentikan\n        akhir\n        tampilkan("Item yang diproses: " + i)\n    akhir\nselesai`
+                        )
+                      }
+                      className="px-2 py-1 text-[11px] font-medium bg-amber-950/70 text-amber-300 hover:text-white border border-amber-800/60 rounded transition-colors cursor-pointer"
+                    >
+                      Hentikan / Lanjut
+                    </button>
+
+                    <button
+                      onClick={() =>
+                        setPlaygroundCode(
+                          `program GanjilGenap\nmulai\n    untuk n dari 1 sampai 6 lakukan\n        jika n % 2 == 0 maka\n            tampilkan(n + " adalah bilangan genap")\n        selain\n            tampilkan(n + " adalah bilangan ganjil")\n        akhir\n    akhir\nselesai`
+                        )
+                      }
+                      className="px-2 py-1 text-[11px] font-medium bg-purple-950/70 text-purple-300 hover:text-white border border-purple-800/60 rounded transition-colors cursor-pointer"
+                    >
+                      Loop + Jika
                     </button>
                   </div>
                 </div>
@@ -371,13 +402,13 @@ export default function App() {
                   value={playgroundCode}
                   onChange={(e) => setPlaygroundCode(e.target.value)}
                   className="w-full flex-1 p-4 bg-slate-950/90 font-mono text-xs sm:text-sm text-slate-100 focus:outline-none resize-none leading-relaxed border border-slate-800 rounded-lg"
-                  placeholder="Tulis program .nusantara di sini..."
+                  placeholder="Tulis kode program .nusantara di sini..."
                   spellCheck={false}
                 />
 
                 <div className="mt-3 pt-3 border-t border-slate-800 flex items-center justify-between text-xs font-mono text-slate-400">
-                  <span>Karakter: {playgroundCode.length}</span>
-                  <span className="text-purple-400 font-semibold">Validasi Semantik: Type Checker Aktif</span>
+                  <span>Panjang: {playgroundCode.length} karakter</span>
+                  <span className="text-emerald-400 font-semibold">Saluran Pipa: Lexer ➔ Parser ➔ Tipe ➔ Interpreter</span>
                 </div>
               </div>
 
@@ -385,27 +416,43 @@ export default function App() {
               <div className="lg:col-span-6 bg-slate-900/80 border border-slate-800 rounded-xl p-4 flex flex-col h-[700px]">
                 <div className="flex items-center justify-between pb-3 mb-3 border-b border-slate-800">
                   <div className="flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-purple-400" />
+                    <Play className="w-4 h-4 text-emerald-400" />
                     <span className="text-xs font-semibold text-slate-300 uppercase tracking-wider">
-                      Status Pemeriksaan Tipe & Luaran
+                      Terminal Eksekusi & Validasi Semantik
                     </span>
                   </div>
                   <span
-                    className={`font-mono text-xs px-2 py-0.5 rounded border ${
-                      typeErrors.length === 0
+                    className={`font-mono text-xs px-2.5 py-0.5 rounded border ${
+                      typeErrors.length === 0 && parserErrors.length === 0
                         ? 'bg-emerald-950 text-emerald-300 border-emerald-800'
                         : 'bg-rose-950 text-rose-300 border-rose-800'
                     }`}
                   >
-                    {typeErrors.length === 0 ? 'Tipe Sah (Valid)' : `${typeErrors.length} Kesalahan Tipe`}
+                    {typeErrors.length === 0 && parserErrors.length === 0 ? 'Status: Sah (Valid)' : 'Terdeteksi Galat'}
                   </span>
                 </div>
 
+                {/* Galat Parser jika ada */}
+                {parserErrors.length > 0 && (
+                  <div className="mb-3 p-3 rounded-lg bg-rose-950/80 border border-rose-800 text-rose-200 text-xs font-mono space-y-1">
+                    <div className="font-bold flex items-center gap-1.5 text-rose-300">
+                      <AlertTriangle className="w-3.5 h-3.5" />
+                      Galat Sintaksis Parser:
+                    </div>
+                    {parserErrors.map((err, idx) => (
+                      <div key={idx} className="text-[11px] pl-5">
+                        • {err.message}
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {/* Galat Tipe Statis jika ada */}
                 {typeErrors.length > 0 && (
                   <div className="mb-3 p-3 rounded-lg bg-rose-950/80 border border-rose-800 text-rose-200 text-xs font-mono space-y-1">
                     <div className="font-bold flex items-center gap-1.5 text-rose-300">
                       <AlertTriangle className="w-3.5 h-3.5" />
-                      Terdeteksi Kesalahan Tipe Statis:
+                      Galat Pemeriksaan Tipe Data:
                     </div>
                     {typeErrors.map((err, idx) => (
                       <div key={idx} className="text-[11px] pl-5">
@@ -415,19 +462,22 @@ export default function App() {
                   </div>
                 )}
 
-                {runtimeError && typeErrors.length === 0 && (
+                {/* Galat Runtime jika ada */}
+                {runtimeError && typeErrors.length === 0 && parserErrors.length === 0 && (
                   <div className="mb-3 p-3 rounded-lg bg-rose-950/80 border border-rose-800 text-rose-200 text-xs font-mono space-y-1">
                     <div className="font-bold flex items-center gap-1.5 text-rose-300">
                       <AlertTriangle className="w-3.5 h-3.5" />
-                      Kesalahan Runtime:
+                      Galat Runtime:
                     </div>
                     <div className="text-[11px] pl-5">{runtimeError}</div>
                   </div>
                 )}
 
+                {/* Terminal Luaran */}
                 <div className="flex-1 overflow-auto bg-black border border-slate-800 rounded-lg p-4 font-mono text-xs sm:text-sm leading-relaxed text-emerald-300">
-                  <div className="text-xs text-slate-500 mb-2 border-b border-slate-900 pb-1 font-mono">
-                    Terminal Konsol Eksekusi:
+                  <div className="text-xs text-slate-500 mb-2 border-b border-slate-900 pb-1 font-mono flex items-center justify-between">
+                    <span>Luaran Konsol (Output):</span>
+                    <span>{runOutput.length} baris dicetak</span>
                   </div>
                   {runOutput.length > 0 ? (
                     <div className="space-y-1">
@@ -438,20 +488,27 @@ export default function App() {
                         </div>
                       ))}
                     </div>
-                  ) : !runtimeError && typeErrors.length === 0 ? (
+                  ) : !runtimeError && typeErrors.length === 0 && parserErrors.length === 0 ? (
                     <div className="text-slate-600 italic">Program selesai dieksekusi tanpa pemanggilan tampilkan().</div>
                   ) : null}
                 </div>
 
+                {/* Ringkasan Sintaks Perulangan */}
                 <div className="mt-4 pt-3 border-t border-slate-800">
-                  <span className="text-xs font-semibold text-slate-300 block mb-2">Matriks Tipe Data Resmi NUSANTARA:</span>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5 text-[11px] font-mono">
-                    {DAFTAR_TIPE_MATRIKS_PHASE9.slice(0, 6).map((t) => (
-                      <div key={t.tipe} className="p-1.5 rounded bg-slate-950 border border-slate-800/80 flex items-center justify-between">
-                        <span className="text-purple-300 font-bold">{t.tipe}</span>
-                        <span className="text-[10px] text-emerald-400">{t.status}</span>
-                      </div>
-                    ))}
+                  <span className="text-xs font-semibold text-slate-300 block mb-2">Kata Kunci Perulangan Resmi NUSANTARA:</span>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 text-[11px] font-mono">
+                    <div className="p-1.5 rounded bg-slate-950 border border-slate-800/80 text-emerald-300">
+                      <span className="font-bold">selama</span> <span className="text-slate-400">kondisi</span>
+                    </div>
+                    <div className="p-1.5 rounded bg-slate-950 border border-slate-800/80 text-cyan-300">
+                      <span className="font-bold">untuk</span> <span className="text-slate-400">var dari a sampai b</span>
+                    </div>
+                    <div className="p-1.5 rounded bg-slate-950 border border-slate-800/80 text-amber-300">
+                      <span className="font-bold">hentikan</span> <span className="text-slate-400">(break)</span>
+                    </div>
+                    <div className="p-1.5 rounded bg-slate-950 border border-slate-800/80 text-purple-300">
+                      <span className="font-bold">lanjutkan</span> <span className="text-slate-400">(continue)</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -459,51 +516,66 @@ export default function App() {
           </div>
         )}
 
-        {/* TAB 2: INTERPRETER */}
-        {activeTab === 'interpreter' && (
+        {/* TAB 2: TABEL OPERATOR (PHASE 10) */}
+        {activeTab === 'operator' && (
           <div className="space-y-6">
-            <div className="bg-slate-900/80 border border-slate-800 rounded-xl p-4 flex flex-col h-[650px]">
-              <div className="flex items-center justify-between pb-3 mb-3 border-b border-slate-800">
-                <span className="text-xs font-semibold text-slate-300 uppercase tracking-wider">
-                  Terminal Keluaran Program ({runOutput.length} baris)
-                </span>
-              </div>
-              <div className="flex-1 overflow-auto bg-black border border-slate-800 rounded-lg p-4 font-mono text-xs sm:text-sm text-emerald-300 leading-relaxed">
-                {runOutput.map((baris, idx) => (
-                  <div key={idx} className="flex items-start gap-2">
-                    <span className="text-slate-600 select-none">&gt;</span>
-                    <span className="text-slate-100">{baris}</span>
-                  </div>
-                ))}
+            <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-6">
+              <h2 className="text-xl font-bold text-white mb-2">Tabel Presedensi &amp; Asosiativitas Operator (Phase 10)</h2>
+              <p className="text-sm text-slate-300 mb-4">
+                Tingkat prioritas operator dievaluasi dari tingkat tertinggi (Tingkat 1) ke tingkat terendah (Tingkat 8).
+              </p>
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-xs sm:text-sm">
+                  <thead className="bg-slate-950 text-slate-400 font-mono text-xs uppercase border-b border-slate-800">
+                    <tr>
+                      <th className="py-2.5 px-4">Tingkat</th>
+                      <th className="py-2.5 px-4">Kategori Operator</th>
+                      <th className="py-2.5 px-4">Simbol / Kata Kunci</th>
+                      <th className="py-2.5 px-4">Asosiativitas</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-800 font-mono text-xs">
+                    {DAFTAR_PRESEDENSI_OPERATOR.map((item) => (
+                      <tr key={item.tingkat} className="hover:bg-slate-800/40">
+                        <td className="py-2.5 px-4 font-bold text-amber-300">{item.tingkat}</td>
+                        <td className="py-2.5 px-4 text-slate-200">{item.nama}</td>
+                        <td className="py-2.5 px-4 font-bold text-emerald-400">{item.simbol}</td>
+                        <td className="py-2.5 px-4 text-slate-400">{item.asosiasi}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
         )}
 
-        {/* TAB 3: PARSER & AST */}
-        {activeTab === 'parser' && (
+        {/* TAB 3: POHON AST */}
+        {activeTab === 'ast' && (
           <div className="space-y-6">
             <div className="bg-slate-900/80 border border-slate-800 rounded-xl p-4 flex flex-col h-[680px]">
               <div className="flex items-center justify-between pb-3 mb-3 border-b border-slate-800">
                 <span className="text-xs font-semibold text-slate-300 uppercase tracking-wider">
                   Pohon Sintaksis Abstrak (AST)
                 </span>
+                <span className="text-xs text-cyan-400 font-mono">Parser NUSANTARA</span>
               </div>
               <div className="flex-1 overflow-auto bg-slate-950/90 border border-slate-800 rounded-lg p-4 font-mono text-xs text-cyan-200 leading-relaxed">
-                <pre className="whitespace-pre-wrap">{astString}</pre>
+                <pre className="whitespace-pre-wrap">{astString || '// AST kosong atau gagal dibentuk'}</pre>
               </div>
             </div>
           </div>
         )}
 
-        {/* TAB 4: LEXER */}
-        {activeTab === 'lexer' && (
+        {/* TAB 4: TOKEN LEXER */}
+        {activeTab === 'token' && (
           <div className="space-y-6">
             <div className="bg-slate-900/80 border border-slate-800 rounded-xl p-4 flex flex-col h-[650px]">
               <div className="flex items-center justify-between pb-3 mb-3 border-b border-slate-800">
                 <span className="text-xs font-semibold text-slate-300 uppercase tracking-wider">
                   Aliran Token Leksikal ({tokens.length} Token)
                 </span>
+                <span className="text-xs text-teal-400 font-mono">Lexer NUSANTARA</span>
               </div>
               <div className="flex-1 overflow-auto bg-slate-950/90 border border-slate-800 rounded-lg p-3 space-y-1 font-mono text-xs">
                 {tokens.map((tok, idx) => (
@@ -539,7 +611,7 @@ export default function App() {
                       <th className="py-2.5 px-4">Tipe Data</th>
                       <th className="py-2.5 px-4">Kategori</th>
                       <th className="py-2.5 px-4">Contoh Literal</th>
-                      <th className="py-2.5 px-4">Status Phase 9</th>
+                      <th className="py-2.5 px-4">Status</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-800 font-mono text-xs">
@@ -559,6 +631,19 @@ export default function App() {
                 </table>
               </div>
             </div>
+
+            <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-6">
+              <h2 className="text-xl font-bold text-white mb-2">Glosarium Istilah Bahasa Pemrograman NUSANTARA</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                {DAFTAR_GLOSARIUM.map((item, idx) => (
+                  <div key={idx} className="p-3 rounded-lg bg-slate-950 border border-slate-800">
+                    <div className="text-sm font-bold text-emerald-400">{item.lokal}</div>
+                    <div className="text-xs text-slate-400 italic font-mono mb-1">{item.asing}</div>
+                    <div className="text-xs text-slate-300">{item.ket}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
 
@@ -567,7 +652,7 @@ export default function App() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
             <div className="lg:col-span-4 bg-slate-900/70 border border-slate-800 rounded-xl p-4 flex flex-col h-[700px]">
               <div className="flex items-center justify-between pb-3 mb-3 border-b border-slate-800">
-                <span className="text-xs font-semibold text-slate-300 uppercase tracking-wider">Berkas Repositori (Phase 1-9)</span>
+                <span className="text-xs font-semibold text-slate-300 uppercase tracking-wider">Berkas Repositori (Phase 1-12)</span>
                 <span className="text-xs text-slate-500 font-mono">{BERKAS_REPOSITORI.length} Berkas Terindeks</span>
               </div>
               <div className="overflow-y-auto flex-1 space-y-1 pr-1 font-mono text-xs">
@@ -626,15 +711,15 @@ export default function App() {
           <div className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
               {filteredRoadmap.map((item) => {
-                const isCompleted = item.fase <= 9;
-                const isCurrent = item.fase === 9;
-                const isNext = item.fase === 10;
+                const isCompleted = item.status === 'Selesai';
+                const isCurrent = item.fase === 12;
+                const isNext = item.fase === 13;
                 return (
                   <div
                     key={item.fase}
                     className={`p-4 rounded-xl border transition-all ${
                       isCurrent
-                        ? 'bg-purple-950/40 border-purple-600/80 shadow-sm shadow-purple-900/30'
+                        ? 'bg-emerald-950/40 border-emerald-500/80 shadow-sm shadow-emerald-900/30'
                         : isCompleted
                         ? 'bg-emerald-950/20 border-emerald-800/60'
                         : isNext
@@ -647,7 +732,7 @@ export default function App() {
                       <span
                         className={`font-mono text-[10px] px-2 py-0.5 rounded ${
                           isCurrent
-                            ? 'bg-purple-900/60 text-purple-300 font-semibold'
+                            ? 'bg-emerald-900/80 text-emerald-200 font-bold border border-emerald-600'
                             : isCompleted
                             ? 'bg-emerald-900/60 text-emerald-300 font-semibold'
                             : isNext
@@ -666,21 +751,6 @@ export default function App() {
             </div>
           </div>
         )}
-
-        {/* TAB 8: SINKRONISASI GIT */}
-        {activeTab === 'git' && (
-          <div className="space-y-6">
-            <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-6">
-              <h2 className="text-xl font-bold text-white mb-2">Sinkronisasi Komit Phase 9 ke GitHub</h2>
-              <p className="text-sm text-slate-300 mb-6">Jalankan perintah berikut untuk menyinkronkan seluruh modul Sistem Tipe Data ke repositori GitHub:</p>
-              <div className="space-y-3 font-mono text-xs">
-                <pre className="text-purple-300 bg-slate-950 p-3 rounded-lg border border-slate-800">git add .</pre>
-                <pre className="text-purple-300 bg-slate-950 p-3 rounded-lg border border-slate-800">git commit -m "feat: strengthen nusantara type system"</pre>
-                <pre className="text-purple-300 bg-slate-950 p-3 rounded-lg border border-slate-800">git push origin main</pre>
-              </div>
-            </div>
-          </div>
-        )}
       </main>
 
       {/* FOOTER */}
@@ -689,9 +759,12 @@ export default function App() {
           <div className="flex items-center gap-2 text-slate-400">
             <span className="font-bold text-slate-200 font-sans">NUSANTARA</span>
             <span>·</span>
-            <span>Milestone v0.9.0 (Phase 9: Variabel & Tipe Data)</span>
+            <span>Milestone v0.12.0 (Phase 12: Sistem Perulangan)</span>
             <span>·</span>
             <span>Apache License 2.0</span>
+          </div>
+          <div className="text-slate-500">
+            145 Berkas Teruji · 130 Pengujian Lulus 100%
           </div>
         </div>
       </footer>

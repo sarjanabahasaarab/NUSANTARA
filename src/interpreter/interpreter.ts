@@ -46,6 +46,10 @@ import { PemeriksaTipe } from '../tipe/pemeriksaTipe';
 import { apakahKompatibel } from '../tipe/kompatibilitas';
 import { evaluasiOperasiUnari, evaluasiOperasiBiner } from '../operator/evaluasi';
 
+export interface OpsiInterpreter {
+  maksimalIterasiPerulangan?: number;
+}
+
 /**
  * Mesin Interpreter Resmi Bahasa NUSANTARA (Phase 8).
  * Mengevaluasi dan mengeksekusi pohon sintaksis abstrak (AST) hasil Parser.
@@ -55,9 +59,11 @@ export class Interpreter {
   private lingkunganSaatIni: Lingkungan;
   private readonly outputWriter: OutputWriter;
   private readonly tumpukanPanggilan: BingkaiTumpukan[] = [];
+  private readonly maksimalIterasiPerulangan: number;
 
-  constructor(outputWriter?: OutputWriter) {
+  constructor(outputWriter?: OutputWriter, opsi?: OpsiInterpreter) {
     this.outputWriter = outputWriter || new PenulisOutputKonsol();
+    this.maksimalIterasiPerulangan = opsi?.maksimalIterasiPerulangan ?? 1_000_000;
     this.lingkunganGlobal = new Lingkungan();
     this.lingkunganSaatIni = this.lingkunganGlobal;
 
@@ -215,7 +221,17 @@ export class Interpreter {
 
       case JenisNodeAST.PERULANGAN_SELAMA: {
         const s = stmt as NodePerulanganSelama;
+        let iterasi = 0;
         while (true) {
+          if (this.maksimalIterasiPerulangan > 0 && ++iterasi > this.maksimalIterasiPerulangan) {
+            throw new GalatRuntime(
+              JenisGalatRuntime.BATAS_ITERASI_TERLAMPAUI,
+              `Batas maksimal iterasi perulangan (${this.maksimalIterasiPerulangan}) terlampaui. Kemungkinan terjadi perulangan tak terbatas (infinite loop).`,
+              s.kondisi.posisi.awal,
+              [...this.tumpukanPanggilan]
+            );
+          }
+
           const kondisi = this.evaluasiEkspresi(s.kondisi);
           if (kondisi.jenis !== JenisNilaiRuntime.LOGIKA) {
             throw new GalatRuntime(
@@ -253,17 +269,26 @@ export class Interpreter {
           );
         }
 
+        // Rentang kosong: jika awal > akhir, tubuh perulangan dilewati 0 kali
+        if (awal.nilai > akhir.nilai) {
+          break;
+        }
+
         const lingkunganLoop = new Lingkungan(this.lingkunganSaatIni);
         const simpanLingkungan = this.lingkunganSaatIni;
         this.lingkunganSaatIni = lingkunganLoop;
 
+        let iterasi = 0;
         try {
-          const naik = awal.nilai <= akhir.nilai;
-          for (
-            let i = awal.nilai;
-            naik ? i <= akhir.nilai : i >= akhir.nilai;
-            naik ? i++ : i--
-          ) {
+          for (let i = awal.nilai; i <= akhir.nilai; i++) {
+            if (this.maksimalIterasiPerulangan > 0 && ++iterasi > this.maksimalIterasiPerulangan) {
+              throw new GalatRuntime(
+                JenisGalatRuntime.BATAS_ITERASI_TERLAMPAUI,
+                `Batas maksimal iterasi perulangan (${this.maksimalIterasiPerulangan}) terlampaui. Kemungkinan terjadi perulangan tak terbatas (infinite loop).`,
+                s.posisi.awal,
+                [...this.tumpukanPanggilan]
+              );
+            }
             lingkunganLoop.definisikan(s.variabelPenghitung, buatBilangan(i), false, 'bilangan');
             try {
               for (const st of s.tubuh) {

@@ -13,7 +13,7 @@ import {
   buatLogika,
   formatNilaiTeks,
 } from '../interpreter/nilai';
-import { GalatRuntime, JenisGalatRuntime } from '../interpreter/galat';
+import { GalatRuntime, JenisGalatRuntime, BingkaiTumpukan } from '../interpreter/galat';
 
 /**
  * Evaluasi Operator Unari NUSANTARA (Phase 10).
@@ -25,7 +25,7 @@ export function evaluasiOperasiUnari(
   op: string,
   argumen: NilaiRuntime,
   posisi?: PosisiSumber,
-  tumpukanPanggilan: string[] = []
+  tumpukanPanggilan: BingkaiTumpukan[] = []
 ): NilaiRuntime {
   if (op === '-') {
     if (argumen.jenis === JenisNilaiRuntime.BILANGAN) {
@@ -74,7 +74,7 @@ export function evaluasiOperasiBiner(
   kiri: NilaiRuntime,
   kanan: NilaiRuntime,
   posisi?: PosisiSumber,
-  tumpukanPanggilan: string[] = []
+  tumpukanPanggilan: BingkaiTumpukan[] = []
 ): NilaiRuntime {
   // 1. Operasi Penjumlahan & Penggabungan Teks (+)
   if (op === '+') {
